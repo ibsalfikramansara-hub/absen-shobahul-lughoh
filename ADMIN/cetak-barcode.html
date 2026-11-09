@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Semua QR Code Barcode — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <style>
+        .barcode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 18px;
+            margin-top: 15px;
+        }
+        .barcode-card {
+            position: relative;
+            overflow: hidden;
+            border-top: 2px solid #ffffff;
+            border-left: 1.5px solid #a7f3d0;
+            border-right: 1.5px solid #a7f3d0;
+            border-bottom: 5px solid #0f8049;
+            border-radius: 18px;
+            padding: 18px 16px 16px;
+            text-align: center;
+            background: linear-gradient(165deg, #ffffff 0%, #f2fbf7 65%, #dcfce7 100%);
+            box-shadow: 0 10px 22px -6px rgba(15, 128, 73, 0.16), 0 3px 8px rgba(0,0,0,0.04);
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .barcode-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px -6px rgba(15, 128, 73, 0.24);
+        }
+        .barcode-card .kelas-pill {
+            display: inline-block;
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #065f46;
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            padding: 2px 10px;
+            border-radius: 999px;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        .barcode-card h4 {
+            color: #0b4a33;
+            font-size: 13.5px;
+            margin-bottom: 4px;
+            font-weight: 800;
+            line-height: 1.35;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .barcode-card .nisn {
+            font-size: 12px;
+            color: #475569;
+            margin-bottom: 10px;
+            font-family: monospace;
+            font-weight: 700;
+        }
+        .barcode-card .nisn.cek {
+            color: #b45309;
+            background: #fef3c7;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        .qr-box {
+            width: 132px;
+            height: 132px;
+            padding: 8px;
+            background: #ffffff;
+            border: 2px solid #0f8049;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(11, 74, 51, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+        }
+        .qr-box svg {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+        .qr-code-caption {
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: #064e3b;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid #bbf7d0;
+        }
+        .program-title {
+            color: #0b4a33;
+            font-size: 17px;
+            font-weight: 800;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f59e0b;
+        }
+        .no-print-area { margin-bottom: 20px; }
+        .filter-tool-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        .filter-tool-row select {
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 13.5px;
+            background: #ffffff;
+        }
+        @media print {
+            .app-sidebar, .app-topbar, .no-print-area { display: none !important; }
+            .app-content-wrapper { margin-left: 0 !important; }
+            .inner-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+            body { background: white !important; }
+            .barcode-card {
+                border: 1.5px solid #0b4a33 !important;
+                background: #ffffff !important;
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="data-siswa.html" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Data Siswa</span>
+                </a>
+                <a href="barcode.html" class="nav-item">
+                    <span class="nav-icon">📲</span>
+                    <span class="nav-label">Buat Barcode</span>
+                </a>
+                <a href="cetak-barcode.html" class="nav-item active">
+                    <span class="nav-icon">🖨️</span>
+                    <span class="nav-label">Cetak Semua Barcode</span>
+                </a>
+                <a href="manajemen-akun.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Manajemen Akun</span>
+                </a>
+                <a href="pengaturan-sistem.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Pengaturan Sistem</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="../index.html" class="nav-item nav-logout" onclick="if(confirm('Yakin ingin keluar dari sistem?')) SBL.keluar(); return false;">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarUserName">Administrator Sistem</span>
+                            <span class="user-role" id="topbarUserRole">Admin/TU</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <div class="no-print-area">
+                        <h2>🖨️ Cetak Semua QR Code Siswa</h2>
+                        <p class="lead-desc">
+                            QR Code presensi otomatis digenerate memakai NISN siswa per rombongan belajar. Gunakan tombol cetak untuk mencetak stiker atau buku saku presensi Shobahul Lughoh.
+                        </p>
+                        <div class="filter-tool-row">
+                            <select id="filterProgram">
+                                <option value="">Semua rombel</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="window.print()">🖨️ Cetak Semua QR Code</button>
+                            <span id="jumlah" style="color:#64748b;font-size:13.5px;font-weight:700;"></span>
+                        </div>
+                    </div>
+
+                    <div id="area-barcode">
+                        <div id="daftar-barcode"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Admin');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const pengguna = SBL.akunSesi();
+        if (pengguna) {
+            const elNama = document.getElementById('topbarUserName');
+            const elRole = document.getElementById('topbarUserRole');
+            if (elNama) elNama.textContent = pengguna.nama || 'Administrator';
+            if (elRole) elRole.textContent = pengguna.peran || 'Admin/TU';
+        }
+
+        const elFilter = document.getElementById('filterProgram');
+        elFilter.innerHTML = '<option value="">Semua rombel</option>' + SBL.rombelList().map(function (p) {
+            const k = SBL.KELAS[p];
+            return `<option value="${p}">${k.label} — ${p}</option>`;
+        }).join('');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const kelasParam = urlParams.get('kelas');
+        if (kelasParam && SBL.KELAS[kelasParam]) {
+            elFilter.value = kelasParam;
+        }
+
+        function buatSvgQr(teks) {
+            try {
+                const qr = qrcode(0, 'M');
+                qr.addData(String(teks || '-'));
+                qr.make();
+                return qr.createSvgTag({ cellSize: 4, margin: 1, scalable: true });
+            } catch (e) {
+                console.error('Gagal membuat QR Code:', e);
+                return '<div style="font-size:11px;color:#dc2626;">Gagal memuat QR</div>';
+            }
+        }
+
+        function gambarBarcode() {
+            const pilih = elFilter.value;
+            const semua = SBL.daftarSiswa().filter(function (s) { return !pilih || s.program === pilih; });
+            const programs = SBL.rombelList().filter(function (p) {
+                return semua.some(function (s) { return s.program === p; });
+            });
+
+            let html = '';
+            programs.forEach(function (prog) {
+                const info = SBL.KELAS[prog] || {};
+                const siswaProg = semua.filter(function (s) { return s.program === prog; });
+                html += `<div class="program-title">🏫 ${SBL.esc(info.nama || prog)} — ${SBL.esc(prog)} (${siswaProg.length} siswa)</div>`;
+                html += '<div class="barcode-grid">';
+                siswaProg.forEach(function (s) {
+                    const kodeAktif = s.kodeBarcode || s.nisn;
+                    const qrSvg = buatSvgQr(kodeAktif);
+                    html += `
+                        <div class="barcode-card">
+                            <span class="kelas-pill">${SBL.esc(info.label || prog)}</span>
+                            <h4>${SBL.esc(s.nama)}</h4>
+                            <div class="nisn ${s.nisnValid ? '' : 'cek'}">NISN: ${SBL.esc(s.nisn)}${s.nisnValid ? '' : ' ⚠'}</div>
+                            <div class="qr-box">${qrSvg}</div>
+                            <div class="qr-code-caption">${SBL.esc(kodeAktif)}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            });
+
+            document.getElementById('daftar-barcode').innerHTML = html;
+            document.getElementById('jumlah').textContent = semua.length + ' siswa ditampilkan';
+        }
+
+        elFilter.addEventListener('change', gambarBarcode);
+        gambarBarcode();
+    </script>
+</body>
+</html>

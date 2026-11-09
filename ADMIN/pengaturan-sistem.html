@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Sistem — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="data-siswa.html" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Data Siswa</span>
+                </a>
+                <a href="barcode.html" class="nav-item">
+                    <span class="nav-icon">📲</span>
+                    <span class="nav-label">Buat Barcode</span>
+                </a>
+                <a href="cetak-barcode.html" class="nav-item">
+                    <span class="nav-icon">🖨️</span>
+                    <span class="nav-label">Cetak Semua Barcode</span>
+                </a>
+                <a href="manajemen-akun.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Manajemen Akun</span>
+                </a>
+                <a href="pengaturan-sistem.html" class="nav-item active">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Pengaturan Sistem</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="../index.html" class="nav-item nav-logout" onclick="if(confirm('Yakin ingin keluar dari sistem?')) SBL.keluar(); return false;">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarUserName">Administrator Sistem</span>
+                            <span class="user-role" id="topbarUserRole">Admin/TU</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <form id="formPengaturan">
+                        <h2>⚙️ Pengaturan Sistem Presensi</h2>
+                        <p class="lead-desc">Konfigurasi operasional Shobahul Lughoh MAN 1 Jepara, jam toleransi, dan notifikasi sistem.</p>
+
+                        <div style="background:#f8fafc; padding:22px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:24px;">
+                            <h3 style="margin-bottom:14px; color:#0b4a33; font-size:16px;">🕐 Jam Kegiatan & Toleransi</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Jam Mulai Kegiatan</label>
+                                    <input type="time" id="jamMulai" value="05:30">
+                                </div>
+                                <div class="form-group">
+                                    <label>Jam Berakhir</label>
+                                    <input type="time" id="jamBerakhir" value="08:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Toleransi Terlambat (menit)</label>
+                                    <input type="number" id="toleransi" value="5" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Batas Maksimal Sangat Telat (menit)</label>
+                                    <input type="number" id="batasMaksimal" value="15" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:#f8fafc; padding:22px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:24px;">
+                            <h3 style="margin-bottom:14px; color:#0b4a33; font-size:16px;">📢 Notifikasi Terpusat</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Kirim via WhatsApp</label>
+                                    <select id="kirimWa">
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Nonaktif">Nonaktif</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 2;">
+                                    <label>Format Pesan Notifikasi</label>
+                                    <textarea id="pesanNotif" rows="3" placeholder="Pesan yang dikirim ke wali murid...">Siswa telah tercatat hadir pada kegiatan shobahul lughoh</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:#f8fafc; padding:22px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:24px;">
+                            <h3 style="margin-bottom:14px; color:#0b4a33; font-size:16px;">🔐 Aturan Pembatasan Jam Login & Program</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Aturan Pembatasan Jam Login</label>
+                                    <select id="batasiJamLogin">
+                                        <option value="tentor">Hanya Tentor yang dibatasi Jam Operasional (Wali Kelas, Koordinator & Admin Bebas 24 Jam)</option>
+                                        <option value="semua">Semua Role Selain Admin dibatasi Jam Operasional</option>
+                                        <option value="bebas">Bebas 24 Jam untuk Semua Role (Mode Uji Coba / Fleksibel)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Program Kegiatan Aktif</label>
+                                    <select id="programAktif">
+                                        <option value="Hanya Shobahul Lughoh">Shobahul Lughoh (Bahasa Arab Pagi)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:12px;">
+                            <button type="submit" class="btn btn-primary">💾 Simpan Semua Pengaturan</button>
+                            <button type="button" class="btn btn-warning" id="btnKembaliAwal">🔄 Kembalikan Pengaturan Awal</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+        const pengguna = SBL.ambilPenggunaAktif();
+        if (pengguna) {
+            const elNama = document.getElementById('topbarUserName');
+            const elRole = document.getElementById('topbarUserRole');
+            if (elNama) elNama.textContent = pengguna.nama || 'Administrator';
+            if (elRole) elRole.textContent = pengguna.peran || 'Admin/TU';
+        }
+    </script>
+    <script src="pengaturan.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Akun — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .status-aktif { color: #15803d; font-weight: 700; }
+        .status-nonaktif { color: #dc2626; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="data-siswa.html" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Data Siswa</span>
+                </a>
+                <a href="barcode.html" class="nav-item">
+                    <span class="nav-icon">📲</span>
+                    <span class="nav-label">Buat Barcode</span>
+                </a>
+                <a href="cetak-barcode.html" class="nav-item">
+                    <span class="nav-icon">🖨️</span>
+                    <span class="nav-label">Cetak Semua Barcode</span>
+                </a>
+                <a href="manajemen-akun.html" class="nav-item active">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Manajemen Akun</span>
+                </a>
+                <a href="pengaturan-sistem.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Pengaturan Sistem</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="../index.html" class="nav-item nav-logout" onclick="if(confirm('Yakin ingin keluar dari sistem?')) SBL.keluar(); return false;">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarUserName">Administrator Sistem</span>
+                            <span class="user-role" id="topbarUserRole">Admin/TU</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <h2>👥 Manajemen Akun Pengguna</h2>
+                    <p class="lead-desc">
+                        Akun yang dikelola di sini langsung terintegrasi dengan akses login.
+                        Kosongkan kata sandi saat mengedit akun jika tidak ingin menggantinya.
+                    </p>
+
+                    <form id="formAkun" style="background:#f8fafc; padding:22px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:28px;">
+                        <h3 style="margin-bottom:16px; color:#0b4a33; font-size:16px;">➕ Formulir Akun Pengguna</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nama Pengguna</label>
+                                <input type="text" id="namaPengguna" placeholder="Nama lengkap staf / guru" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="username" placeholder="Akun login (huruf kecil)" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="passwordAkun" placeholder="Kosongkan jika tidak diubah">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Peran / Role</label>
+                                <select id="peran">
+                                    <option value="Tentor/Guru Pendamping">Tentor/Guru Pendamping</option>
+                                    <option value="Koordinator Program">Koordinator Program</option>
+                                    <option value="Wali Kelas">Wali Kelas</option>
+                                    <option value="Admin/TU">Admin/TU</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Rombel (khusus Wali Kelas)</label>
+                                <select id="rombelAkun"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Status Akun</label>
+                                <select id="statusAkun">
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Nonaktif">Nonaktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" id="indeksEdit" value="">
+                        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                            <button type="submit" class="btn btn-primary" id="btnSubmitAkun">💾 Simpan Akun</button>
+                            <button type="reset" class="btn btn-warning" id="btnReset">🔄 Bersihkan Form</button>
+                            <button type="button" class="btn btn-secondary" id="btnResetDefaultAkun" style="margin-left:auto;">♻️ Kembalikan Akun Bawaan</button>
+                        </div>
+                    </form>
+
+                    <h3 style="margin-bottom:14px; color:#0b4a33; font-size:18px;">📋 Daftar Akun Terdaftar</h3>
+                    <div class="data-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Username</th>
+                                    <th>Peran</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelPengguna">
+                                <!-- Data dimuat oleh admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+        const penggunaAktif = SBL.ambilPenggunaAktif();
+        if (penggunaAktif) {
+            const elNama = document.getElementById('topbarUserName');
+            const elRole = document.getElementById('topbarUserRole');
+            if (elNama) elNama.textContent = penggunaAktif.nama || 'Administrator';
+            if (elRole) elRole.textContent = penggunaAktif.peran || 'Admin/TU';
+        }
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html>

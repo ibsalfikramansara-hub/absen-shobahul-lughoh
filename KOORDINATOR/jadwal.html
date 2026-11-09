@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal & Toleransi — Koordinator MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+    <style>
+        .simulasi-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="jadwal.html" class="nav-item active">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">Jadwal & Toleransi</span>
+                </a>
+                <a href="kelompok.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Kelompok & Rombel</span>
+                </a>
+                <a href="manajemen-tentor.html" class="nav-item">
+                    <span class="nav-icon">👨‍🏫</span>
+                    <span class="nav-label">Manajemen Tentor</span>
+                </a>
+                <a href="rekap-laporan.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Rekap & Laporan</span>
+                </a>
+                <a href="deteksi-pola.html" class="nav-item">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Deteksi Pola</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="infoPengguna">Koordinator Program</span>
+                            <span class="user-role">Koordinator Shobahul Lughoh</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card" style="max-width: 860px; margin: 0 auto; width: 100%;">
+                    <h2>⚙️ Konfigurasi Jadwal & Toleransi Presensi</h2>
+                    <p class="lead-desc">
+                        Sesuai workflow presensi, aturan waktu ini digunakan sistem untuk mengklasifikasikan presensi siswa secara
+                        otomatis saat barcode dipindai oleh Tentor di gerbang kegiatan.
+                    </p>
+
+                    <form id="formJadwal" onsubmit="simpanJadwal(event)">
+                        <div style="background:#f8fafc; padding:22px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:20px;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Jam Mulai Sesi</label>
+                                    <input type="time" id="jamMulai" required>
+                                    <small style="color:#64748b; font-size:12px; margin-top:4px; display:block;">Standar kegiatan: 05:30 WIB</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Jam Akhir Sesi Gerbang</label>
+                                    <input type="time" id="jamBerakhir" required>
+                                    <small style="color:#64748b; font-size:12px; margin-top:4px; display:block;">Standar kegiatan: 08:00 WIB</small>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Batas Toleransi Keterlambatan (Menit)</label>
+                                    <input type="number" id="toleransi" min="0" max="60" required>
+                                    <small style="color:#64748b; font-size:12px; margin-top:4px; display:block;">Scan &le; batas ini = <strong style="color:#15803d;">Tepat Waktu (Hijau)</strong></small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Batas Sangat Terlambat (Menit)</label>
+                                    <input type="number" id="batasMaksimal" min="1" max="120" required>
+                                    <small style="color:#64748b; font-size:12px; margin-top:4px; display:block;">Scan &gt; batas ini = <strong style="color:#b91c1c;">Sangat Terlambat (Merah)</strong></small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="simulasi-box">
+                            <h4 style="margin:0 0 12px; color:#0b4a33; font-size:15px; font-weight:700;">📌 Simulasi Status Presensi Berdasarkan Aturan:</h4>
+                            <ul style="font-size:13.5px; color:#334155; line-height:1.8; padding-left:22px;">
+                                <li><strong style="color:#15803d;">Tepat Waktu:</strong> Scan antara <span id="simTepat" style="font-weight:700;">-</span></li>
+                                <li><strong style="color:#b45309;">Terlambat:</strong> Scan antara <span id="simTelat" style="font-weight:700;">-</span></li>
+                                <li><strong style="color:#b91c1c;">Sangat Terlambat:</strong> Scan setelah <span id="simSangatTelat" style="font-weight:700;">-</span></li>
+                                <li><strong style="color:#64748b;">Alpa / Tutup Gerbang:</strong> Setelah <span id="simAlpa" style="font-weight:700;">-</span></li>
+                            </ul>
+                        </div>
+
+                        <div style="margin-top:24px; display:flex; gap:12px;">
+                            <button type="submit" class="btn btn-primary">💾 Simpan Jadwal & Toleransi</button>
+                            <button type="button" class="btn btn-secondary" onclick="muatData()">🔄 Reset Form</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Koordinator');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesi = SBL.akunSesi() || {};
+        const namaUser = sesi.nama || 'Koordinator';
+        document.getElementById('infoPengguna').textContent = namaUser;
+
+        function hitungMenit(jamStr, tambahMenit) {
+            const parts = jamStr.split(':').map(Number);
+            const total = parts[0] * 60 + parts[1] + tambahMenit;
+            const h = Math.floor(total / 60) % 24;
+            const m = total % 60;
+            return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+        }
+
+        function updateSimulasi() {
+            const mulai = document.getElementById('jamMulai').value || '05:30';
+            const akhir = document.getElementById('jamBerakhir').value || '08:00';
+            const tol = parseInt(document.getElementById('toleransi').value, 10) || 5;
+            const maks = parseInt(document.getElementById('batasMaksimal').value, 10) || 15;
+
+            const batasTepat = hitungMenit(mulai, tol);
+            const batasTelat = hitungMenit(mulai, maks);
+
+            document.getElementById('simTepat').textContent = `${mulai} – ${batasTepat} WIB`;
+            document.getElementById('simTelat').textContent = `${hitungMenit(mulai, tol + 1)} – ${batasTelat} WIB`;
+            document.getElementById('simSangatTelat').textContent = `${hitungMenit(mulai, maks + 1)} s.d ${akhir} WIB`;
+            document.getElementById('simAlpa').textContent = `${akhir} WIB (Otomatis tercatat Alpa)`;
+        }
+
+        function muatData() {
+            const p = SBL.pengaturan();
+            document.getElementById('jamMulai').value = p.jamMulai || '05:30';
+            document.getElementById('jamBerakhir').value = p.jamBerakhir || '08:00';
+            document.getElementById('toleransi').value = p.toleransi !== undefined ? p.toleransi : 5;
+            document.getElementById('batasMaksimal').value = p.batasMaksimal !== undefined ? p.batasMaksimal : 15;
+            updateSimulasi();
+        }
+
+        function simpanJadwal(e) {
+            e.preventDefault();
+            const mulai = document.getElementById('jamMulai').value;
+            const akhir = document.getElementById('jamBerakhir').value;
+            const tol = parseInt(document.getElementById('toleransi').value, 10) || 0;
+            const maks = parseInt(document.getElementById('batasMaksimal').value, 10) || 0;
+
+            if (mulai >= akhir) {
+                alert('Jam mulai harus lebih awal dari jam berakhir sesi gerbang!');
+                return;
+            }
+            if (tol >= maks) {
+                alert('Batas sangat terlambat harus lebih besar dari batas toleransi keterlambatan!');
+                return;
+            }
+
+            SBL.simpanPengaturan({
+                jamMulai: mulai,
+                jamBerakhir: akhir,
+                toleransi: tol,
+                batasMaksimal: maks
+            });
+
+            alert('✅ Pengaturan Jadwal & Toleransi Shobahul Lughoh berhasil diperbarui!');
+            updateSimulasi();
+        }
+
+        ['jamMulai', 'jamBerakhir', 'toleransi', 'batasMaksimal'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateSimulasi);
+        });
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+
+        muatData();
+    </script>
+</body>
+</html>

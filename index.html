@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صَبَاحُ اللُّغَةِ — Presensi Shobahul Lughoh MAN 1 Jepara</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Logo MAN 1 Jepara + Logo Alfikra di pojok kanan atas -->
+    <div class="logo-wrapper">
+        <img src="logomansara.png" alt="Logo MAN 1 Jepara" class="logo logo-man1">
+        <img src="logo alfikra.png" alt="Logo Alfikra" class="logo logo-alfikra">
+    </div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="card-header">
+                <h1>صَبَاحُ اللُّغَةِ</h1>
+                <p>أهلاً وسهلاً</p>
+            </div>
+            <form id="loginForm" class="card-body">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Masukkan username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Masukkan password" required autocomplete="current-password">
+                        <button type="button" id="togglePassword" class="eye-btn" title="Tampilkan kata sandi">👁</button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me" for="rememberMe">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="custom-checkbox"></span>
+                        <span class="remember-text">Ingat saya</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="login-btn">تَسْجِيل الدُّخُول</button>
+                <p id="errorMsg" class="error-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Popup Modal Animasi Loading Sukses Login -->
+    <div id="loginLoadingModal" class="login-modal-overlay">
+        <div class="login-modal-card">
+            <div class="loading-icon-wrapper">
+                <div class="spinner-ring"></div>
+                <div class="spinner-core">
+                    <svg class="check-svg" viewBox="0 0 52 52">
+                        <circle class="check-circle" cx="26" cy="26" r="23" fill="none"/>
+                        <path class="check-mark" fill="none" d="M14 27l8 8 16-16"/>
+                    </svg>
+                </div>
+            </div>
+            <h3 id="modalGreeting" class="modal-greeting">Selamat Datang!</h3>
+            <p id="modalUserNama" class="modal-username">Administrator Sistem</p>
+            <div id="modalUserRole" class="modal-badge-peran">Admin/TU</div>
+            
+            <div class="modal-loading-bar-wrapper">
+                <div class="modal-loading-bar-fill"></div>
+            </div>
+            <p class="modal-status-text">Menyiapkan dashboard Anda<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
+        </div>
+    </div>
+
+    <script src="data-siswa.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deteksi Pola Keterlambatan — Koordinator MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+    <style>
+        .pola-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            border-radius: 16px;
+            margin-bottom: 14px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .pola-item.danger {
+            background: linear-gradient(145deg, #ffffff 0%, #fef2f2 100%);
+            border-color: #fecaca;
+        }
+        .pola-item.info {
+            background: linear-gradient(145deg, #ffffff 0%, #eff6ff 100%);
+            border-color: #bfdbfe;
+        }
+        .pola-item .ikon {
+            font-size: 28px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            flex-shrink: 0;
+        }
+        .pola-item .teks {
+            flex: 1;
+        }
+        .pola-item .teks h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 3px;
+        }
+        .pola-item .teks p {
+            font-size: 13px;
+            color: #64748b;
+            margin: 0;
+        }
+        .badge-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 12.5px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="jadwal.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">Jadwal & Toleransi</span>
+                </a>
+                <a href="kelompok.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Kelompok & Rombel</span>
+                </a>
+                <a href="manajemen-tentor.html" class="nav-item">
+                    <span class="nav-icon">👨‍🏫</span>
+                    <span class="nav-label">Manajemen Tentor</span>
+                </a>
+                <a href="rekap-laporan.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Rekap & Laporan</span>
+                </a>
+                <a href="deteksi-pola.html" class="nav-item active">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Deteksi Pola</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="infoPengguna">Koordinator Program</span>
+                            <span class="user-role">Koordinator Shobahul Lughoh</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <h2>🔍 Deteksi Pola Keterlambatan Otomatis</h2>
+                    <p class="lead-desc">
+                        Sistem mendeteksi siswa dengan riwayat keterlambatan berulang (&ge; 3 kali) agar segera ditindaklanjuti bersama Wali Kelas dan guru pendamping.
+                    </p>
+
+                    <div class="pola-item danger">
+                        <div class="ikon">🚨</div>
+                        <div class="teks">
+                            <h4>Peringatan Keterlambatan Berulang (&ge; 3 Kali)</h4>
+                            <p id="teksPolaTelat">Menganalisis rekaman presensi...</p>
+                        </div>
+                        <span class="badge-danger" id="badgeFlagJml">0 Siswa</span>
+                    </div>
+
+                    <div class="pola-item info">
+                        <div class="ikon">✅</div>
+                        <div class="teks">
+                            <h4>Tingkat Kedisiplinan Siswa Keseluruhan</h4>
+                            <p id="teksKedisiplinan">Memuat persentase kehadiran tepat waktu...</p>
+                        </div>
+                        <span class="badge-status badge-tepat">Aktif</span>
+                    </div>
+                </div>
+
+                <div class="inner-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+                        <h3 style="margin:0;">🚩 Daftar Siswa Ter-flag Keterlambatan (&ge; 3 Kali)</h3>
+                        <span style="font-size:13px; color:#64748b; font-weight:600;">Perlu koordinasi & pembinaan</span>
+                    </div>
+                    <div class="data-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:40px;">No</th>
+                                    <th>NISN</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Rombel / Kelas</th>
+                                    <th>Wali Kelas</th>
+                                    <th>Total Terlambat</th>
+                                    <th>Rincian Waktu Scan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelFlagSiswa"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Koordinator');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesi = SBL.akunSesi() || {};
+        document.getElementById('infoPengguna').textContent = sesi.nama || 'Koordinator';
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+
+        function beriPeringatanById(idSiswa, jmlTelat) {
+            const s = SBL.siswaById(idSiswa);
+            if (!s) return;
+            const inf = SBL.infoKelas(s.program) || {};
+            const wali = inf.wali || 'Wali Kelas ' + s.program;
+            SBL.kirimNotifikasiWali({
+                idSiswa: s.id,
+                namaSiswa: s.nama,
+                rombel: s.program,
+                wali: wali,
+                pesan: `Tercatat terlambat ${jmlTelat}x pada kegiatan Shobahul Lughoh. Mohon tindak lanjut pembinaan wali kelas.`,
+                oleh: sesi.nama || 'Koordinator Program'
+            });
+            alert(`📩 Notifikasi pembinaan berhasil diteruskan & disimpan ke Dashboard Wali Kelas (${wali}) mengenai siswa: ${s.nama} (${s.program}).`);
+        }
+
+        function analisisPola() {
+            const abs = SBL.absensi();
+            const siswaList = SBL.daftarSiswa();
+            const flagged = [];
+            let totalHadirSemua = 0;
+            let totalTepatSemua = 0;
+
+            siswaList.forEach(function (s) {
+                const riwayat = abs[s.id] || {};
+                let telatCount = 0;
+                let listRiwayat = [];
+
+                Object.keys(riwayat).forEach(function (tgl) {
+                    const e = riwayat[tgl];
+                    if (e && e.s === 'H') {
+                        totalHadirSemua++;
+                        if (e.status === 'terlambat' || e.status === 'sangat_terlambat') {
+                            telatCount++;
+                            listRiwayat.push(`${tgl} (${e.waktu || 'telat'})`);
+                        } else {
+                            totalTepatSemua++;
+                        }
+                    }
+                });
+
+                if (telatCount >= 3) {
+                    flagged.push({
+                        siswa: s,
+                        telatCount: telatCount,
+                        riwayat: listRiwayat
+                    });
+                }
+            });
+
+            // Urutkan siswa dengan keterlambatan terbanyak
+            flagged.sort((a, b) => b.telatCount - a.telatCount);
+
+            document.getElementById('badgeFlagJml').textContent = flagged.length + ' Siswa';
+            document.getElementById('teksPolaTelat').textContent =
+                flagged.length > 0
+                    ? `${flagged.length} siswa terdeteksi terlambat ≥ 3 kali pada kegiatan Shobahul Lughoh. Data diteruskan ke dashboard Wali Kelas masing-masing.`
+                    : 'Belum ada siswa yang terdeteksi terlambat ≥ 3 kali pada rekaman sesi yang ada.';
+
+            const pctDisiplin = totalHadirSemua > 0 ? Math.round((totalTepatSemua / totalHadirSemua) * 100) : 100;
+            document.getElementById('teksKedisiplinan').textContent =
+                `Tingkat kedisiplinan tepat waktu saat ini: ${pctDisiplin}% dari total seluruh sesi kehadiran siswa.`;
+
+            const tbody = document.getElementById('tabelFlagSiswa');
+            if (flagged.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:26px;color:#64748b;font-style:italic;">Alhamdulillah, saat ini belum ada siswa yang memiliki rekor ≥ 3 kali terlambat.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = flagged.map(function (item, idx) {
+                const s = item.siswa;
+                const inf = SBL.infoKelas(s.program) || {};
+                return `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td style="font-family:monospace;font-size:13px;font-weight:600;">${SBL.esc(s.nisn)}</td>
+                        <td><strong>${SBL.esc(s.nama)}</strong></td>
+                        <td><span class="badge-siswa">${SBL.esc(s.program)}</span></td>
+                        <td>${SBL.esc(inf.wali || '-')}</td>
+                        <td><span class="badge-danger">${item.telatCount}x Terlambat</span></td>
+                        <td><small style="color:#64748b;">${item.riwayat.slice(0, 3).join(', ')}${item.riwayat.length > 3 ? '...' : ''}</small></td>
+                        <td>
+                            <button type="button" class="btn btn-warning" style="padding:4px 10px;font-size:12px;" data-id="${s.id}" data-telat="${item.telatCount}" onclick="beriPeringatanById(this.dataset.id, this.dataset.telat)">
+                                📩 Teruskan ke Wali
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        analisisPola();
+    </script>
+</body>
+</html>

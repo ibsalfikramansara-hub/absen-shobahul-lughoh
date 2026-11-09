@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Koordinator — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasboard.html" class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="jadwal.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">Jadwal & Toleransi</span>
+                </a>
+                <a href="kelompok.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Kelompok & Rombel</span>
+                </a>
+                <a href="manajemen-tentor.html" class="nav-item">
+                    <span class="nav-icon">👨‍🏫</span>
+                    <span class="nav-label">Manajemen Tentor</span>
+                </a>
+                <a href="rekap-laporan.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Rekap & Laporan</span>
+                </a>
+                <a href="deteksi-pola.html" class="nav-item">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Deteksi Pola</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="infoPengguna">Koordinator Program</span>
+                            <span class="user-role">Koordinator Shobahul Lughoh</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <!-- HERO BANNER -->
+                <section class="hero-banner">
+                    <div class="hero-content">
+                        <div class="hero-greeting">
+                            <span class="hero-welcome">Selamat Datang,</span>
+                            <h1 class="hero-title" id="heroKoordTitle">Koordinator Program</h1>
+                            <p class="hero-sub">Panel Pengawasan Terpadu & Rekapitulasi Presensi Shobahul Lughoh MAN 1 Jepara.</p>
+                        </div>
+
+                        <div class="hero-status-pill">
+                            <div class="status-pill-left">
+                                <span class="status-icon">🕐</span>
+                                <span>Jam Operasional: <strong id="infoJamMulai">05:30</strong> – <strong id="infoJamAkhir">08:00</strong> WIB</span>
+                                <span class="status-divider">|</span>
+                                <span>Toleransi: <strong id="infoToleransi">5</strong> mnt (Maks: <strong id="infoBatasMaks">15</strong> mnt)</span>
+                                <span class="status-divider">|</span>
+                                <span id="labelTglIndo" style="color:#0f8049;font-weight:700;">-</span>
+                            </div>
+                            <a href="jadwal.html" class="status-pill-btn">
+                                <span>📅 Atur Jadwal</span>
+                                <span class="btn-arrow">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-illustration">
+                        <img src="sekolah-banner.svg" alt="Ilustrasi Gedung MAN 1 Jepara">
+                    </div>
+                </section>
+
+                <!-- STAT CARDS (5 CARDS) -->
+                <section class="stat-cards-grid-5">
+                    <div class="stat-card-item stat-total">
+                        <div class="stat-icon-wrapper">
+                            <span>👥</span>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totSiswa">0</h4>
+                            <span>Total Siswa</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-item stat-tepat">
+                        <div class="stat-icon-wrapper">
+                            <span>✅</span>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totTepat">0</h4>
+                            <span>Tepat Waktu</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-item stat-terlambat">
+                        <div class="stat-icon-wrapper">
+                            <span>⚠️</span>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totTelat">0</h4>
+                            <span>Terlambat</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-item stat-sangat-terlambat">
+                        <div class="stat-icon-wrapper">
+                            <span>🚨</span>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totSangatTelat">0</h4>
+                            <span>Sangat Telat</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-item stat-alpa">
+                        <div class="stat-icon-wrapper">
+                            <span>⏳</span>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="totBelum">0</h4>
+                            <span>Belum Presensi</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- QUICK ACCESS MENU CARDS -->
+                <section style="display:flex; flex-direction:column; gap:16px;">
+                    <div class="section-header-row">
+                        <h3 class="section-title">⚡ Menu Cepat Koordinator</h3>
+                        <a href="rekap-laporan.html" class="section-link">Lihat Laporan Lengkap &rarr;</a>
+                    </div>
+
+                    <div class="quick-menu-grid">
+                        <a href="jadwal.html" class="quick-card">
+                            <div class="quick-card-top">
+                                <div class="quick-card-icon icon-blue">📅</div>
+                                <div class="quick-card-text">
+                                    <h4>Jadwal & Toleransi</h4>
+                                    <p>Atur jam operasional presensi, batas toleransi, dan jam sangat telat.</p>
+                                </div>
+                            </div>
+                            <span class="quick-card-btn">Atur Jadwal &rarr;</span>
+                        </a>
+
+                        <a href="manajemen-tentor.html" class="quick-card">
+                            <div class="quick-card-top">
+                                <div class="quick-card-icon icon-purple">👨‍🏫</div>
+                                <div class="quick-card-text">
+                                    <h4>Manajemen Tentor</h4>
+                                    <p>Kelola penugasan tentor/guru pendamping kelompok belajar Shobahul Lughoh.</p>
+                                </div>
+                            </div>
+                            <span class="quick-card-btn">Kelola Tentor &rarr;</span>
+                        </a>
+
+                        <a href="rekap-laporan.html" class="quick-card">
+                            <div class="quick-card-top">
+                                <div class="quick-card-icon icon-amber">📊</div>
+                                <div class="quick-card-text">
+                                    <h4>Unduh Laporan</h4>
+                                    <p>Ekspor rekapitulasi kehadiran harian/bulanan ke CSV dan cetak PDF.</p>
+                                </div>
+                            </div>
+                            <span class="quick-card-btn">Ekspor Data &rarr;</span>
+                        </a>
+
+                        <a href="deteksi-pola.html" class="quick-card">
+                            <div class="quick-card-top">
+                                <div class="quick-card-icon icon-red">🔍</div>
+                                <div class="quick-card-text">
+                                    <h4>Deteksi Pola Keterlambatan</h4>
+                                    <p>Identifikasi siswa yang sering terlambat untuk tindak lanjut pembinaan.</p>
+                                </div>
+                            </div>
+                            <span class="quick-card-btn">Lihat Analisis &rarr;</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- DATA TABLE CARD: KEHADIRAN PER ROMBEL -->
+                <section class="data-card">
+                    <div class="data-card-header">
+                        <div class="data-header-left">
+                            <span>🏫</span>
+                            <h3>Kehadiran Shobahul Lughoh per Rombel</h3>
+                        </div>
+                    </div>
+                    <div class="data-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rombel / Kelas</th>
+                                    <th>Wali Kelas</th>
+                                    <th>Total Siswa</th>
+                                    <th>Hadir</th>
+                                    <th>Tepat Waktu</th>
+                                    <th>Terlambat</th>
+                                    <th>Sangat Telat</th>
+                                    <th>Persentase</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelRombel"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Koordinator');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesi = SBL.akunSesi() || {};
+        const namaUser = sesi.nama || 'Koordinator';
+        document.getElementById('infoPengguna').textContent = namaUser;
+        const heroTitle = document.getElementById('heroKoordTitle');
+        if (heroTitle) heroTitle.textContent = namaUser;
+
+        const tgl = SBL.hariIni();
+        document.getElementById('labelTglIndo').textContent = SBL.tanggalIndo(tgl);
+
+        const p = SBL.pengaturan();
+        document.getElementById('infoJamMulai').textContent = p.jamMulai;
+        document.getElementById('infoJamAkhir').textContent = p.jamBerakhir;
+        document.getElementById('infoToleransi').textContent = p.toleransi;
+        document.getElementById('infoBatasMaks').textContent = p.batasMaksimal;
+
+        const stat = SBL.statistikHari(tgl);
+        document.getElementById('totSiswa').textContent = stat.total;
+        document.getElementById('totTepat').textContent = stat.tepat;
+        document.getElementById('totTelat').textContent = stat.terlambat;
+        document.getElementById('totSangatTelat').textContent = stat.sangat_terlambat || 0;
+        document.getElementById('totBelum').textContent = stat.belum;
+
+        // Render tabel rombel live
+        const rombelList = SBL.rombelList();
+        const abs = SBL.absensi();
+
+        const tbody = document.getElementById('tabelRombel');
+        tbody.innerHTML = rombelList.map(function (k) {
+            const inf = SBL.infoKelas(k) || {};
+            const siswaKelas = SBL.siswaKelas(k);
+            let hadir = 0, tepat = 0, telat = 0, sangatTelat = 0;
+
+            siswaKelas.forEach(function (s) {
+                const e = (abs[s.id] || {})[tgl];
+                if (e && e.s === 'H') {
+                    hadir++;
+                    if (e.status === 'sangat_terlambat') sangatTelat++;
+                    else if (e.status === 'terlambat') telat++;
+                    else tepat++;
+                }
+            });
+
+            const total = siswaKelas.length;
+            const pct = total ? Math.round((hadir / total) * 100) : 0;
+
+            return `
+                <tr>
+                    <td><strong>${SBL.esc(inf.label || k)}</strong> <small style="color:#64748b;">(${k})</small></td>
+                    <td>${SBL.esc(inf.wali || '-')}</td>
+                    <td><span class="badge-siswa">${total} Siswa</span></td>
+                    <td><strong style="color:#0f8049;">${hadir}</strong></td>
+                    <td><span class="badge-status badge-tepat">${tepat}</span></td>
+                    <td><span class="badge-status badge-telat">${telat}</span></td>
+                    <td><span class="badge-status badge-sangat-telat">${sangatTelat}</span></td>
+                    <td><strong style="color:${pct >= 85 ? '#0f8049' : '#d97706'}">${pct}%</strong></td>
+                </tr>
+            `;
+        }).join('');
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

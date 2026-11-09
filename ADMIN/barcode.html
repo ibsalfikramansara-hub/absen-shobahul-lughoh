@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Barcode — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <style>
+        .barcode-preview { 
+            margin-top: 24px; 
+            padding: 28px; 
+            border: 2px solid #0f8049; 
+            border-bottom: 5px solid #0b4a33;
+            border-radius: 20px; 
+            background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%); 
+            display: none; 
+            text-align: center;
+            box-shadow: 0 12px 28px -6px rgba(15, 128, 73, 0.16);
+        }
+        .barcode-preview.show { display: block; }
+        .barcode-preview h3 { color: #0b4a33; margin-bottom: 12px; font-size: 18px; }
+        .barcode-preview p { margin-bottom: 6px; font-size: 14px; color: #334155; }
+        .qr-single-box {
+            width: 170px;
+            height: 170px;
+            padding: 10px;
+            margin: 14px auto 8px;
+            background: #ffffff;
+            border: 2.5px solid #0f8049;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(11, 74, 51, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-single-box svg {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+        .alert { padding: 12px 18px; border-radius: 12px; margin: 15px 0; display: none; font-size: 14px; font-weight: 600; }
+        .alert.success { background-color: #dcfce7; color: #15803d; border-left: 5px solid #0f8049; }
+        .alert.error { background-color: #fee2e2; color: #b91c1c; border-left: 5px solid #dc2626; }
+        .peringatan { color: #b45309; font-size: 12.5px; margin-top: 6px; font-weight: 600; }
+        .status-nonaktif { color: #dc2626; font-weight: 600; }
+        @media print {
+            body * { visibility: hidden; }
+            .barcode-preview, .barcode-preview * { visibility: visible; }
+            .barcode-preview { position: absolute; left: 0; top: 0; width: 100%; border: none; background: #fff; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="data-siswa.html" class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Data Siswa</span>
+                </a>
+                <a href="barcode.html" class="nav-item active">
+                    <span class="nav-icon">📲</span>
+                    <span class="nav-label">Buat Barcode</span>
+                </a>
+                <a href="cetak-barcode.html" class="nav-item">
+                    <span class="nav-icon">🖨️</span>
+                    <span class="nav-label">Cetak Semua Barcode</span>
+                </a>
+                <a href="manajemen-akun.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Manajemen Akun</span>
+                </a>
+                <a href="pengaturan-sistem.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Pengaturan Sistem</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="../index.html" class="nav-item nav-logout" onclick="if(confirm('Yakin ingin keluar dari sistem?')) SBL.keluar(); return false;">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarUserName">Administrator Sistem</span>
+                            <span class="user-role" id="topbarUserRole">Admin/TU</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <h2>📲 Pembuatan Ulang Barcode Buku Saku</h2>
+                    <p class="lead-desc">Barcode lama akan otomatis dinonaktifkan jika dibuatkan yang baru. Seluruh barcode presensi memakai <strong>NISN</strong> siswa.</p>
+                    
+                    <div class="alert success" id="alert-sukses"></div>
+                    <div class="alert error" id="alert-error"></div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="input-nisn">NISN / Nama Siswa</label>
+                            <input type="text" id="input-nisn" list="daftarNama" placeholder="Cari NISN atau nama siswa..." autocomplete="off">
+                            <datalist id="daftarNama"></datalist>
+                        </div>
+                        <div class="form-group">
+                            <label for="select-alasan">Alasan Pembuatan Ulang</label>
+                            <select id="select-alasan">
+                                <option value="hilang">Buku saku hilang</option>
+                                <option value="rusak">Barcode rusak / tidak terbaca</option>
+                                <option value="salah">Kesalahan cetak sebelumnya</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;">
+                        <button class="btn btn-primary" onclick="buatBarcodeBaru()">✨ Buat Barcode Baru</button>
+                        <button class="btn btn-warning" onclick="cetakBarcode()">🖨️ Cetak Barcode</button>
+                        <button class="btn btn-danger" onclick="hapusRiwayat()" id="btn-hapus" style="display:none;">🗑️ Hapus Riwayat Terakhir</button>
+                    </div>
+
+                    <div class="barcode-preview" id="area-barcode">
+                        <h3>QR Code Baru Siswa</h3>
+                        <p><strong>NISN:</strong> <span id="show-nisn"></span></p>
+                        <p><strong>Nama:</strong> <span id="show-nama"></span></p>
+                        <p><strong>Kelas / Program:</strong> <span id="show-kelas"></span></p>
+                        <p><strong>Kode QR:</strong> <code id="show-kode" style="font-weight:700; color:#0b4a33;"></code></p>
+                        <p class="peringatan" id="show-peringatan" style="display:none;"></p>
+                        <div class="qr-single-box" id="barcode-gambar"></div>
+                    </div>
+
+                    <h3 style="margin-top:36px; margin-bottom:14px; color:#0b4a33; font-size:18px;">📑 Riwayat Cetak Barcode</h3>
+                    <div class="data-table-wrapper">
+                        <table id="tabel-riwayat">
+                            <thead>
+                                <tr>
+                                    <th>NISN</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Kelas</th>
+                                    <th>Kode Baru</th>
+                                    <th>Status Lama</th>
+                                    <th>Tanggal</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="isi-riwayat"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+<script src="../data-siswa.js"></script>
+<script>
+SBL.wajibPeran('Admin');
+
+function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    if (sb) sb.classList.toggle('sidebar-open');
+}
+
+const pengguna = SBL.ambilPenggunaAktif();
+if (pengguna) {
+    const elNama = document.getElementById('topbarUserName');
+    const elRole = document.getElementById('topbarUserRole');
+    if (elNama) elNama.textContent = pengguna.nama || 'Administrator';
+    if (elRole) elRole.textContent = pengguna.peran || 'Admin/TU';
+}
+
+const kodeAlasan = { hilang: "SL", rusak: "SR", salah: "SC" };
+let riwayatCetak = SBL.baca(SBL.KUNCI.BARCODE, []);
+let dataTerakhir = null;
+
+// Datalist nama siswa
+document.getElementById('daftarNama').innerHTML = SBL.daftarSiswa()
+    .map(function (s) { return `<option value="${SBL.esc(s.nama)}">${SBL.esc(s.nisn)}</option>`; })
+    .join('');
+
+function tampilkanPesan(jenis, teks) {
+    const kotakSukses = document.getElementById('alert-sukses');
+    const kotakError = document.getElementById('alert-error');
+    kotakSukses.style.display = 'none';
+    kotakError.style.display = 'none';
+    if (jenis === 'sukses') {
+        kotakSukses.textContent = '✅ ' + teks;
+        kotakSukses.style.display = 'block';
+    } else {
+        kotakError.textContent = '❌ ' + teks;
+        kotakError.style.display = 'block';
+    }
+}
+
+function labelKelas(siswa) {
+    const info = SBL.KELAS[siswa.program];
+    return (info ? info.label : siswa.kelas) + ' / ' + siswa.program;
+}
+
+function buatKodeBarcode(siswa, alasan) {
+    const tgl = new Date();
+    const thn = tgl.getFullYear().toString().slice(-2);
+    const bln = String(tgl.getMonth() + 1).padStart(2, '0');
+    const tglStr = String(tgl.getDate()).padStart(2, '0');
+    const kodeAlasanSingkat = kodeAlasan[alasan] || 'SX';
+    return `${siswa.nisn}-${kodeAlasanSingkat}-${thn}${bln}${tglStr}`;
+}
+
+function buatBarcodeBaru() {
+    const input = document.getElementById('input-nisn').value.trim();
+    const alasan = document.getElementById('select-alasan').value;
+    if (!input) {
+        tampilkanPesan('error', 'Silakan masukkan NISN atau nama siswa!');
+        return;
+    }
+    const hasil = SBL.cariSiswa(input);
+    if (hasil.length === 0) {
+        tampilkanPesan('error', 'Siswa tidak ditemukan!');
+        return;
+    }
+    if (hasil.length > 1) {
+        tampilkanPesan('error', 'Ditemukan lebih dari satu siswa, tulis NISN lengkap!');
+        return;
+    }
+    const siswa = hasil[0];
+    if (!siswa.nisnValid && !confirm('NISN "' + siswa.nisn + '" belum 10 digit. Barcode tetap dibuat?')) return;
+
+    const kodeBaru = buatKodeBarcode(siswa, alasan);
+    const tglSekarang = new Date().toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'long', year: 'numeric'
+    });
+
+    dataTerakhir = {
+        nisn: siswa.nisn,
+        nama: siswa.nama,
+        kelas: labelKelas(siswa),
+        kodeBaru: kodeBaru,
+        statusLama: 'Dinonaktifkan',
+        tanggal: tglSekarang,
+        alasan: alasan
+    };
+
+    riwayatCetak.unshift(dataTerakhir);
+    SBL.tulis(SBL.KUNCI.BARCODE, riwayatCetak);
+
+    document.getElementById('show-nisn').textContent = siswa.nisn;
+    document.getElementById('show-nama').textContent = siswa.nama;
+    document.getElementById('show-kelas').textContent = labelKelas(siswa);
+    document.getElementById('show-kode').textContent = kodeBaru;
+    const peringatan = document.getElementById('show-peringatan');
+    peringatan.style.display = siswa.nisnValid ? 'none' : 'block';
+    peringatan.textContent = siswa.nisnValid ? '' : '⚠ NISN belum valid (bukan 10 digit). Perbaiki di halaman Data Siswa.';
+
+    const elemenBarcode = document.getElementById('barcode-gambar');
+    elemenBarcode.innerHTML = '';
+    try {
+        const qr = qrcode(0, 'M');
+        qr.addData(String(kodeBaru));
+        qr.make();
+        elemenBarcode.innerHTML = qr.createSvgTag({ cellSize: 5, margin: 1, scalable: true });
+    } catch (err) {
+        tampilkanPesan('error', 'QR Code gagal dibuat: ' + err.message);
+        return;
+    }
+
+    document.getElementById('area-barcode').classList.add('show');
+    document.getElementById('btn-hapus').style.display = 'inline-block';
+    tampilkanPesan('sukses', 'Barcode berhasil dibuat!');
+    muatRiwayat();
+}
+
+function cetakBarcode() {
+    if (!dataTerakhir) {
+        tampilkanPesan('error', 'Buat barcode dulu sebelum mencetak!');
+        return;
+    }
+    window.print();
+}
+
+function hapusRiwayat() {
+    if (!confirm('Hapus riwayat cetak terakhir?')) return;
+    riwayatCetak.shift();
+    SBL.tulis(SBL.KUNCI.BARCODE, riwayatCetak);
+    dataTerakhir = riwayatCetak.length > 0 ? riwayatCetak[0] : null;
+    document.getElementById('area-barcode').classList.remove('show');
+    document.getElementById('btn-hapus').style.display = 'none';
+    muatRiwayat();
+    tampilkanPesan('sukses', 'Riwayat berhasil dihapus!');
+}
+
+function muatRiwayat() {
+    const isi = document.getElementById('isi-riwayat');
+    isi.innerHTML = '';
+    if (!riwayatCetak.length) {
+        isi.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#64748b;font-style:italic;padding:20px;">Belum ada riwayat cetak.</td></tr>';
+        return;
+    }
+    riwayatCetak.forEach(function (r, idx) {
+        const baris = document.createElement('tr');
+        baris.innerHTML = `
+            <td>${SBL.esc(r.nisn || r.nis || '-')}</td>
+            <td><strong>${SBL.esc(r.nama)}</strong></td>
+            <td>${SBL.esc(r.kelas)}</td>
+            <td><code>${SBL.esc(r.kodeBaru)}</code></td>
+            <td><span class="badge-status badge-sangat-telat">${SBL.esc(r.statusLama || '-')}</span></td>
+            <td>${SBL.esc(r.tanggal)}</td>
+            <td style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="btn btn-primary" style="padding:4px 10px;font-size:12px;" onclick="tampilUlang(${idx})">🖨️ Lihat / Cetak</button>
+                <button class="btn btn-danger" style="padding:4px 10px;font-size:12px;" onclick="hapusSatu(${idx})">🗑️ Hapus</button>
+            </td>
+        `;
+        isi.appendChild(baris);
+    });
+}
+
+function tampilUlang(index) {
+    const r = riwayatCetak[index];
+    if (!r) return;
+    dataTerakhir = r;
+    document.getElementById('show-nisn').textContent = r.nisn || '-';
+    document.getElementById('show-nama').textContent = r.nama || '-';
+    document.getElementById('show-kelas').textContent = r.kelas || '-';
+    document.getElementById('show-kode').textContent = r.kodeBaru;
+    document.getElementById('show-peringatan').style.display = 'none';
+    const elemenBarcode = document.getElementById('barcode-gambar');
+    elemenBarcode.innerHTML = '';
+    try {
+        const qr = qrcode(0, 'M');
+        qr.addData(String(r.kodeBaru));
+        qr.make();
+        elemenBarcode.innerHTML = qr.createSvgTag({ cellSize: 5, margin: 1, scalable: true });
+    } catch (e) {}
+    document.getElementById('area-barcode').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function hapusSatu(index) {
+    if (!confirm('Hapus riwayat ini?')) return;
+    riwayatCetak.splice(index, 1);
+    SBL.tulis(SBL.KUNCI.BARCODE, riwayatCetak);
+    if (riwayatCetak.length === 0) {
+        dataTerakhir = null;
+        document.getElementById('area-barcode').classList.remove('show');
+        document.getElementById('btn-hapus').style.display = 'none';
+    }
+    muatRiwayat();
+}
+
+muatRiwayat();
+</script>
+</body>
+</html>

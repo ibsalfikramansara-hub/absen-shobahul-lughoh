@@ -1,0 +1,11 @@
+@media print {
+    /* Sembunyikan form input saat di-print */
+    .no-print {
+        display: none !important;
+    }
+    
+    /* Tampilkan hasil catatan saat di-print */
+    .print-only-catatan {
+        display: block !important;
+    }
+}

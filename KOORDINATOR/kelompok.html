@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelompok Siswa — Koordinator MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+    <style>
+        .grid-kelompok { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+            gap: 18px; 
+            margin-top: 15px; 
+        }
+        .kartu-kelompok { 
+            background: linear-gradient(145deg, #ffffff 0%, #f4faf6 100%); 
+            border-radius: 16px; 
+            padding: 22px; 
+            border: 1px solid #d1fae5; 
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(15, 128, 73, 0.05);
+            transition: transform 0.2s;
+        }
+        .kartu-kelompok:hover {
+            transform: translateY(-2px);
+        }
+        .kartu-kelompok h4 { color: #0b4a33; margin-bottom: 8px; font-size: 16px; font-weight: 800; }
+        .kartu-kelompok p { font-size: 13px; color: #64748b; }
+        .kartu-kelompok .jumlah { font-size: 32px; font-weight: 800; color: #0f8049; margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="jadwal.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">Jadwal & Toleransi</span>
+                </a>
+                <a href="kelompok.html" class="nav-item active">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Kelompok & Rombel</span>
+                </a>
+                <a href="manajemen-tentor.html" class="nav-item">
+                    <span class="nav-icon">👨‍🏫</span>
+                    <span class="nav-label">Manajemen Tentor</span>
+                </a>
+                <a href="rekap-laporan.html" class="nav-item">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Rekap & Laporan</span>
+                </a>
+                <a href="deteksi-pola.html" class="nav-item">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Deteksi Pola</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="infoPengguna">Koordinator Program</span>
+                            <span class="user-role">Koordinator Shobahul Lughoh</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <h2>🏫 Daftar Rombongan Belajar & Kelompok</h2>
+                    <p class="lead-desc">Distribusi siswa aktif program Shobahul Lughoh IBS Al Fikra MAN 1 Jepara per rombongan belajar.</p>
+                    
+                    <div class="grid-kelompok" id="gridKelompok">
+                        <div class="kartu-kelompok">
+                            <h4>X - E2 SAINS</h4>
+                            <div class="jumlah">36</div>
+                            <p>Siswa · IBS SAINS 1</p>
+                        </div>
+                        <div class="kartu-kelompok">
+                            <h4>X - E3 SAINS</h4>
+                            <div class="jumlah">35</div>
+                            <p>Siswa · IBS SAINS 2</p>
+                        </div>
+                        <div class="kartu-kelompok">
+                            <h4>X - E4 BILINGUAL ICT</h4>
+                            <div class="jumlah">38</div>
+                            <p>Siswa · IBS BILINGUAL ICT</p>
+                        </div>
+                        <div class="kartu-kelompok">
+                            <h4>XI - F2 SAINS</h4>
+                            <div class="jumlah">32</div>
+                            <p>Siswa · IBS SAINS 1</p>
+                        </div>
+                        <div class="kartu-kelompok">
+                            <h4>XI - F3 SAINS</h4>
+                            <div class="jumlah">34</div>
+                            <p>Siswa · IBS SAINS 2</p>
+                        </div>
+                        <div class="kartu-kelompok">
+                            <h4>XI - F4 BILINGUAL ICT</h4>
+                            <div class="jumlah">31</div>
+                            <p>Siswa · IBS BILINGUAL ICT</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-card">
+                    <h3>📊 Ringkasan Data per Kelompok Rombel</h3>
+                    <p class="lead-desc">Wali kelas penanggung jawab dan pemantauan jumlah siswa terdaftar.</p>
+                    <div class="data-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rombel / Kelas</th>
+                                    <th>Wali Kelas</th>
+                                    <th>Jumlah Siswa</th>
+                                    <th>Program / Peminatan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelKelompokBody">
+                                <tr>
+                                    <td><strong>X - E2 SAINS</strong></td>
+                                    <td>Hj. Nunuk Sulistyaningrum S., S.Pd.</td>
+                                    <td><span class="badge-siswa">36 Siswa</span></td>
+                                    <td>E2-SAINS</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>X - E3 SAINS</strong></td>
+                                    <td>Hamidun Nafi' S, S.Pd.</td>
+                                    <td><span class="badge-siswa">35 Siswa</span></td>
+                                    <td>E3-SAINS</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>X - E4 BILINGUAL ICT</strong></td>
+                                    <td>Wilda Ulfiyanti, S.Pd., M.Pd.</td>
+                                    <td><span class="badge-siswa">38 Siswa</span></td>
+                                    <td>E4-BILINGUAL ICT</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>XI - F2 SAINS</strong></td>
+                                    <td>Nita Lustia, S.Pd.</td>
+                                    <td><span class="badge-siswa">32 Siswa</span></td>
+                                    <td>F2-SAINS</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>XI - F3 SAINS</strong></td>
+                                    <td>Aini Qismatul Adlhiah, S.Pd.</td>
+                                    <td><span class="badge-siswa">34 Siswa</span></td>
+                                    <td>F3-SAINS</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>XI - F4 BILINGUAL ICT</strong></td>
+                                    <td>Noory Annisa Aulia, S.S.</td>
+                                    <td><span class="badge-siswa">31 Siswa</span></td>
+                                    <td>F4-BILINGUAL ICT</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Koordinator');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesi = SBL.akunSesi() || {};
+        document.getElementById('infoPengguna').textContent = sesi.nama || 'Koordinator';
+
+        // Load dynamic rombel if available
+        if (window.SBL && SBL.KELAS) {
+            const rombelList = Object.keys(SBL.KELAS);
+            if (rombelList.length) {
+                const grid = document.getElementById('gridKelompok');
+                const tbody = document.getElementById('tabelKelompokBody');
+                
+                grid.innerHTML = rombelList.map(function(k) {
+                    const info = SBL.KELAS[k];
+                    const jml = SBL.siswaKelas(k).length;
+                    return `
+                        <div class="kartu-kelompok">
+                            <h4>${SBL.esc(info.label)}</h4>
+                            <div class="jumlah">${jml}</div>
+                            <p>Siswa · ${SBL.esc(info.nama)}</p>
+                        </div>
+                    `;
+                }).join('');
+
+                tbody.innerHTML = rombelList.map(function(k) {
+                    const info = SBL.KELAS[k];
+                    const jml = SBL.siswaKelas(k).length;
+                    return `
+                        <tr>
+                            <td><strong>${SBL.esc(info.label)}</strong></td>
+                            <td>${SBL.esc(info.wali)}</td>
+                            <td><span class="badge-siswa">${jml} Siswa</span></td>
+                            <td>${k}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

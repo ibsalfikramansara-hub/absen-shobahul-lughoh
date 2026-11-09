@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Wali Kelas — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+    <style>
+        .kelas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .kelas-card-item {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+        }
+        .kelas-card-item:hover {
+            border-color: #0f8049;
+            box-shadow: 0 8px 24px rgba(15, 128, 73, 0.12);
+            transform: translateY(-3px);
+        }
+        .kelas-card-item.aktif-saya {
+            border-color: #0f8049;
+            background: linear-gradient(145deg, #ffffff 0%, #f4faf6 100%);
+            box-shadow: 0 6px 20px rgba(15, 128, 73, 0.1);
+        }
+        .kelas-card-item h3 {
+            color: #0b4a33;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .kelas-card-item p {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item active">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Portal Wali Kelas</span>
+                </a>
+                <a href="detail-siswa.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Detail Siswa & Karakter</span>
+                </a>
+                <a href="unduh-laporan.html" class="nav-item">
+                    <span class="nav-icon">📥</span>
+                    <span class="nav-label">Unduh Laporan</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarUserName">Wali Kelas</span>
+                            <span class="user-role" id="topbarUserRole">Wali Kelas Binaan</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <!-- HERO BANNER -->
+                <section class="hero-banner">
+                    <div class="hero-content">
+                        <div class="hero-greeting">
+                            <span class="hero-welcome">Selamat Datang,</span>
+                            <h1 class="hero-title" id="salamWali">Wali Kelas</h1>
+                            <p class="hero-sub">Portal Pemantauan Presensi, Penilaian Karakter, dan Laporan Siswa Shobahul Lughoh.</p>
+                        </div>
+
+                        <div class="hero-status-pill">
+                            <div class="status-pill-left">
+                                <span class="status-icon">🏫</span>
+                                <span id="infoKelasSaya">Pilih rombel untuk masuk ke dasbor presensi kelas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-illustration">
+                        <img src="sekolah-banner.svg" alt="Ilustrasi Gedung MAN 1 Jepara">
+                    </div>
+                </section>
+
+                <!-- QUICK ACCESS CHIPS -->
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <a href="detail-siswa.html" class="btn btn-primary">👤 Buka Detail Siswa & Karakter</a>
+                    <a href="unduh-laporan.html" class="btn btn-secondary">📥 Unduh Laporan Rekap Bulanan</a>
+                </div>
+
+                <!-- NOTIFIKASI DARI KOORDINATOR -->
+                <div id="boxNotifWali" style="display:none; margin-bottom:20px;"></div>
+
+                <!-- CLASS CARDS GRID -->
+                <div class="inner-card">
+                    <h3 style="color:#0b4a33; font-size:18px; font-weight:800; margin-bottom:4px;">🏫 Rombongan Belajar Shobahul Lughoh</h3>
+                    <p class="lead-desc">Pilih kelas binaan Anda untuk melihat rekapitulasi kehadiran harian/bulanan atau cetak rapor presensi.</p>
+
+                    <div class="kelas-grid" id="gridKelas"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script src="walikelas.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesiUser = SBL.akunSesi() || {};
+        const isRoleWali = String(sesiUser.peran || '').toLowerCase().includes('wali');
+        const prof = profile();
+        if (prof.nama) {
+            document.getElementById('salamWali').textContent = prof.nama;
+            document.getElementById('topbarUserName').textContent = prof.nama;
+        }
+
+        const rombels = SBL.rombelList();
+        const infoSaya = SBL.infoKelas(prof.rombel);
+
+        if (infoSaya) {
+            document.getElementById('topbarUserRole').textContent = `Wali Kelas ${infoSaya.label}`;
+            document.getElementById('infoKelasSaya').innerHTML =
+                `Kelas Binaan Anda: <strong>${infoSaya.label} (${prof.rombel})</strong> · ` +
+                `<a href="${infoSaya.cetak || '#'}" style="color:#0f8049;font-weight:700;text-decoration:underline;">Masuk ke Dasbor ${infoSaya.label} &rarr;</a>`;
+        }
+
+        // Tampilkan notifikasi peringatan keterlambatan dari Koordinator
+        const notifList = SBL.ambilNotifikasiWali(prof.rombel);
+        const boxNotif = document.getElementById('boxNotifWali');
+        if (boxNotif && notifList.length > 0) {
+            boxNotif.style.display = 'block';
+            boxNotif.innerHTML = `
+                <div class="inner-card" style="background:linear-gradient(135deg,#fffbeb,#fef3c7); border:1.5px solid #f59e0b;">
+                    <h4 style="color:#92400e; font-size:15px; font-weight:800; margin-bottom:8px;">🔔 Peringatan Pembinaan dari Koordinator (${notifList.length})</h4>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${notifList.slice(0, 5).map(n => `
+                            <div style="background:#fff; padding:10px 14px; border-radius:10px; border-left:4px solid #d97706; font-size:13px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                                <div><strong>${SBL.esc(n.namaSiswa)}</strong> — ${SBL.esc(n.pesan)} <span style="color:#64748b; font-size:11px;">(${SBL.esc(n.tanggal)} ${SBL.esc(n.waktu)})</span></div>
+                                ${n.idSiswa ? `<a href="detail-siswa.html?id=${encodeURIComponent(n.idSiswa)}" class="btn-table-action" style="font-size:11px; padding:4px 10px;">Buka Detail Siswa &rarr;</a>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        const grid = document.getElementById('gridKelas');
+        grid.innerHTML = rombels.map(function (k) {
+            const inf = SBL.infoKelas(k) || {};
+            const jml = SBL.siswaKelas(k).length;
+            const isSaya = k === prof.rombel;
+            const terkunci = isRoleWali && sesiUser.rombel && !isSaya;
+            const targetHref = terkunci ? 'javascript:void(0)' : (inf.cetak || ('detail-siswa.html?kelas=' + encodeURIComponent(k)));
+            const klikAttr = terkunci ? `onclick="alert('Akses dibatasi: Anda hanya dapat membuka kelas perwalian Anda (${SBL.esc(infoSaya ? infoSaya.label : prof.rombel)}).'); return false;"` : '';
+
+            return `
+                <a href="${targetHref}" ${klikAttr} class="kelas-card-item ${isSaya ? 'aktif-saya' : ''}" style="${terkunci ? 'opacity:0.65; cursor:not-allowed;' : ''}">
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <h3>${SBL.esc(inf.label || k)}</h3>
+                            ${isSaya ? '<span class="badge-status badge-tepat">Kelas Anda</span>' : (terkunci ? '<span class="badge-status" style="background:#f1f5f9;color:#64748b;">🔒 Kelas Lain</span>' : '')}
+                        </div>
+                        <p>${SBL.esc(k)} · Wali: ${SBL.esc(inf.wali || '-')}</p>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #f1f5f9;">
+                        <span class="badge-siswa">${jml} Siswa</span>
+                        <span class="btn-table-action">${terkunci ? '🔒 Terkunci' : 'Buka Dasbor &rarr;'}</span>
+                    </div>
+                </a>
+            `;
+        }).join('');
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>

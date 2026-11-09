@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Detail Siswa · صَبَاحُ اللُّغَةِ</title><link rel="stylesheet" href="walikelas.css"></head><body><div id="app-header"></div><main>
+
+<h2>Detail Siswa</h2><p class="sub">Riwayat kehadiran per siswa dan penilaian karakter.</p>
+<div class="card noprint"><div class="bar"><label>Siswa<select id="stu"></select></label><label>Bulan<input type="month" id="mon"></label></div></div>
+<div class="cards" id="cards"></div>
+<div class="card"><h3 style="margin-top:0">Nilai Karakter</h3><div class="grid2">
+<label>Nilai otomatis (dari kehadiran)<input id="auto" disabled></label><label>Nilai manual (kosongkan = otomatis)<input type="number" min="0" max="100" id="nil"></label>
+<label>Predikat<input id="pred" disabled></label></div><label style="font-size:13px;color:var(--m)">Catatan karakter<textarea id="cat" rows="2"></textarea></label>
+<p class="sub" style="margin:8px 0 0">Bobot otomatis: Hadir 100, Izin/Sakit 75, Alpa 0 (rata-rata hari terisi). A ≥90, B ≥80, C ≥70, selain itu D.</p></div>
+<div class="card"><h3 style="margin-top:0">Riwayat Harian</h3><div class="bar noprint"><button id="save">Simpan</button><button id="reset" class="dan">Reset bulan ini</button></div>
+<div class="tw"><table><thead><tr><th>Tanggal</th><th>Hari</th><th>Status</th><th>Keterangan</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+<div class="card noprint"><h3 style="margin-top:0">Edit Data Siswa</h3><div class="grid2"><label>Nama<input id="enm"></label><label>NISN<input id="enn" maxlength="10"></label></div>
+<div class="bar" style="margin-top:12px"><button id="esave">Simpan data</button><button id="ereset" class="sec">Kembalikan ke data awal</button></div></div></main><script src="../data-siswa.js"></script><script src="walikelas.js"></script><script>
+layout("detail-siswa");const list=classStudents(),sel=$("#stu"),M=$("#mon");let cur,work={};
+M.value=today().slice(0,7);sel.innerHTML=list.map(s=>`<option value="${s.id}">${esc(s.nama)}</option>`).join("");
+const qid=new URLSearchParams(location.search).get("id");if(qid&&list.some(s=>s.id==qid))sel.value=qid;
+function load(){cur=SBL.siswaById(sel.value)||list.find(s=>s.id==sel.value);if(!cur)return;const r=(att()[cur.id]||{}),[y,m]=M.value.split("-").map(Number),n=new Date(y,m,0).getDate();work={};
+ for(let d=1;d<=n;d++){const k=`${M.value}-${pad(d)}`;work[k]=r[k]?{...r[k],n:r[k].n||r[k].alasan||""}:{s:"",n:""}}
+ $("#tb").innerHTML=Object.keys(work).map(k=>{const w=work[k],h=new Date(k).getUTCDay();return`<tr data-k="${k}" class="${h==0?"off":""}"><td>${k.slice(8)} ${monthName(M.value).split(" ")[0]}</td><td>${HARI[h]}</td>
+ <td><select class="${w.s?"sel-"+w.s:""}"><option value="">—</option>${Object.entries(ST).map(([a,b])=>`<option value="${a}" ${w.s==a?"selected":""}>${b}</option>`).join("")}</select></td><td><input value="${esc(w.n)}"></td></tr>`}).join("");
+ const c=ld("sbl_char",{})[cur.id+"|"+M.value]||{};$("#nil").value=c.nilai??"";$("#cat").value=c.cat||"";$("#enm").value=cur.nama;$("#enn").value=cur.nisn;sum()}
+function sum(){const c={H:0,I:0,S:0,A:0};let n=0,s=0;Object.values(work).forEach(w=>{if(w.s){c[w.s]++;n++;s+=SC[w.s]}});
+ $("#cards").innerHTML=Object.keys(ST).map(k=>`<div class="stat"><b class="sel-${k}">${c[k]}</b><span>${ST[k]}</span></div>`).join("")+`<div class="stat"><b>${n?Math.round(c.H/n*100)+"%":"-"}</b><span>% Hadir</span></div>`;
+ const a=n?Math.round(s/n):null;$("#auto").value=a??"-";const v=$("#nil").value!==""?+$("#nil").value:a;$("#pred").value=predikat(v)}
+$("#tb").addEventListener("input",e=>{const tr=e.target.closest("tr"),w=work[tr.dataset.k];
+ if(e.target.tagName=="SELECT"){w.s=e.target.value;e.target.className=w.s?"sel-"+w.s:""}else w.n=e.target.value;sum()});
+$("#nil").oninput=sum;sel.onchange=M.onchange=load;
+$("#save").onclick=()=>{const A=att();A[cur.id]=A[cur.id]||{};for(const k in work){if(work[k].s){const prev=A[cur.id][k]||{};A[cur.id][k]={...prev,...work[k],s:work[k].s,n:work[k].n||"",alasan:work[k].n||prev.alasan||"",waktu:prev.waktu||(work[k].s==="H"?SBL.jamSekarang():"-"),status:prev.status||(work[k].s==="H"?"tepat":work[k].s),metode:prev.metode||"Wali Kelas",oleh:prev.oleh||profile().nama}}else delete A[cur.id][k]}
+ const C=ld("sbl_char",{});C[cur.id+"|"+M.value]={nilai:$("#nil").value,cat:$("#cat").value};if(sv("sbl_att",A)&&sv("sbl_char",C))toast("Tersimpan ✓")};
+$("#reset").onclick=()=>{if(!confirm("Reset kehadiran & nilai karakter "+cur.nama+" bulan "+monthName(M.value)+"?"))return;
+ const A=att();for(const k in A[cur.id]||{})if(k.startsWith(M.value))delete A[cur.id][k];const C=ld("sbl_char",{});delete C[cur.id+"|"+M.value];sv("sbl_att",A);sv("sbl_char",C);load();toast("Bulan ini direset")};
+$("#esave").onclick=()=>{const nm=$("#enm").value.trim().toUpperCase(),nn=$("#enn").value.trim();if(!nm)return toast("Nama wajib diisi");if(nn&&!/^\d{10}$/.test(nn)&&!confirm("NISN bukan 10 digit angka. Tetap simpan?"))return;
+ const dup=SBL.nisnSudahDipakai(nn,cur.id);if(dup)return toast("Gagal: NISN "+nn+" sudah dipakai oleh "+dup.nama+" ("+dup.program+")");
+ SBL.simpanSiswa(cur.id,{nama:nm,nisn:nn});cur.nama=nm;cur.nisn=nn;sel.querySelector(`option[value="${cur.id}"]`).textContent=nm;toast("Data siswa tersimpan ✓")};
+$("#ereset").onclick=()=>{SBL.resetSiswa(cur.id);const s0=SBL.siswaById(cur.id)||cur;$("#enm").value=s0.nama;$("#enn").value=s0.nisn;cur.nama=s0.nama;cur.nisn=s0.nisn;sel.querySelector(`option[value="${cur.id}"]`).textContent=s0.nama;toast("Data dikembalikan ke awal")};
+if(list.length)load();
+</script></body></html>

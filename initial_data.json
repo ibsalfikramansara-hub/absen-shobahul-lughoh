@@ -1,0 +1,1851 @@
+{
+  "nama_aplikasi": "Presensi Shobahul Lughoh & English Morning - MAN 1 Jepara",
+  "versi": "1.0.0",
+  "tanggal_ekspor": "2026-11-09T15:38:33.956Z",
+  "pengaturan": {
+    "jamMulai": "05:30",
+    "jamBerakhir": "08:00",
+    "toleransi": 5,
+    "batasMaksimal": 15,
+    "kirimWa": "Aktif",
+    "pesanNotif": "Siswa telah tercatat hadir pada kegiatan shobahul lughoh",
+    "programAktif": "Hanya Shobahul Lughoh",
+    "batasiJamLogin": "tentor"
+  },
+  "akun": [
+    {
+      "nama": "Pak Riki",
+      "username": "pak riki",
+      "password": "mutawasihx",
+      "peran": "Tentor/Guru Pendamping",
+      "halaman": "TENTOR/dasbor.html",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Pak Fajri",
+      "username": "pak fajri",
+      "password": "mutawasihx1",
+      "peran": "Tentor/Guru Pendamping",
+      "halaman": "TENTOR/dasbor.html",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Bu Ifa",
+      "username": "bu ifa",
+      "password": "asasix",
+      "peran": "Tentor/Guru Pendamping",
+      "halaman": "TENTOR/dasbor.html",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Pak Lukim",
+      "username": "pak lukim",
+      "password": "asasix1",
+      "peran": "Tentor/Guru Pendamping",
+      "halaman": "TENTOR/dasbor.html",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Bu Khomsa",
+      "username": "bu khomsa",
+      "password": "123456",
+      "peran": "Tentor/Guru Pendamping",
+      "halaman": "TENTOR/dasbor.html",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Bu Nunuk",
+      "username": "bu nunuk",
+      "password": "XE2",
+      "peran": "Wali Kelas",
+      "halaman": "WALI-KELAS/dasbor.html",
+      "rombel": "E2-SAINS",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Pak Hamidun",
+      "username": "pak hamidun",
+      "password": "XE3",
+      "peran": "Wali Kelas",
+      "halaman": "WALI-KELAS/dasbor.html",
+      "rombel": "E3-SAINS",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Miss Wilda",
+      "username": "miss wilda",
+      "password": "XE4",
+      "peran": "Wali Kelas",
+      "halaman": "WALI-KELAS/dasbor.html",
+      "rombel": "E4-BILINGUAL ICT",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Bu Nita",
+      "username": "bu nita",
+      "password": "X1F2",
+      "peran": "Wali Kelas",
+      "halaman": "WALI-KELAS/dasbor.html",
+      "rombel": "F2-SAINS",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Bu Aini",
+      "username": "bu aini",
+      "password": "X1F3",
+      "peran": "Wali Kelas",
+      "halaman": "WALI-KELAS/dasbor.html",
+      "rombel": "F3-SAINS",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Miss Noory",
+      "username": "miss noory",
+      "password": "X1F4",
+      "peran": "Wali Kelas",
+      "halaman": "WALI-KELAS/dasbor.html",
+      "rombel": "F4-BILINGUAL ICT",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Administrator Sistem",
+      "username": "admin",
+      "password": "admin123",
+      "peran": "Admin/TU",
+      "halaman": "ADMIN/dasbor.html",
+      "status": "Aktif"
+    },
+    {
+      "nama": "Koordinator Program",
+      "username": "koordinator",
+      "password": "koordinator123",
+      "peran": "Koordinator Program",
+      "halaman": "KOORDINATOR/dasboard.html",
+      "status": "Aktif"
+    }
+  ],
+  "kelas": {
+    "E2-SAINS": {
+      "tingkat": 10,
+      "label": "X E2",
+      "nama": "X - E2 SAINS",
+      "jabatan": "IBS SAINS 1",
+      "wali": "Hj. Nunuk Sulistyaningrum S., S.Pd.",
+      "username": "bu nunuk",
+      "cetak": "dasbor-e2.html",
+      "program": "E2-SAINS",
+      "jumlah": 36,
+      "kode": "E2"
+    },
+    "E3-SAINS": {
+      "tingkat": 10,
+      "label": "X E3",
+      "nama": "X - E3 SAINS",
+      "jabatan": "IBS SAINS 2",
+      "wali": "Hamidun Nafi' S, S.Pd.",
+      "username": "pak hamidun",
+      "cetak": "dasbor-e3.html",
+      "program": "E3-SAINS",
+      "jumlah": 35,
+      "kode": "E3"
+    },
+    "E4-BILINGUAL ICT": {
+      "tingkat": 10,
+      "label": "X E4",
+      "nama": "X - E4 BILINGUAL ICT",
+      "jabatan": "IBS BILINGUAL ICT",
+      "wali": "Wilda Ulfiyanti, S.Pd., M.Pd.",
+      "username": "miss wilda",
+      "cetak": "dasbor-e4.html",
+      "program": "E4-BILINGUAL ICT",
+      "jumlah": 38,
+      "kode": "E4"
+    },
+    "F2-SAINS": {
+      "tingkat": 11,
+      "label": "XI F2",
+      "nama": "XI - F2 SAINS",
+      "jabatan": "IBS SAINS 1",
+      "wali": "Nita Lustia, S.Pd.",
+      "username": "bu nita",
+      "cetak": "dasbor-f2.html",
+      "program": "F2-SAINS",
+      "jumlah": 32,
+      "kode": "F2"
+    },
+    "F3-SAINS": {
+      "tingkat": 11,
+      "label": "XI F3",
+      "nama": "XI - F3 SAINS",
+      "jabatan": "IBS SAINS 2",
+      "wali": "Aini Qismatul Adlhiah, S.Pd.",
+      "username": "bu aini",
+      "cetak": "dasbor-f3.html",
+      "program": "F3-SAINS",
+      "jumlah": 34,
+      "kode": "F3"
+    },
+    "F4-BILINGUAL ICT": {
+      "tingkat": 11,
+      "label": "XI F4",
+      "nama": "XI - F4 BILINGUAL ICT",
+      "jabatan": "IBS BILINGUAL ICT",
+      "wali": "Noory Annisa Aulia, S.S.",
+      "username": "miss noory",
+      "cetak": "dasbor-f4.html",
+      "program": "F4-BILINGUAL ICT",
+      "jumlah": 31,
+      "kode": "F4"
+    }
+  },
+  "siswa": [
+    {
+      "id": 39,
+      "nama": "ADZKIA HANUN MUMTAZA",
+      "nisn": "0106530206",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 40,
+      "nama": "AFRINA UZMA BATRISYIA",
+      "nisn": "0111201185",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 41,
+      "nama": "AHMAD AFLAHUL AZMII",
+      "nisn": "0115593167",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 42,
+      "nama": "AHMAD AINUL IHSAN",
+      "nisn": "0127701942",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 43,
+      "nama": "AHMAD ROYYAN FUADIYA MUTAMAKKIN",
+      "nisn": "0117077588",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 44,
+      "nama": "ALYYA RAJWA TSABITA",
+      "nisn": "3104457971",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 45,
+      "nama": "ANINDYA QURROTA A'INAYAA",
+      "nisn": "0118951280",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 46,
+      "nama": "ANUGRAH FAJRUN NINDYAHUSNA",
+      "nisn": "0115097460",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 47,
+      "nama": "ARNETTA PRAMESWARI TAJKIRANI",
+      "nisn": "0119646535",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 48,
+      "nama": "ARSAKHA VIRENDRA HASHIF RAHMAN",
+      "nisn": "0114470725",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 49,
+      "nama": "ARYAGUNA SURYATMAJA",
+      "nisn": "0104517141",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 50,
+      "nama": "ATALA MIKO SETIAWAN",
+      "nisn": "0105720044",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 51,
+      "nama": "ETNA IYYANA MISKIYA",
+      "nisn": "0112299560",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 52,
+      "nama": "FARAH CAHYA HAMMITA",
+      "nisn": "0113813882",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 53,
+      "nama": "FAYZA KULLA AZMINA",
+      "nisn": "0116431474",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 54,
+      "nama": "HALIZA FATHIATURRAJWA",
+      "nisn": "0117917632",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 55,
+      "nama": "ISNAILAH IFFATUL MUTFIDAH",
+      "nisn": "3103280663",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 56,
+      "nama": "KAIZAR JAWADWIPA WAHYUDI",
+      "nisn": "0106077355",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 57,
+      "nama": "MIRALDA AFISA PRATIWI",
+      "nisn": "3100642269",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 58,
+      "nama": "MUHAMMAD AZAM RIZQO",
+      "nisn": "3118152300",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 59,
+      "nama": "MUHAMMAD KAFFALANA RAHMATIKA",
+      "nisn": "0103858954",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 60,
+      "nama": "MUHAMMAD NIZAR FIKRI",
+      "nisn": "3112845039",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 61,
+      "nama": "MUHAMMAD RADIF ALAN NAHAJ",
+      "nisn": "0102967748",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 62,
+      "nama": "MUHAMMAD RAZIQ HANAN",
+      "nisn": "0101673626",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 63,
+      "nama": "NADA HUWAIDA WIDIANDARI",
+      "nisn": "0113195534",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 64,
+      "nama": "NAJIH ROSHIF AS-SHIDDIQI",
+      "nisn": "0102295703",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 65,
+      "nama": "NAJLA AMIRA MAULIDA",
+      "nisn": "3105929900",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 66,
+      "nama": "NAJLA ATHAYA MUMTAZA",
+      "nisn": "0112510382",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 67,
+      "nama": "NAJLA NAZILA SALSABILA",
+      "nisn": "0116628663",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 68,
+      "nama": "RAEESA ASYIFATUN NADA",
+      "nisn": "0115328512",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 69,
+      "nama": "RAFIFAH TRI ZAHIRAH",
+      "nisn": "3117194883",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 70,
+      "nama": "RECILIA AISYA RISAPUTRI",
+      "nisn": "0113725268",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 71,
+      "nama": "RENA PUTRI ARSANTI",
+      "nisn": "0119074578",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 72,
+      "nama": "SAFNA RIZQI AULIYA",
+      "nisn": "3116150303",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 73,
+      "nama": "YASMIN FARAH AULIA",
+      "nisn": "0116177771",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 74,
+      "nama": "ZAFIRA SALSABILA HUSNA",
+      "nisn": "0101160820",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E2-SAINS"
+    },
+    {
+      "id": 75,
+      "nama": "AFRA NAILA ARKANA",
+      "nisn": "0111604562",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 76,
+      "nama": "AMMARA NADIA MAISARAH",
+      "nisn": "0106925033",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 77,
+      "nama": "ANAS LUTFI MUNAWAR",
+      "nisn": "0114575735",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 78,
+      "nama": "ANNORA ZIHAN SAVANA",
+      "nisn": "3118185086",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 79,
+      "nama": "AQILA PUTRI ADIBA",
+      "nisn": "0105450349",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 80,
+      "nama": "BUNGA SALMA FAUSTINA",
+      "nisn": "0118370377",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 81,
+      "nama": "EVEREST HARIYANTO",
+      "nisn": "3111308340",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 82,
+      "nama": "FADHIL MUHAMMAD",
+      "nisn": "0112598282",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 83,
+      "nama": "FAZA SUKMA ANNISA",
+      "nisn": "0103792111",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 84,
+      "nama": "FIRZANA AISHA RAHMAN",
+      "nisn": "3116154880",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 85,
+      "nama": "HAMIDA AMALIA INDRIYANI",
+      "nisn": "0115667385",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 86,
+      "nama": "ILMA AKMILIA KHILYAWAN",
+      "nisn": "0119681608",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 87,
+      "nama": "INATS TSUROYYA",
+      "nisn": "0112695625",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 88,
+      "nama": "ISTI JI'RONA MARWADANTI",
+      "nisn": "0102128415",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 89,
+      "nama": "KEISHA VIVIA AQILAH",
+      "nisn": "0113064573",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 90,
+      "nama": "KEYSHA KAMILAH",
+      "nisn": "0113884493",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 91,
+      "nama": "KHIYARATUN NISA'",
+      "nisn": "0104223721",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 92,
+      "nama": "KIRANA RAHMANIA APRILIANTI",
+      "nisn": "0018260093",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 93,
+      "nama": "MUHAMMAD ABBIYA RAMADAN",
+      "nisn": "0103501925",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 94,
+      "nama": "MUHAMMAD AFKARRASYID ADIS AL-BASYSYAR",
+      "nisn": "0107883698",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 95,
+      "nama": "MUHAMMAD DIAZ ALFAREZA",
+      "nisn": "0112450971",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 96,
+      "nama": "MUHAMMAD HASANAIN HAIKAL",
+      "nisn": "0108161064",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 97,
+      "nama": "MUHAMMAD HEIDAR AL FIRDAUS",
+      "nisn": "0105203677",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 98,
+      "nama": "MUHAMMAD KHABAQ AFIFI",
+      "nisn": "3107915726",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 99,
+      "nama": "MUHAMMAD KHOIRUR RIZQY MAYAKFI",
+      "nisn": "3110924997",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 100,
+      "nama": "NADYNE LATHIFATUS SYIFA'",
+      "nisn": "0119776133",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 101,
+      "nama": "NIZAM IRFAN AHMAD",
+      "nisn": "0125860248",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 102,
+      "nama": "PRADIPTA ARYA WISMAYA",
+      "nisn": "0109725193",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 103,
+      "nama": "QONITA HULWA ATHIFAH",
+      "nisn": "0108094451",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 104,
+      "nama": "RAISHA AQEELA QAIREEN",
+      "nisn": "3113891418",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 105,
+      "nama": "RAYHANUNG DHEA AL BAHDIM",
+      "nisn": "3107711517",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 106,
+      "nama": "RIFQI AZKA FIKRIANSYAH",
+      "nisn": "0109125744",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 107,
+      "nama": "WALADIENTAQI AL ABSHOR",
+      "nisn": "3106745298",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 108,
+      "nama": "ZAHRA AMALIA HUSNI",
+      "nisn": "0119659581",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 109,
+      "nama": "ZAHROTUL MAGHFIROH",
+      "nisn": "0112685598",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E3-SAINS"
+    },
+    {
+      "id": 110,
+      "nama": "AHMAD AJRIEL IRFAN",
+      "nisn": "3113134417",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 111,
+      "nama": "AHMAD FAIRUZ SYIHAB ARAFIF",
+      "nisn": "0109907075",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 112,
+      "nama": "AINUL FUTICHATUR RIZQOH",
+      "nisn": "3119007535",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 113,
+      "nama": "ANDHIKA ADI SAPUTRA",
+      "nisn": "3118784599",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 114,
+      "nama": "AQILA MUMTAZ EL HADY",
+      "nisn": "0109023481",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 115,
+      "nama": "AULIA ZAHWA IZZATUNNISA'",
+      "nisn": "3119706760",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 116,
+      "nama": "AURELIA NAMIRA RAMANIYA",
+      "nisn": "0116481535",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 117,
+      "nama": "AZAM YUSUF MANSUR",
+      "nisn": "3109473102",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 118,
+      "nama": "BRIAN ARVIN YUDA ALBAIHAQI",
+      "nisn": "0117855860",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 119,
+      "nama": "DEFAAIQSYAH HIBATULLAH ABRAAR",
+      "nisn": "0119627218",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 120,
+      "nama": "DIFA FAUQI AIS FADILLA",
+      "nisn": "0104123454",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 121,
+      "nama": "FAIQ AULIA AMALI",
+      "nisn": "0115210544",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 122,
+      "nama": "FAISAL FATHIN BAYHAQI",
+      "nisn": "0119053042",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 123,
+      "nama": "FARHATUL ATIKAH",
+      "nisn": "0104950340",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 124,
+      "nama": "FITRI AMALIA HIDAYAH",
+      "nisn": "0112794554",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 125,
+      "nama": "HAJIRA NADA SALSABILA",
+      "nisn": "0114320219",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 126,
+      "nama": "HANNA AULIA",
+      "nisn": "0109410011",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 127,
+      "nama": "HISHAM MUHAMMAD SHOFA",
+      "nisn": "0112135323",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 128,
+      "nama": "ILHAM EKI NUR HAKIM",
+      "nisn": "3106587065",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 129,
+      "nama": "ILHAM PRABU MUKTAMAR",
+      "nisn": "0102010096",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 130,
+      "nama": "KAMILAH NA'ILATUN NIHLAH",
+      "nisn": "0109073961",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 131,
+      "nama": "KEISHA NISWATUN SUPRIYANTO",
+      "nisn": "0112591827",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 132,
+      "nama": "KHUSNA AULIYAUSSYIFA",
+      "nisn": "0107110024",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 133,
+      "nama": "MOH NIQOBULLUBAB",
+      "nisn": "3111746654",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 134,
+      "nama": "MUHAMMAD BALYA SAMAHAT",
+      "nisn": "0114021681",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 135,
+      "nama": "MUHAMMAD HAZIM AL FANANI",
+      "nisn": "0115101434",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 136,
+      "nama": "MUHAMMAD MUFLIH ALMURTADLO",
+      "nisn": "0105200137",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 137,
+      "nama": "MUHAMMAD RAFIF ARYAJUNA",
+      "nisn": "0112092406",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 138,
+      "nama": "MUHAMMAD ZIVAN",
+      "nisn": "0113808184",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 139,
+      "nama": "NABILA TSABITA PUTRI MUSTOFA",
+      "nisn": "0111982065",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 140,
+      "nama": "NASYWA TSABITA HAWA",
+      "nisn": "0116407130",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 141,
+      "nama": "NIA RAHMA IZZATI",
+      "nisn": "0112915814",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 142,
+      "nama": "RAFKA ARYA MAULANA",
+      "nisn": "0106767818",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 143,
+      "nama": "RONALD SANJAYA",
+      "nisn": "0106562309",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 144,
+      "nama": "SYAKIRA KHANSA SANTOSO",
+      "nisn": "0104192943",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 145,
+      "nama": "WILDA AYU SHOLIKHAH",
+      "nisn": "0114329572",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 146,
+      "nama": "ZAHARA NUR AULIA",
+      "nisn": "0101472369",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 147,
+      "nama": "ZAHIRA PUTRI FITRIA KHOIRUNNISA",
+      "nisn": "0113060981",
+      "nisnValid": true,
+      "kelas": 10,
+      "program": "E4-BILINGUAL ICT"
+    },
+    {
+      "id": 184,
+      "nama": "ABDUL MAJID NUR HUSEIN",
+      "nisn": "0108750047",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 185,
+      "nama": "ABDURRAHMAN EFFENDI",
+      "nisn": "0108628666",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 186,
+      "nama": "AGHNIA DIFA KAMILAH MUMTAZA",
+      "nisn": "3090218438",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 187,
+      "nama": "AHZA CETTA DAMAWAN",
+      "nisn": "0101580506",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 188,
+      "nama": "AINA MARITZA",
+      "nisn": "0098250061",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 189,
+      "nama": "ALMIRA MICHAELA PUTRI",
+      "nisn": "3102510529",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 190,
+      "nama": "ALYSHIA ZUHURA MAHESWARI",
+      "nisn": "0104044914",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 191,
+      "nama": "ANANDA YANUAR ZAKARIA FAZA",
+      "nisn": "0106662487",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 192,
+      "nama": "ANASGHANIYYU PUTRA YULAN",
+      "nisn": "0109263390",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 193,
+      "nama": "ANINDYA ZAFIR",
+      "nisn": "3109277010",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 194,
+      "nama": "ANISA MAGDALENA AS-SYIFA",
+      "nisn": "0092285540",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 195,
+      "nama": "ARDAN HIKMAL AKBAR",
+      "nisn": "0091790369",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 196,
+      "nama": "ATIQOH KHOLISHOTUL AZMI",
+      "nisn": "3107313615",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 197,
+      "nama": "AULIA ZIDNY BAROKAH AL-UDZMA",
+      "nisn": "3096751557",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 198,
+      "nama": "AZIZATUL HUSNA",
+      "nisn": "0105760949",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 199,
+      "nama": "AZKYA EL TSANIA",
+      "nisn": "3109127447",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 200,
+      "nama": "BINTAN AQILA ZAKIYA",
+      "nisn": "0101178439",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 201,
+      "nama": "EKA SATRIA MAULANA",
+      "nisn": "0098241894",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 202,
+      "nama": "JAVAS NIZAR WARANGGANI",
+      "nisn": "0106580645",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 203,
+      "nama": "LAYALIA NAFISAH RAMADHANI",
+      "nisn": "0108884479",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 204,
+      "nama": "MAHIRA KHAMIDA RAHMA",
+      "nisn": "0108898433",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 205,
+      "nama": "MARWAH RESYA KAMILA",
+      "nisn": "0096639032",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 206,
+      "nama": "MILHATIN SYIRFAH",
+      "nisn": "0102611744",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 207,
+      "nama": "MUFAKAT ARSADY",
+      "nisn": "0093117399",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 208,
+      "nama": "MUHAMMAD FAZA ALMUJAWWAD",
+      "nisn": "0095658848",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 209,
+      "nama": "NADIA KIRANIA PUTRI",
+      "nisn": "0094331564",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 210,
+      "nama": "NASYWA AQILA",
+      "nisn": "0101397203",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 211,
+      "nama": "NAYLA AISHA AZ-ZAHRA",
+      "nisn": "0109600370",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 212,
+      "nama": "NIDA JINAN NAHDAH",
+      "nisn": "3102176392",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 213,
+      "nama": "NURINA ZHAFIRA HASNA",
+      "nisn": "0102819603",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 214,
+      "nama": "SHOFIYAH KHOIRUNNISAA",
+      "nisn": "0103533149",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 215,
+      "nama": "SYIFA DWI HANIAH",
+      "nisn": "0108084675",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F2-SAINS"
+    },
+    {
+      "id": 216,
+      "nama": "ADELIA AURA SYAFITRI",
+      "nisn": "0099929297",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 217,
+      "nama": "AHMAD AMEL RAKHIF RAUNAQI",
+      "nisn": "0095476900",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 218,
+      "nama": "AHMAD BILAL",
+      "nisn": "3103066111",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 219,
+      "nama": "AIRA BILQIS RAMADHANI",
+      "nisn": "0097138212",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 220,
+      "nama": "ALISA SEKAR ANANDA",
+      "nisn": "0115686614",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 221,
+      "nama": "AMELDA MEIFIANA",
+      "nisn": "0102425479",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 222,
+      "nama": "ANINDYA MEILIDARAHMAH",
+      "nisn": "0105129929",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 223,
+      "nama": "ARDELLA ISNAINI ZIA SYA'BANI",
+      "nisn": "0106115361",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 224,
+      "nama": "DAVI LUKMAN WIJAYA",
+      "nisn": "0095992730",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 225,
+      "nama": "DELINDA ALEA",
+      "nisn": "0105040653",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 226,
+      "nama": "DINAR DEVRATYA RAISYA NOVA",
+      "nisn": "3104243828",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 227,
+      "nama": "DITA NISRINA FITRIA",
+      "nisn": "0108624966",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 228,
+      "nama": "FARIS YUSUF SUGIANTO",
+      "nisn": "0104515003",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 229,
+      "nama": "FELISA DESTI ANGGRAINI",
+      "nisn": "0092789996",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 230,
+      "nama": "FIDELA PUTRI FAUZIYAH",
+      "nisn": "0092133032",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 231,
+      "nama": "HEMALIYA PUTRI ARIYANI",
+      "nisn": "3105121598",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 232,
+      "nama": "ILHAM MA'RUF KURNIAWAN",
+      "nisn": "3106006363",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 233,
+      "nama": "ITSNAINI KUSUMA WARDHANI",
+      "nisn": "3097310087",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 234,
+      "nama": "JANA ALFI MUYASSARAH",
+      "nisn": "0018745314",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 235,
+      "nama": "KALLISTA PUTRI SEKARWANGI",
+      "nisn": "0101553268",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 236,
+      "nama": "LAILA THUFAILA LATIFAH",
+      "nisn": "3097213922",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 237,
+      "nama": "MUHAMMAD KHAIDAR KHILMI",
+      "nisn": "25",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 238,
+      "nama": "MUNAWWILATUN NAUQOH",
+      "nisn": "0109530058",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 239,
+      "nama": "NARASYA RADHA MASYIFA",
+      "nisn": "0103976708",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 240,
+      "nama": "NASYWA RAIHANA MULYADI",
+      "nisn": "3105633803",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 241,
+      "nama": "NIZAMUDIN AL AKBAR",
+      "nisn": "0103262012",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 242,
+      "nama": "NUR KYAN TARISA ARIF",
+      "nisn": "0092031229",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 243,
+      "nama": "TAZURINA EL MADINA",
+      "nisn": "3109626419",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 244,
+      "nama": "TITANIA FAZIRA",
+      "nisn": "3101985259",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 245,
+      "nama": "WAFDA MAULIDA",
+      "nisn": "0106783079",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 246,
+      "nama": "WAFI ZAYYAN AL MAHSA",
+      "nisn": "0105809071",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 247,
+      "nama": "WAHYU CHOMISUL AKMAL",
+      "nisn": "0101160691",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 248,
+      "nama": "ZAHROTUN NAFISAH",
+      "nisn": "3106465877",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 249,
+      "nama": "ZAHROTUN NISA'",
+      "nisn": "0101625859",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F3-SAINS"
+    },
+    {
+      "id": 250,
+      "nama": "ABDURRAHMAN ALAN PRADITA",
+      "nisn": "0099737407",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 251,
+      "nama": "AHMAD ASHIF BASHAM SULAIMAN",
+      "nisn": "0082507906",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 252,
+      "nama": "ANDHIKA RIZQI PRATAMA",
+      "nisn": "0096428418",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 253,
+      "nama": "AQEELA HERVIE GHAIDA AZKA",
+      "nisn": "0105463110",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 254,
+      "nama": "ARDESTY MUTIARA",
+      "nisn": "0093036117",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 255,
+      "nama": "ARIMBI NARESWARI SHIDQIYAH",
+      "nisn": "3101014797",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 256,
+      "nama": "ARSYANDA PUTRI SATYANINGTYAS",
+      "nisn": "0097349589",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 257,
+      "nama": "BRILLIAN ATHA ARAYYAN",
+      "nisn": "1011469656",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 258,
+      "nama": "CAHAYA KHALISA PUTRI",
+      "nisn": "0091781761",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 259,
+      "nama": "FACHRU ARROCHMAT",
+      "nisn": "0092997143",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 260,
+      "nama": "FACHRY ARROCHMAT",
+      "nisn": "0093985877",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 261,
+      "nama": "FATTANA AISYAH NOOR",
+      "nisn": "14",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 262,
+      "nama": "GRISELDA IZZA RANGGIDEWI",
+      "nisn": "3102997169",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 263,
+      "nama": "HAIKAL ARYARIDA KEYVARO",
+      "nisn": "0109298982",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 264,
+      "nama": "HILDA SEPTYA RAMADHANI",
+      "nisn": "0103039120",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 265,
+      "nama": "JEELENA AL FATH",
+      "nisn": "16",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 266,
+      "nama": "KAREN ALMA KHALILAH",
+      "nisn": "0109622953",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 267,
+      "nama": "KAYLA ZAHRAH",
+      "nisn": "17",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 268,
+      "nama": "LETISYA AYUNDA SILVIA",
+      "nisn": "0109560454",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 269,
+      "nama": "M ARAFKA AGHNIFILANSYAH",
+      "nisn": "0109334273",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 270,
+      "nama": "MUHAMMAD KHOIRUL MASINDRA",
+      "nisn": "0101530183",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 271,
+      "nama": "MUHAMMAD NEZA WIDIKHA PUTRA",
+      "nisn": "26",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 272,
+      "nama": "MUHAMMAD RIKZA AZMIANSYAH",
+      "nisn": "0107296835",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 273,
+      "nama": "NAILA INAYATUS SHOFA",
+      "nisn": "3098914836",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 274,
+      "nama": "NAURA SYIFA HARTONO",
+      "nisn": "0106423852",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 275,
+      "nama": "NURRIYAH SINTA ASHIMA KARIM",
+      "nisn": "3105962824",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 276,
+      "nama": "REEFA LINTANG KANYA",
+      "nisn": "0102259912",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 277,
+      "nama": "RISKY SATRIA RAMADHAN",
+      "nisn": "0108792459",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 278,
+      "nama": "ULUNG CATRA SOCA",
+      "nisn": "36",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 279,
+      "nama": "VANESSA AMALIA PUTRI",
+      "nisn": "0098527440",
+      "nisnValid": true,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    },
+    {
+      "id": 280,
+      "nama": "ZILFANA ALIYYA DEVI FATHIYYATI",
+      "nisn": "38",
+      "nisnValid": false,
+      "kelas": 11,
+      "program": "F4-BILINGUAL ICT"
+    }
+  ]
+}

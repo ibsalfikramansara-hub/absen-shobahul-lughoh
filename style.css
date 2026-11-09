@@ -1,0 +1,566 @@
+/* ============================================================================
+   style.css — Gaya Antarmuka Halaman Login Shobahul Lughoh
+   MAN 1 Jepara / Alfikra
+   ============================================================================ */
+
+/* ===== Reset & Dasar ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+    background-color: #08291a;
+}
+
+/* ===== Background Foto dengan Efek Blur Halus & Tetap Terlihat Jelas ===== */
+body::before {
+    content: '';
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: url('sl2.png') no-repeat center center;
+    background-size: cover;
+    filter: blur(2.5px) brightness(0.92) contrast(1.02);
+    transform: scale(1.03); /* Mencegah tepi putih saat blur */
+    z-index: 0;
+}
+
+/* Lapisan tipis transparan agar suasana foto kegiatan tetap jelas & hidup */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.28);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* ===== Logo Pojok Kanan Atas dengan Efek Shadow Hidup ===== */
+.logo-wrapper {
+    position: absolute;
+    top: 22px;
+    right: 26px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    z-index: 10;
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.logo {
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.logo:hover {
+    transform: scale(1.06);
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+}
+
+.logo-man1 {
+    height: 56px;
+    width: auto;
+}
+
+.logo-alfikra {
+    height: 56px;
+    width: auto;
+}
+
+/* ===== Kontainer Login Tengah ===== */
+.login-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 24px;
+}
+
+/* ===== Kartu Login Efek Timbul 3D (Floating Embossed Card) ===== */
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    border-radius: 26px;
+    overflow: hidden;
+    background: linear-gradient(175deg, #ffffff 0%, #f7faf8 55%, #eef5f0 100%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    /* Shadow bertingkat menghasilkan kedalaman 3D yang nyata */
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.05),
+        0 12px 24px -4px rgba(0, 0, 0, 0.28),
+        0 30px 60px -12px rgba(0, 0, 0, 0.45),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.95),  /* Sorotan cahaya atas */
+        inset 0 -2px 4px rgba(0, 0, 0, 0.06);       /* Bayangan bibir bawah */
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.06),
+        0 16px 32px -4px rgba(0, 0, 0, 0.32),
+        0 36px 70px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1.5px 0 rgba(255, 255, 255, 1),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Header Kartu Gradasi Hijau Timbul ===== */
+.card-header {
+    background: linear-gradient(135deg, #094b29 0%, #0f8049 48%, #15803d 100%);
+    padding: 28px 24px;
+    text-align: center;
+    color: #ffffff;
+    position: relative;
+    /* Bayangan ke bawah dan sorotan kilau atas */
+    box-shadow:
+        0 6px 18px rgba(15, 77, 56, 0.35),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.card-header h1 {
+    font-size: 33px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    /* Efek huruf timbul 3D */
+    text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.3),
+        0 3px 8px rgba(0, 0, 0, 0.35);
+    letter-spacing: 0.5px;
+}
+
+.card-header p {
+    font-size: 16px;
+    opacity: 0.95;
+    font-weight: 400;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Isi Kartu ===== */
+.card-body {
+    padding: 30px 28px;
+    background: transparent;
+}
+
+/* ===== Grup Formulir ===== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2e4337;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Input dengan efek cekung (inset) agar kartu terlihat semakin timbul */
+.form-group input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #c2decb;
+    border-radius: 12px;
+    font-size: 14.5px;
+    background: #ffffff;
+    color: #1e293b;
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.05),
+        0 1px 2px rgba(255, 255, 255, 0.8);
+    transition: all 0.25s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0f8049;
+    background: #ffffff;
+    box-shadow:
+        inset 0 1px 3px rgba(0, 0, 0, 0.04),
+        0 0 0 3.5px rgba(15, 128, 73, 0.2);
+}
+
+/* ===== Kata Sandi & Tombol Mata ===== */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 44px;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+    opacity: 0.65;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.eye-btn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* ===== Opsi Formulir: Ingat Saya ===== */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    margin-top: -4px;
+}
+
+.remember-me {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13.5px;
+    color: #475569;
+    font-weight: 500;
+}
+
+.remember-me input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #a3cfbb;
+    border-radius: 5px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.remember-me:hover .custom-checkbox {
+    border-color: #0f8049;
+    box-shadow: 0 0 0 3px rgba(15, 128, 73, 0.12);
+}
+
+.remember-me input[type="checkbox"]:checked + .custom-checkbox {
+    background: linear-gradient(135deg, #0f8049 0%, #16a34a 100%);
+    border-color: #0f8049;
+    box-shadow: 0 2px 6px rgba(15, 128, 73, 0.3);
+}
+
+.custom-checkbox::after {
+    content: '';
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    margin-bottom: 2px;
+    transition: transform 0.15s ease-in-out;
+}
+
+.remember-me input[type="checkbox"]:checked + .custom-checkbox::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.remember-text {
+    transition: color 0.2s;
+}
+
+.remember-me:hover .remember-text {
+    color: #0f8049;
+}
+
+/* ===== Tombol Login Efek Timbul 3D ===== */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(180deg, #189855 0%, #0f8049 60%, #0a6338 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    /* Efek timbul 3D tombol */
+    box-shadow:
+        0 8px 20px rgba(15, 128, 73, 0.42),
+        0 3px 6px rgba(0, 0, 0, 0.15),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+    background: linear-gradient(180deg, #1aa65d 0%, #118a4f 60%, #0b6d3e 100%);
+    box-shadow:
+        0 12px 28px rgba(15, 128, 73, 0.52),
+        0 4px 8px rgba(0, 0, 0, 0.18),
+        inset 0 1.5px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.login-btn:active {
+    transform: translateY(1.5px);
+    box-shadow:
+        0 3px 10px rgba(15, 128, 73, 0.35),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Pesan Kesalahan / Sukses ===== */
+.error-msg {
+    margin-top: 12px;
+    text-align: center;
+    color: #d32f2f;
+    font-size: 13.5px;
+    font-weight: 600;
+    min-height: 20px;
+}
+
+/* ===== Responsif Layar Kecil / HP ===== */
+@media (max-width: 480px) {
+    .logo-wrapper {
+        top: 14px;
+        right: 14px;
+        padding: 6px 12px;
+        gap: 10px;
+    }
+
+    .logo-man1,
+    .logo-alfikra {
+        height: 42px;
+    }
+
+    .card-header h1 {
+        font-size: 28px;
+    }
+
+    .card-body {
+        padding: 24px 20px;
+    }
+}
+
+
+/* ===== Popup Modal Loading Sukses Login ===== */
+.login-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 25, 16, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.login-modal-card {
+    background: linear-gradient(175deg, #ffffff 0%, #f7faf8 55%, #edf6f1 100%);
+    border-radius: 26px;
+    padding: 36px 30px 28px;
+    width: 90%;
+    max-width: 390px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow:
+        0 25px 60px -10px rgba(0, 0, 0, 0.5),
+        0 10px 25px rgba(15, 128, 73, 0.2),
+        inset 0 1.5px 0 rgba(255, 255, 255, 1);
+    transform: scale(0.82) translateY(24px);
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.login-modal-overlay.active .login-modal-card {
+    transform: scale(1) translateY(0);
+}
+
+/* Lingkaran Animasi Spinner & Checkmark */
+.loading-icon-wrapper {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 20px;
+}
+
+.spinner-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 4.5px solid rgba(15, 128, 73, 0.14);
+    border-top-color: #0f8049;
+    border-right-color: #10b981;
+    animation: spinRing 1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+    box-shadow: 0 0 22px rgba(16, 185, 129, 0.35);
+}
+
+.spinner-core {
+    position: absolute;
+    inset: 9px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.check-svg {
+    width: 44px;
+    height: 44px;
+    stroke: #0f8049;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.check-circle {
+    stroke: #10b981;
+    stroke-dasharray: 145;
+    stroke-dashoffset: 145;
+    animation: strokeCircle 0.75s ease-in-out forwards 0.2s;
+}
+
+.check-mark {
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+    animation: strokeMark 0.45s cubic-bezier(0.65, 0, 0.45, 1) forwards 0.6s;
+}
+
+@keyframes spinRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes strokeCircle {
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes strokeMark {
+    100% { stroke-dashoffset: 0; }
+}
+
+/* Teks Modal */
+.modal-greeting {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #15803d;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.modal-username {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.modal-badge-peran {
+    display: inline-block;
+    padding: 5px 14px;
+    background: #eaf6ee;
+    color: #0f8049;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid #c4e5ce;
+    margin-bottom: 20px;
+}
+
+/* Progress Bar Animasi */
+.modal-loading-bar-wrapper {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.modal-loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #0f8049 0%, #10b981 50%, #34d399 100%);
+    border-radius: 10px;
+    animation: fillProgress 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+@keyframes fillProgress {
+    0% { width: 0%; }
+    30% { width: 45%; }
+    75% { width: 85%; }
+    100% { width: 100%; }
+}
+
+.modal-status-text {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.loading-dots span {
+    animation: blinkDots 1.4s infinite both;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.25s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.5s; }
+
+@keyframes blinkDots {
+    0%, 20% { opacity: 0; }
+    40%, 100% { opacity: 1; }
+}

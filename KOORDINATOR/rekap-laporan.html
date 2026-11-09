@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap & Laporan — Koordinator MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+    <style>
+        .badge-tepat { background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+        .badge-terlambat { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+        .badge-sangat-terlambat { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+        @media print {
+            .app-sidebar, .app-topbar, .filter-controls, .no-print { display: none !important; }
+            .app-content-wrapper { margin-left: 0 !important; }
+            body { background: #fff !important; }
+            .inner-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="jadwal.html" class="nav-item">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-label">Jadwal & Toleransi</span>
+                </a>
+                <a href="kelompok.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Kelompok & Rombel</span>
+                </a>
+                <a href="manajemen-tentor.html" class="nav-item">
+                    <span class="nav-icon">👨‍🏫</span>
+                    <span class="nav-label">Manajemen Tentor</span>
+                </a>
+                <a href="rekap-laporan.html" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Rekap & Laporan</span>
+                </a>
+                <a href="deteksi-pola.html" class="nav-item">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Deteksi Pola</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="infoPengguna">Koordinator Program</span>
+                            <span class="user-role">Koordinator Shobahul Lughoh</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:8px;">
+                        <div>
+                            <h2>📊 Rekap & Laporan Presensi Shobahul Lughoh</h2>
+                            <p class="lead-desc" id="labelSubJudul" style="margin-bottom:0;">Filter dan ekspor data kehadiran siswa ke format CSV atau cetak PDF resmi madrasah.</p>
+                        </div>
+                        <div class="no-print" style="display:flex; gap:10px;">
+                            <button type="button" class="btn btn-warning" onclick="eksporCsv()">📥 Ekspor CSV (Excel)</button>
+                            <button type="button" class="btn btn-primary" onclick="window.print()">🖨️ Cetak PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="no-print" style="background:#f8fafc; padding:18px; border-radius:16px; border:1px solid #e2e8f0; margin:20px 0 24px; display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;">
+                        <div class="form-group" style="margin-bottom:0; min-width:180px;">
+                            <label>Pilih Tanggal Presensi</label>
+                            <input type="date" id="pilihTgl">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0; min-width:200px;">
+                            <label>Pilih Rombongan Belajar</label>
+                            <select id="pilihRombel">
+                                <option value="">Semua Rombel (6 Kelas)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0; min-width:180px;">
+                            <label>Status Kehadiran</label>
+                            <select id="pilihStatus">
+                                <option value="">Semua Status</option>
+                                <option value="tepat">Tepat Waktu (Hadir)</option>
+                                <option value="terlambat">Terlambat</option>
+                                <option value="sangat_terlambat">Sangat Terlambat</option>
+                                <option value="I">Izin</option>
+                                <option value="S">Sakit</option>
+                                <option value="A">Alpa</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="muatLaporan()">🔍 Tampilkan Data</button>
+                    </div>
+
+                    <div class="data-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>NISN</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Rombel</th>
+                                    <th>Waktu Scan</th>
+                                    <th>Status</th>
+                                    <th>Keterangan / Alasan</th>
+                                    <th>Petugas Tentor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelLaporan"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Koordinator');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesi = SBL.akunSesi() || {};
+        document.getElementById('infoPengguna').textContent = sesi.nama || 'Koordinator';
+
+        const inputTgl = document.getElementById('pilihTgl');
+        inputTgl.value = SBL.hariIni();
+
+        const selRombel = document.getElementById('pilihRombel');
+        selRombel.innerHTML += SBL.rombelList().map(function (k) {
+            const inf = SBL.infoKelas(k) || {};
+            return `<option value="${k}">${inf.label || k} (${k})</option>`;
+        }).join('');
+
+        let hasilFilter = [];
+
+        function muatLaporan() {
+            const tgl = inputTgl.value || SBL.hariIni();
+            const rombel = selRombel.value;
+            const statusFilter = document.getElementById('pilihStatus').value;
+            const abs = SBL.absensi();
+
+            document.getElementById('labelSubJudul').textContent =
+                `Tanggal: ${SBL.tanggalIndo(tgl)} | Rombel: ${rombel || 'Semua Kelas'} | Program: Shobahul Lughoh`;
+
+            hasilFilter = SBL.daftarSiswa().filter(function (s) {
+                if (rombel && s.program !== rombel) return false;
+
+                const e = (abs[s.id] || {})[tgl] || {};
+                const st = e.s || 'belum';
+
+                if (statusFilter === 'tepat' && (st !== 'H' || e.status !== 'tepat')) return false;
+                if (statusFilter === 'terlambat' && (st !== 'H' || e.status !== 'terlambat')) return false;
+                if (statusFilter === 'sangat_terlambat' && (st !== 'H' || e.status !== 'sangat_terlambat')) return false;
+                if (statusFilter && !['tepat', 'terlambat', 'sangat_terlambat'].includes(statusFilter) && st !== statusFilter) return false;
+
+                return true;
+            });
+
+            const tbody = document.getElementById('tabelLaporan');
+            if (hasilFilter.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:26px;color:#64748b;font-style:italic;">Tidak ada data yang sesuai filter pencarian.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = hasilFilter.map(function (s, idx) {
+                const e = (abs[s.id] || {})[tgl] || {};
+                const st = e.s || '-';
+
+                let badge = '<span style="color:#94a3b8;font-weight:600;">Belum Presensi</span>';
+                if (st === 'H') {
+                    if (e.status === 'sangat_terlambat') badge = '<span class="badge-sangat-terlambat">Sangat Terlambat</span>';
+                    else if (e.status === 'terlambat') badge = '<span class="badge-terlambat">Terlambat</span>';
+                    else badge = '<span class="badge-tepat">Tepat Waktu</span>';
+                } else if (st === 'I') badge = '<span class="badge-status" style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;">Izin</span>';
+                else if (st === 'S') badge = '<span class="badge-status" style="background:#fff7ed;color:#c2410c;border:1px solid #ffedd5;">Sakit</span>';
+                else if (st === 'A') badge = '<span class="badge-status" style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;">Alpa</span>';
+
+                return `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td style="font-family:monospace;font-size:13px;font-weight:600;">${SBL.esc(s.nisn)}</td>
+                    <td><strong>${SBL.esc(s.nama)}</strong></td>
+                    <td><span class="badge-siswa">${SBL.esc(s.program)}</span></td>
+                    <td>${e.waktu ? e.waktu + ' WIB' : '-'}</td>
+                    <td>${badge}</td>
+                    <td><small style="color:#64748b;">${SBL.esc(e.alasan || e.n || '-')}</small></td>
+                    <td><small style="color:#0f8049;font-weight:700;">${SBL.esc(e.oleh || '-')}</small></td>
+                </tr>
+            `;
+            }).join('');
+        }
+
+        // Ekspor CSV Nyata
+        function eksporCsv() {
+            if (hasilFilter.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+
+            const tgl = inputTgl.value || SBL.hariIni();
+            const abs = SBL.absensi();
+
+            const escapeCell = val => `"${String(val || '').replace(/"/g, '""')}"`;
+
+            const headers = ['No', 'NISN', 'Nama Siswa', 'Kelas / Rombel', 'Tanggal', 'Jam Scan', 'Status Presensi', 'Keterangan / Alasan', 'Petugas Tentor'];
+            const baris = [headers.map(escapeCell).join(';')];
+
+            hasilFilter.forEach(function (s, idx) {
+                const e = (abs[s.id] || {})[tgl] || {};
+                let statusTeks = 'Belum Presensi';
+                if (e.s === 'H') {
+                    if (e.status === 'sangat_terlambat') statusTeks = 'Sangat Terlambat';
+                    else if (e.status === 'terlambat') statusTeks = 'Terlambat';
+                    else statusTeks = 'Tepat Waktu';
+                } else if (e.s === 'I') statusTeks = 'Izin';
+                else if (e.s === 'S') statusTeks = 'Sakit';
+                else if (e.s === 'A') statusTeks = 'Alpa';
+
+                baris.push([
+                    idx + 1,
+                    '="' + s.nisn + '"', // agar angka 0 di depan NISN tidak hilang di Excel
+                    s.nama,
+                    s.program,
+                    tgl,
+                    e.waktu ? e.waktu + ' WIB' : '-',
+                    statusTeks,
+                    e.alasan || e.n || '-',
+                    e.oleh || '-'
+                ].map(escapeCell).join(';'));
+            });
+
+            const csvContent = '\ufeff' + baris.join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Laporan_Shobahul_Lughoh_${tgl}.csv`;
+            link.click();
+        }
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+
+        muatLaporan();
+    </script>
+</body>
+</html>

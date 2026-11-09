@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Wali Kelas - Presensi Shobahul Lughoh (Kelas X E3 IBS SAINS 2)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SheetJS CDN (Export Excel) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* === 3D EMBOSSED GRADIENTS & WAVES === */
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px !important;
+            border-top: 2px solid #ffffff !important;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div:hover {
+            transform: translateY(-4px);
+        }
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 44px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M0,35 C120,68 260,5 400,38 L400,70 L0,70 Z' fill='%23ffffff' fill-opacity='0.45'/%3E%3C/svg%3E");
+            background-size: 100% 100%;
+            pointer-events: none;
+        }
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div:nth-child(1) {
+            background: linear-gradient(135deg, #ffffff 0%, #dbeafe 55%, #93c5fd 100%) !important;
+            border-bottom: 5px solid #2563eb !important;
+            box-shadow: 0 14px 26px -6px rgba(37, 99, 235, 0.22), inset 0 2px 2px #fff !important;
+        }
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div:nth-child(2) {
+            background: linear-gradient(135deg, #ffffff 0%, #d1fae5 55%, #6ee7b7 100%) !important;
+            border-bottom: 5px solid #10b981 !important;
+            box-shadow: 0 14px 26px -6px rgba(16, 185, 129, 0.22), inset 0 2px 2px #fff !important;
+        }
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div:nth-child(3) {
+            background: linear-gradient(135deg, #ffffff 0%, #fef3c7 55%, #fcd34d 100%) !important;
+            border-bottom: 5px solid #d97706 !important;
+            box-shadow: 0 14px 26px -6px rgba(217, 119, 6, 0.22), inset 0 2px 2px #fff !important;
+        }
+        #sec-dashboard > div.grid.md\:grid-cols-4 > div:nth-child(4) {
+            background: linear-gradient(135deg, #ffffff 0%, #ffe4e6 55%, #fda4af 100%) !important;
+            border-bottom: 5px solid #e11d48 !important;
+            box-shadow: 0 14px 26px -6px rgba(225, 29, 72, 0.22), inset 0 2px 2px #fff !important;
+        }
+        .tab-content .bg-white.rounded-xl {
+            border-radius: 20px !important;
+            border-bottom: 4px solid #cbd5e1 !important;
+            box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(0,0,0,0.03) !important;
+        }
+        /* === MOBILE DRAWER & CARD TABLE FOR WALI KELAS === */
+        .sidebar-backdrop {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.55); z-index: 90;
+        }
+        .sidebar-backdrop.active { display: block; }
+        .sidebar-close-btn { display: none; }
+        @media (max-width: 900px) {
+            aside.app-sidebar {
+                position: fixed !important; top: 0; bottom: 0; left: 0;
+                z-index: 100; transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            aside.app-sidebar.sidebar-open { transform: translateX(0); }
+            header { padding-left: 14px !important; padding-right: 14px !important; }
+            main > div.p-8 { padding: 14px 12px !important; }
+        }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block !important; width: 100% !important; min-width: 0 !important;
+            }
+            thead, thead tr { display: none !important; }
+            tbody { display: flex !important; flex-direction: column !important; gap: 12px !important; padding: 10px !important; }
+            tbody tr {
+                background: linear-gradient(155deg, #ffffff 0%, #f5fcf8 100%) !important;
+                border: 1.5px solid #c6e6d6 !important; border-bottom: 4px solid #10b981 !important;
+                border-radius: 16px !important; padding: 12px 14px !important;
+                box-shadow: 0 6px 16px rgba(10, 72, 52, 0.08) !important;
+            }
+            tbody td {
+                position: relative !important; padding: 8px 4px 8px 42% !important;
+                text-align: right !important; border: none !important;
+                border-bottom: 1px dashed #e2e8f0 !important; font-size: 13px !important;
+                min-height: 34px; word-break: break-word;
+            }
+            tbody td:last-child { border-bottom: none !important; }
+            tbody td::before {
+                content: attr(data-label); position: absolute; left: 4px; top: 8px;
+                width: 38%; text-align: left !important; font-size: 11px !important;
+                font-weight: 800 !important; color: #0b4a33 !important; text-transform: uppercase;
+            }
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Format Khusus Mode Cetak / Print PDF */
+        @media print {
+            aside, header, .no-print, button, select, input, textarea, .sync-badge {
+                display: none !important;
+            }
+            body, main {
+                background: white !important;
+                overflow: visible !important;
+                height: auto !important;
+                display: block !important;
+            }
+            .tab-content {
+                display: block !important;
+            }
+            #sec-dashboard, #sec-presensi, #sec-perhatian {
+                display: none !important;
+            }
+            #sec-rekap-kelas {
+                display: block !important;
+            }
+            .print-header {
+                display: block !important;
+            }
+            .print-only-catatan {
+                display: block !important;
+            }
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+            th, td {
+                border: 1px solid #cbd5e1 !important;
+                padding: 6px 10px !important;
+                font-size: 11px !important;
+                color: black !important;
+            }
+            .bg-white, .shadow-sm, .border {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+<script src="../data-siswa.js"></script>`n</head>
+<body class="bg-slate-100 text-slate-800 flex h-screen overflow-hidden">
+
+    <!-- Header Dokumen (Hanya Muncul Saat Mode Cetak/Print) -->
+    <div class="hidden print-header p-4 mb-4 text-center border-b border-slate-300">
+        <h1 class="text-xl font-bold uppercase tracking-wide">Laporan Kehadiran Shobahul Lughoh</h1>
+        <p class="text-sm font-medium mt-1">Kelas: X E3 IBS SAINS 2 | Wali Kelas: Hamidun Nafi' S, S.Pd.</p>
+        <p class="text-xs text-slate-500">Dicetak pada: Rabu, 30 September 2026</p>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="app-sidebar w-64 text-white flex flex-col justify-between shrink-0 shadow-xl no-print relative overflow-hidden" style="background: linear-gradient(180deg, #0b4a33 0%, #073524 100%);">
+        <div>
+            <!-- Logo Header Bespoke MAN 1 Jepara -->
+            <div class="p-5 border-b border-white/10 flex flex-col items-center text-center">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="h-12 w-auto mb-2 drop-shadow-md">
+                <h1 class="font-extrabold text-sm text-white tracking-wide">MAN 1 Jepara</h1>
+                <p class="text-xs text-emerald-200 font-medium">IBS Al Fikra</p>
+            </div>
+
+            <!-- Menu List -->
+            <nav class="p-4 space-y-1">
+                <a href="dasbor.html" id="btnBackPortal" class="flex items-center px-4 py-2.5 text-xs font-semibold rounded-lg text-emerald-200 hover:bg-white/10 hover:text-white transition mb-2 border border-white/10"><i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i><span>Portal Semua Kelas</span></a><script>(function(){var r=sessionStorage.getItem("sesiPeran")||"";if(r.indexOf("Admin")>-1){var b=document.getElementById("btnBackPortal");if(b){b.href="../ADMIN/dasbor.html";b.querySelector("span").textContent="Kembali ke Panel Admin";}}})();</script>
+                <a href="#dashboard" onclick="showTab('dashboard')" id="nav-dashboard" class="nav-item flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-emerald-600 text-white transition">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                    Ringkasan & Profil
+                </a>
+                <a href="#presensi" onclick="showTab('presensi')" id="nav-presensi" class="nav-item flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition">
+                    <i data-lucide="calendar-check" class="w-5 h-5 mr-3"></i>
+                    Presensi Hari Ini
+                </a>
+                <a href="#perhatian" onclick="showTab('perhatian')" id="nav-perhatian" class="nav-item flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition">
+                    <i data-lucide="alert-circle" class="w-5 h-5 mr-3"></i>
+                    Siswa Perhatian Khusus
+                    <span class="ml-auto bg-rose-500 text-white text-xs px-2 py-0.5 rounded-full font-semibold">2</span>
+                </a>
+                <a href="#rekap-kelas" onclick="showTab('rekap-kelas')" id="nav-rekap-kelas" class="nav-item flex items-center px-4 py-3 text-sm font-medium rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition">
+                    <i data-lucide="file-spreadsheet" class="w-5 h-5 mr-3"></i>
+                    Rekapitulasi Kelas
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Quick Profile Footer -->
+        <div class="p-4 border-t border-white/10 flex items-center justify-between no-print">
+            <div class="flex items-center space-x-3 overflow-hidden">
+                <div class="w-9 h-9 rounded-full bg-emerald-700 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                    HN
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-xs font-medium text-white leading-tight truncate" title="Hamidun Nafi' S, S.Pd.">Hamidun Nafi' S, S.Pd.</p>
+                    <span class="text-[11px] text-slate-400 truncate block">X E3 IBS SAINS 2</span>
+                </div>
+            </div>
+            <button class="text-slate-400 hover:text-red-400 p-1 shrink-0" title="Keluar" onclick="sessionStorage.clear(); window.location.href='../index.html';">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+            </button>
+        </div>
+            <!-- Watermark Siluet Masjid -->
+        <div class="absolute bottom-0 left-0 right-0 pointer-events-none opacity-25 z-0">
+            <img src="masjid-siluet.svg" alt="Watermark Masjid" class="w-full block">
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col overflow-y-auto">
+
+        <!-- Top Header Bar -->
+        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10 no-print">
+            <div class="flex items-center gap-3"><button type="button" onclick="toggleSidebar()" class="md:hidden p-2 rounded-lg border border-slate-200 text-slate-700">☰</button><div>
+                <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard Wali Kelas (X E3 IBS SAINS 2)</h2>
+                <p class="text-xs text-slate-500">Pantauan Kehadiran Shobahul Lughoh (Terhubung Otomatis dengan Dashboard Tentor)</p></div></div>
+            <div class="flex items-center space-x-4">
+                <div class="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center border border-emerald-200">
+                    <i data-lucide="graduation-cap" class="w-4 h-4 mr-2 text-emerald-600"></i>
+                    Total Siswa: 35
+                </div>
+                <div class="text-right">
+                    <p class="text-xs text-slate-400">Hari Ini</p>
+                    <p class="text-sm font-semibold text-slate-700">Rabu, 30 September 2026</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Sections -->
+        <div class="p-8 space-y-6">
+
+            <!-- Sync Indicator Badge -->
+            <div class="sync-badge bg-blue-50 border border-blue-200 p-3 rounded-lg flex items-center justify-between text-xs text-blue-700 no-print">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 text-blue-600 animate-spin"></i>
+                    <span><strong>Status Sinkronisasi:</strong> Data presensi diperbarui secara terpusat melalui Dashboard Tentor. Mode Wali Kelas bersifat <em>Read-Only</em> (Hanya Pantau).</span>
+                </div>
+                <span class="bg-blue-200 text-blue-800 px-2 py-0.5 rounded font-semibold text-[10px]">REALTIME SYNC</span>
+            </div>
+
+            <!-- 1. TAB DASHBOARD / RINGKASAN KELAS -->
+            <section id="sec-dashboard" class="tab-content space-y-6">
+                
+                <!-- PROFIL WALI KELAS CARD -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-950 p-6 text-white flex flex-wrap md:flex-nowrap justify-between items-center gap-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="p-3 bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-emerald-400">
+                                <i data-lucide="user-check" class="w-8 h-8"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-3 flex-wrap gap-2">
+                                    <h3 class="text-2xl font-bold text-white">Hamidun Nafi' S, S.Pd.</h3>
+                                    <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs px-3 py-1 rounded-full font-medium">Wali Kelas</span>
+                                </div>
+                                <p class="text-xs text-slate-300 mt-1 flex items-center space-x-2">
+                                    <i data-lucide="school" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                    <span>Kelas Ampuan: <strong>X E3 IBS SAINS 2</strong></span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/10/80 backdrop-blur border border-slate-700/60 p-4 rounded-xl text-right shrink-0 min-w-[200px]">
+                            <p class="text-xs text-slate-400 font-medium">Tingkat Kehadiran Kelas</p>
+                            <p class="text-2xl font-bold text-emerald-400 mt-0.5">94.3%</p>
+                            <p class="text-[11px] text-slate-300 mt-1">Bulan September 2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Siswa Kelas</p>
+                            <h3 class="text-2xl font-bold text-slate-800 mt-1">35</h3>
+                            <p class="text-xs text-slate-500 mt-1">Siswa terdaftar</p>
+                        </div>
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex justify-between items-start border-l-4 border-l-emerald-500">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Hadir Tepat Waktu</p>
+                            <h3 class="text-2xl font-bold text-emerald-600 mt-1">29</h3>
+                            <p class="text-xs text-emerald-600 mt-1">82.8% kehadiran hari ini</p>
+                        </div>
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex justify-between items-start border-l-4 border-l-amber-500">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Terlambat Hari Ini</p>
+                            <h3 class="text-2xl font-bold text-amber-600 mt-1">4</h3>
+                            <p class="text-xs text-amber-600 mt-1">Input Tentor > 05:30 WIB</p>
+                        </div>
+                        <div class="p-3 bg-amber-50 text-amber-600 rounded-lg">
+                            <i data-lucide="clock" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex justify-between items-start border-l-4 border-l-rose-500">
+                        <div>
+                            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Alpa / Tanpa Ket.</p>
+                            <h3 class="text-2xl font-bold text-rose-600 mt-1">2</h3>
+                            <p class="text-xs text-rose-600 mt-1">Sesuai catatan Tentor</p>
+                        </div>
+                        <div class="p-3 bg-rose-50 text-rose-600 rounded-lg">
+                            <i data-lucide="user-x" class="w-6 h-6"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart & Alert -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Class Trend Chart -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-slate-800">Tingkat Kehadiran Kelas Pekan Ini</h3>
+                            <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-lg">Shobahul Lughoh</span>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="classWeeklyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Quick Warning Card -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2 text-rose-600 mb-3">
+                                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                                <h3 class="font-bold">Notifikasi Kedisiplinan</h3>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                                Terdapat <strong>2 siswa</strong> di kelas Anda yang terdeteksi keterlambatan berulang dari rekapan data Tentor.
+                            </p>
+                            
+                            <div class="space-y-3">
+                                <div class="p-3 bg-rose-50 border border-rose-200 rounded-lg">
+                                    <p class="text-xs font-bold text-slate-800">MUHAMMAD ABBIYA RAMADAN</p>
+                                    <p class="text-[11px] font-mono text-slate-500">NISN: 103501925</p>
+                                    <p class="text-xs text-rose-700 mt-1">3x Terlambat Pekan Ini</p>
+                                </div>
+                                <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                                    <p class="text-xs font-bold text-slate-800">MUHAMMAD DIAZ ALFAREZA</p>
+                                    <p class="text-[11px] font-mono text-slate-500">NISN: 112450971</p>
+                                    <p class="text-xs text-amber-700 mt-1">2x Terlambat, 1x Alpa</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="showTab('perhatian')" class="mt-4 w-full bg-slate-900 hover:bg-white/10 text-white text-xs font-semibold py-2.5 rounded-lg transition flex items-center justify-center">
+                            <i data-lucide="arrow-right" class="w-4 h-4 mr-2"></i> Lihat Catatan Pembinaan
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. TAB PRESENSI HARI INI -->
+            <section id="sec-presensi" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Daftar Presensi Kelas Hari Ini</h3>
+                            <p class="text-xs text-slate-500">Data terarsip otomatis dari Dashboard Tentor (35 Siswa)</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" id="searchInput" onkeyup="filterTable('presensiTable')" placeholder="Cari nama atau NISN..." class="border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none w-56">
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                        <table class="w-full text-left text-sm text-slate-600" id="presensiTable">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs border-b sticky top-0 bg-slate-50">
+                                <tr>
+                                    <th class="p-3">No</th>
+                                    <th class="p-3">NIS</th>
+                                    <th class="p-3">NISN</th>
+                                    <th class="p-3">Nama Siswa</th>
+                                    <th class="p-3">Waktu Presensi</th>
+                                    <th class="p-3">Status Tentor</th>
+                                    <th class="p-3 text-center">Status Akses</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100" id="presensiTbody">
+                                <!-- Generated Dynamically via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. TAB SISWA PERHATIAN KHUSUS -->
+            <section id="sec-perhatian" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="mb-6">
+                        <h3 class="font-bold text-lg text-slate-800 flex items-center">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-rose-500 mr-2"></i>
+                            Siswa Perhatian Khusus Kedisiplinan
+                        </h3>
+                        <p class="text-xs text-slate-500">Daftar siswa yang tercatat sering terlambat oleh Tentor untuk pembinaan internal Wali Kelas.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Card Siswa 1 -->
+                        <div class="p-5 border border-rose-200 bg-rose-50/50 rounded-xl flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="p-3 bg-rose-500 text-white rounded-xl font-bold text-lg shrink-0">
+                                    3x
+                                </div>
+                                <div>
+                                    <div class="flex items-center space-x-2 flex-wrap gap-1">
+                                        <h4 class="font-bold text-slate-800 text-base">MUHAMMAD ABBIYA RAMADAN</h4>
+                                        <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2 py-0.5 rounded">NIS: 10019</span>
+                                        <span class="text-xs font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">NISN: 103501925</span>
+                                    </div>
+                                    <p class="text-xs text-rose-800 font-medium mt-1">Terdeteksi 3x Terlambat pada log Tentor pekan ini.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Riwayat tentor: Senin (05:40), Selasa (05:42), Rabu (05:42)</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 shrink-0">
+                                <button onclick="alert('Form Bimbingan Konseling (BK) dibuat untuk MUHAMMAD ABBIYA RAMADAN!')" class="bg-white border border-rose-300 text-rose-700 text-xs px-4 py-2 rounded-lg font-semibold hover:bg-rose-100 transition flex items-center">
+                                    <i data-lucide="file-plus" class="w-4 h-4 mr-1.5"></i> Rujuk ke BK
+                                </button>
+                                <button onclick="alert('Laporan pembinaan Wali Kelas disimpan!')" class="bg-emerald-600 text-white text-xs px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition flex items-center">
+                                    <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i> Tandai Sudah Dibina
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card Siswa 2 -->
+                        <div class="p-5 border border-amber-200 bg-amber-50/50 rounded-xl flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="p-3 bg-amber-500 text-white rounded-xl font-bold text-lg shrink-0">
+                                    2x
+                                </div>
+                                <div>
+                                    <div class="flex items-center space-x-2 flex-wrap gap-1">
+                                        <h4 class="font-bold text-slate-800 text-base">MUHAMMAD DIAZ ALFAREZA</h4>
+                                        <span class="text-xs font-mono bg-slate-200 text-slate-700 px-2 py-0.5 rounded">NIS: 10021</span>
+                                        <span class="text-xs font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">NISN: 112450971</span>
+                                    </div>
+                                    <p class="text-xs text-amber-800 font-medium mt-1">2x Terlambat, 1x Alpa pada log Tentor pekan ini.</p>
+                                    <p class="text-xs text-slate-500 mt-1">Riwayat tentor: Senin (Terlambat), Selasa (Terlambat), Rabu (Alpa)</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 shrink-0">
+                                <button onclick="alert('Catatan Pembinaan Wali Kelas ditambahkan!')" class="bg-white/10 text-white text-xs px-4 py-2 rounded-lg font-semibold hover:bg-slate-900 transition flex items-center">
+                                    <i data-lucide="notebook-pen" class="w-4 h-4 mr-1.5"></i> Buat Catatan Wali
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. TAB REKAPITULASI KELAS -->
+            <section id="sec-rekap-kelas" class="tab-content hidden space-y-6">
+                
+                <!-- INPUT FORM CATATAN WALI KELAS -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm no-print">
+                    <h4 class="font-bold text-slate-800 text-sm mb-1 flex items-center">
+                        <i data-lucide="notebook-pen" class="w-4 h-4 mr-2 text-emerald-600"></i>
+                        Catatan & Evaluasi Wali Kelas
+                    </h4>
+                    <p class="text-xs text-slate-500 mb-3">Tuliskan pesan atau evaluasi bulanan. Catatan ini akan otomatis tercetak di bagian bawah lembar laporan PDF/Print.</p>
+                    
+                    <textarea id="inputCatatanWali" rows="3" 
+                        placeholder="Contoh: Secara umum kedisiplinan kelas X E3 IBS SAINS 2 bulan ini sangat baik (94.3%). Mohon perhatian khusus untuk beberapa siswa yang terlambat agar dapat meningkatkan kedisiplinan shalat dan halaqah..." 
+                        class="w-full border border-slate-300 rounded-lg p-3 text-xs focus:ring-2 focus:ring-emerald-500 outline-none resize-none"></textarea>
+                    
+                    <div class="flex justify-end mt-2">
+                        <button onclick="simpanCatatanWali()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-medium transition flex items-center">
+                            <i data-lucide="save" class="w-3.5 h-3.5 mr-1.5"></i> Simpan Catatan Wali Kelas
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TABLE REKAPITULASI -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-wrap gap-4 justify-between items-center mb-6 no-print">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-800">Laporan Kehadiran Bulanan Kelas (X E3 IBS SAINS 2)</h3>
+                            <p class="text-xs text-slate-500">Unduh atau cetak laporan presensi 35 siswa dari akumulasi input Tentor</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <select class="border border-slate-300 rounded-lg px-3 py-2 text-xs bg-white outline-none">
+                                <option>September 2026</option>
+                                <option>Agustus 2026</option>
+                            </select>
+                            
+                            <!-- Tombol Export Excel -->
+                            <button onclick="exportToExcel()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-xs font-medium flex items-center hover:bg-emerald-700 transition">
+                                <i data-lucide="file-spreadsheet" class="w-4 h-4 mr-1.5"></i> Export Excel
+                            </button>
+
+                            <!-- Tombol Cetak PDF -->
+                            <button onclick="cetakLaporan()" class="bg-white/10 text-white px-4 py-2 rounded-lg text-xs font-medium flex items-center hover:bg-slate-900 transition">
+                                <i data-lucide="printer" class="w-4 h-4 mr-1.5"></i> Cetak Laporan
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Summary Table -->
+                    <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+                        <table class="w-full text-left text-sm text-slate-600" id="rekapTable">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs border-b sticky top-0 bg-slate-50">
+                                <tr>
+                                    <th class="p-3">No</th>
+                                    <th class="p-3">NISN</th>
+                                    <th class="p-3">Nama Siswa</th>
+                                    <th class="p-3 text-center">Tepat Waktu</th>
+                                    <th class="p-3 text-center">Terlambat</th>
+                                    <th class="p-3 text-center">Izin / Sakit</th>
+                                    <th class="p-3 text-center">Alpa</th>
+                                    <th class="p-3 text-center">Persentase</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100" id="rekapTbody">
+                                <!-- Generated Dynamically via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- DISPLAY CATATAN KHUSUS UNTUK MODE PRINT -->
+                    <div class="hidden print-only-catatan mt-6 border-t border-slate-300 pt-4">
+                        <h5 class="font-bold text-xs uppercase tracking-wide text-slate-800">Catatan & Evaluasi Wali Kelas:</h5>
+                        <p id="tampilCatatanPrint" class="text-xs italic text-slate-700 mt-1 leading-relaxed">Secara umum kedisiplinan kelas X E3 IBS SAINS 2 bulan ini sangat baik (94.3%).</p>
+                        
+                        <div class="mt-8 flex justify-between items-center text-xs text-center text-slate-800">
+                            <div>
+                                <p>Mengetahui,</p>
+                                <p class="font-bold mt-12">Kepala Sekolah</p>
+                            </div>
+                            <div>
+                                <p>Surakarta, 30 September 2026</p>
+                                <p>Wali Kelas X E3 IBS SAINS 2</p>
+                                <p class="font-bold mt-12">Hamidun Nafi' S, S.Pd.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // Data 35 Siswa Beserta NISN Resmi untuk Kelas X E3 IBS SAINS 2 berdasarkan lampiran gambar
+        const KODE_ROMBEL = window.KODE_ROMBEL = 'E3-SAINS';
+        if (typeof SBL !== 'undefined') SBL.wajibPeran(['Wali', 'Admin', 'Koordinator']);
+        const dataSiswa = (typeof SBL !== 'undefined') ? SBL.siswaKelas(KODE_ROMBEL) : [];
+
+        // Render Data Presensi Hari Ini
+        function renderPresensi() {
+            const tbody = document.getElementById('presensiTbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            const abs = (typeof SBL !== 'undefined') ? SBL.absensi() : {};
+            const tgl = (typeof SBL !== 'undefined') ? SBL.hariIni() : new Date().toISOString().slice(0, 10);
+
+            dataSiswa.forEach((siswa, idx) => {
+                const nis = 10001 + idx;
+                const e = (abs[siswa.id] || {})[tgl];
+                let waktu = "-";
+                let status = '<span class="bg-slate-100 text-slate-500 text-xs px-2.5 py-1 rounded-full font-medium inline-flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1"></i> Belum Presensi</span>';
+                let rowBg = '';
+
+                if (e && e.s === 'H') {
+                    waktu = (e.waktu || "05:30") + " WIB";
+                    if (e.status === 'sangat_terlambat') {
+                        status = '<span class="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full font-bold inline-flex items-center"><i data-lucide="alert-triangle" class="w-3 h-3 mr-1"></i> Sangat Terlambat</span>';
+                        rowBg = 'class="bg-rose-50/40"';
+                    } else if (e.status === 'terlambat') {
+                        status = '<span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-bold inline-flex items-center"><i data-lucide="clock" class="w-3 h-3 mr-1"></i> Terlambat</span>';
+                        rowBg = 'class="bg-amber-50/40"';
+                    } else {
+                        status = '<span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold inline-flex items-center"><i data-lucide="check-circle" class="w-3 h-3 mr-1"></i> Tepat Waktu</span>';
+                    }
+                } else if (e && e.s === 'I') {
+                    waktu = e.waktu ? e.waktu + " WIB" : "-";
+                    status = '<span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold inline-flex items-center"><i data-lucide="info" class="w-3 h-3 mr-1"></i> Izin</span>';
+                } else if (e && e.s === 'S') {
+                    waktu = e.waktu ? e.waktu + " WIB" : "-";
+                    status = '<span class="bg-orange-100 text-orange-800 text-xs px-2.5 py-1 rounded-full font-bold inline-flex items-center"><i data-lucide="activity" class="w-3 h-3 mr-1"></i> Sakit</span>';
+                } else if (e && e.s === 'A') {
+                    status = '<span class="bg-rose-100 text-rose-800 text-xs px-2.5 py-1 rounded-full font-bold inline-flex items-center"><i data-lucide="x-circle" class="w-3 h-3 mr-1"></i> Alpa</span>';
+                    rowBg = 'class="bg-rose-50/40"';
+                }
+
+                const lockedBadge = `<span class="text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded border border-slate-200 inline-flex items-center" title="Status tersambung otomatis dengan Dashboard Tentor"><i data-lucide="lock" class="w-3 h-3 mr-1 text-slate-400"></i> Terkunci</span>`;
+
+                tbody.innerHTML += `
+                    <tr ${rowBg}>
+                        <td class="p-3">${idx + 1}</td>
+                        <td class="p-3 font-mono text-xs">${nis}</td>
+                        <td class="p-3 font-mono text-xs text-slate-600">${siswa.nisn}</td>
+                        <td class="p-3 font-medium text-slate-800">${siswa.nama}</td>
+                        <td class="p-3 font-mono text-xs">${waktu}</td>
+                        <td class="p-3">${status}</td>
+                        <td class="p-3 text-center">${lockedBadge}</td>
+                    </tr>
+                `;
+            });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Render Data Rekap Bulanan
+        function renderRekap() {
+            const tbody = document.getElementById('rekapTbody');
+            tbody.innerHTML = '';
+
+            dataSiswa.forEach((siswa, idx) => {
+                let tepat = 22;
+                let lambat = idx % 4 === 0 ? 1 : 0;
+                let izin = idx % 7 === 0 ? 1 : 0;
+                let alpa = 0;
+                let persen = "96%";
+                let badgeColor = "bg-emerald-100 text-emerald-800";
+
+                if (siswa.nama === "MUHAMMAD ABBIYA RAMADAN") {
+                    tepat = 15; lambat = 6; izin = 1; alpa = 1; persen = "78%"; badgeColor = "bg-amber-100 text-amber-800";
+                } else if (siswa.nama === "MUHAMMAD DIAZ ALFAREZA") {
+                    tepat = 16; lambat = 4; izin = 1; alpa = 2; persen = "80%"; badgeColor = "bg-amber-100 text-amber-800";
+                }
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-3 text-xs text-slate-400">${idx + 1}</td>
+                        <td class="p-3 font-mono text-xs text-slate-600">${siswa.nisn}</td>
+                        <td class="p-3 font-medium text-slate-800">${siswa.nama}</td>
+                        <td class="p-3 text-center font-bold text-emerald-600">${tepat} Hari</td>
+                        <td class="p-3 text-center font-semibold text-amber-600">${lambat} Hari</td>
+                        <td class="p-3 text-center">${izin} Hari</td>
+                        <td class="p-3 text-center font-semibold text-rose-600">${alpa} Hari</td>
+                        <td class="p-3 text-center"><span class="${badgeColor} text-xs px-2.5 py-1 rounded-full font-bold">${persen}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Fitur Menyimpan Catatan Wali Kelas khusus Kelas X E3 IBS SAINS 2
+        function simpanCatatanWali() {
+            const txt = document.getElementById('inputCatatanWali').value;
+            if(txt.trim() === '') {
+                alert('Silakan tuliskan catatan terlebih dahulu!');
+                return;
+            }
+            localStorage.setItem('catatanWaliKelas_XE3_SAINS2', txt);
+            document.getElementById('tampilCatatanPrint').innerText = txt;
+            alert('Catatan Wali Kelas X E3 IBS SAINS 2 berhasil disimpan!');
+        }
+
+        // Export Excel Menggunakan SheetJS
+        function exportToExcel() {
+            const table = document.getElementById("rekapTable");
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Rekap Kehadiran X E3 SAINS 2" });
+            XLSX.writeFile(wb, "Rekap_Presensi_X_E3_IBS_SAINS_2.xlsx");
+        }
+
+        // Cetak / Export ke PDF Bawaan Browser
+        function cetakLaporan() {
+            showTab('rekap-kelas');
+            setTimeout(() => {
+                window.print();
+            }, 300);
+        }
+
+        // Search Filter Function
+        function filterTable(tableId) {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById(tableId);
+            const tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                const tdNisn = tr[i].getElementsByTagName("td")[2];
+                const tdNama = tr[i].getElementsByTagName("td")[3];
+                
+                if (tdNisn || tdNama) {
+                    const txtNisn = tdNisn ? (tdNisn.textContent || tdNisn.innerText) : "";
+                    const txtNama = tdNama ? (tdNama.textContent || tdNama.innerText) : "";
+                    
+                    if (txtNisn.toUpperCase().indexOf(filter) > -1 || txtNama.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Dynamic Tab Switching
+        function showTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('bg-emerald-600', 'text-white');
+                item.classList.add('text-slate-400');
+            });
+
+            document.getElementById('sec-' + tabId).classList.remove('hidden');
+
+            const activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) {
+                activeNav.classList.add('bg-emerald-600', 'text-white');
+                activeNav.classList.remove('text-slate-400');
+            }
+
+            const titles = {
+                'dashboard': 'Dashboard & Profil Wali Kelas (X E3 IBS SAINS 2)',
+                'presensi': 'Presensi Hari Ini - 35 Siswa (Mode Pantau)',
+                'perhatian': 'Siswa Perhatian Khusus Kedisiplinan',
+                'rekap-kelas': 'Rekapitulasi Bulanan Kelas X E3 IBS SAINS 2'
+            };
+            document.getElementById('page-title').innerText = titles[tabId];
+            lucide.createIcons();
+        }
+
+        // Initialize App
+        document.addEventListener("DOMContentLoaded", function() {
+            renderPresensi();
+            renderRekap();
+            lucide.createIcons();
+
+            // Load Catatan Wali Khusus Kelas X E3 IBS SAINS 2 dari localStorage
+            const savedCatatan = localStorage.getItem('catatanWaliKelas_XE3_SAINS2');
+            if (savedCatatan) {
+                document.getElementById('inputCatatanWali').value = savedCatatan;
+                document.getElementById('tampilCatatanPrint').innerText = savedCatatan;
+            }
+
+            // Chart Initialization
+            const ctx = document.getElementById('classWeeklyChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+                    datasets: [
+                        {
+                            label: 'Tepat Waktu',
+                            data: [30, 29, 29, 31, 32, 30],
+                            backgroundColor: '#10b981'
+                        },
+                        {
+                            label: 'Terlambat',
+                            data: [4, 4, 4, 3, 2, 4],
+                            backgroundColor: '#f59e0b'
+                        },
+                        {
+                            label: 'Alpa / Tanpa Ket',
+                            data: [1, 2, 2, 1, 1, 1],
+                            backgroundColor: '#f43f5e'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, max: 35 }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unduh Laporan · صَبَاحُ اللُّغَةِ</title><link rel="stylesheet" href="walikelas.css"></head><body><div id="app-header"></div><main>
+
+<h2 class="noprint">Unduh Laporan Bulanan</h2><p class="sub noprint">Ekspor rekap kehadiran dan nilai karakter kelas.</p>
+<div class="card noprint"><div class="bar"><label>Bulan<input type="month" id="mon"></label>
+<label>Judul laporan<input id="jud" size="34"></label><label>Catatan<input id="cat" size="34" placeholder="Opsional"></label></div>
+<div class="bar"><button id="save" class="sec">Simpan judul/catatan</button><button id="csv">Unduh CSV (Excel)</button><button id="pdf">Cetak / Simpan PDF</button><button id="reset" class="dan">Reset</button></div></div>
+<div class="card"><div class="rep-h"><h2 id="ph"></h2><div id="pc"></div></div><div class="tw"><table><thead><tr><th>No</th><th>Nama</th><th>NISN</th><th>H</th><th>I</th><th>S</th><th>A</th><th>% Hadir</th><th>Nilai</th><th>Predikat</th></tr></thead><tbody id="tb"></tbody></table></div></div></main><script src="../data-siswa.js"></script><script src="walikelas.js"></script><script>
+layout("unduh-laporan");const M=$("#mon"),repKey="sbl_rep_"+profile().rombel,dj=()=>"Laporan Kehadiran Shobahul Lughoh – Kelas "+profile().rombel;let rows=[];
+function init(){const r=ld(repKey,ld("sbl_rep",{}));M.value=today().slice(0,7);$("#jud").value=r.jud||dj();$("#cat").value=r.cat||"";build()}
+function build(){const A=att();rows=classStudents().map((s,i)=>{const t=stat(s.id,M.value,A),g=charGrade(s.id,M.value);return[i+1,s.nama,s.nisn,t.H,t.I,t.S,t.A,t.n?t.pct+"%":"-",g.nilai??"-",predikat(g.nilai)]});
+ $("#tb").innerHTML=rows.map(r=>"<tr>"+r.map(c=>`<td>${esc(c)}</td>`).join("")+"</tr>").join("");
+ $("#ph").textContent=$("#jud").value+" – "+monthName(M.value);$("#pc").textContent=$("#cat").value+" | Wali kelas: "+profile().nama}
+M.onchange=$("#jud").oninput=$("#cat").oninput=build;
+$("#save").onclick=()=>{sv(repKey,{jud:$("#jud").value,cat:$("#cat").value})&&toast("Tersimpan ✓")};
+$("#reset").onclick=()=>{localStorage.removeItem(repKey);init();toast("Direset ke default")};
+$("#pdf").onclick=()=>window.print();
+$("#csv").onclick=()=>{const q=v=>`"${String(v).replace(/"/g,"\"\"")}"`,h=["No","Nama","NISN","Hadir","Izin","Sakit","Alpa","% Hadir","Nilai Karakter","Predikat"];
+ const t=[[q($("#jud").value+" - "+monthName(M.value))],h.map(q),...rows.map(r=>r.map((c,i)=>i==2?q("=\""+c+"\""):q(c)))].map(r=>r.join(";")).join("\r\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv;charset=utf-8"}));a.download=`laporan-${profile().rombel}-${M.value}.csv`;a.click();toast("File diunduh")};
+init();
+</script></body></html>

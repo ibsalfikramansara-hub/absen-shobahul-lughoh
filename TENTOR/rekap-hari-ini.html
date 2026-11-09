@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Presensi Hari Ini — Tentor MAN 1 Jepara</title>
+    <link rel="stylesheet" href="../shared-theme.css">
+    <style>
+        .badge-tepat { background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+        .badge-terlambat { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+        .badge-sangat-terlambat { background: #fee2e2; color: #b91c1c; padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 12px; }
+    </style>
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item">
+                    <span class="nav-icon">📷</span>
+                    <span class="nav-label">Scan & Dashboard</span>
+                </a>
+                <a href="verifikasi.html" class="nav-item">
+                    <span class="nav-icon">✍️</span>
+                    <span class="nav-label">Verifikasi Manual</span>
+                </a>
+                <a href="rekap-hari-ini.html" class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Rekap Hari Ini</span>
+                </a>
+                <a href="riwayat-sesi.html" class="nav-item">
+                    <span class="nav-icon">📜</span>
+                    <span class="nav-label">Riwayat Sesi Saya</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" class="nav-item nav-logout" onclick="keluarSistem()">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-watermark">
+                <img src="masjid-siluet.svg" alt="Watermark Masjid">
+            </div>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="infoPengguna">Tentor Pendamping</span>
+                            <span class="user-role">Petugas Presensi Gerbang</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <h2 id="judulTanggal">📊 Rekap Presensi Shobahul Lughoh Hari Ini</h2>
+                    <p class="lead-desc">Statistik dan data kehadiran seluruh siswa yang tercatat pada sesi hari ini.</p>
+
+                    <!-- Real-time 5 Stat Cards -->
+                    <section class="stat-cards-grid-5" style="margin-bottom:24px;">
+                        <div class="stat-card-item stat-total">
+                            <div class="stat-icon-wrapper"><span>👥</span></div>
+                            <div class="stat-info"><h4 id="totSiswa">0</h4><span>Total Siswa</span></div>
+                        </div>
+                        <div class="stat-card-item stat-tepat">
+                            <div class="stat-icon-wrapper"><span>✅</span></div>
+                            <div class="stat-info"><h4 id="totTepat">0</h4><span>Tepat Waktu</span></div>
+                        </div>
+                        <div class="stat-card-item stat-terlambat">
+                            <div class="stat-icon-wrapper"><span>⚠️</span></div>
+                            <div class="stat-info"><h4 id="totTelat">0</h4><span>Terlambat</span></div>
+                        </div>
+                        <div class="stat-card-item stat-sangat-terlambat">
+                            <div class="stat-icon-wrapper"><span>🚨</span></div>
+                            <div class="stat-info"><h4 id="totSangatTelat">0</h4><span>Sangat Telat</span></div>
+                        </div>
+                        <div class="stat-card-item stat-alpa">
+                            <div class="stat-icon-wrapper"><span>⏳</span></div>
+                            <div class="stat-info"><h4 id="totBelum">0</h4><span>Belum Hadir</span></div>
+                        </div>
+                    </section>
+
+                    <!-- Filter Controls -->
+                    <div style="background:#f8fafc; padding:18px; border-radius:16px; border:1px solid #e2e8f0; margin-bottom:24px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                        <input type="text" id="cariTeks" placeholder="🔍 Cari nama siswa, kelas, atau NISN..." style="flex:1; min-width:220px; padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:13.5px; background:#fff;">
+                        <select id="filterStatus" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:13.5px; background:#fff;">
+                            <option value="">Semua Status</option>
+                            <option value="tepat">Tepat Waktu</option>
+                            <option value="terlambat">Terlambat</option>
+                            <option value="sangat_terlambat">Sangat Terlambat</option>
+                            <option value="I">Izin</option>
+                            <option value="S">Sakit</option>
+                            <option value="A">Alpa</option>
+                            <option value="belum">Belum Hadir</option>
+                        </select>
+                        <select id="filterRombel" style="padding:10px 14px; border:1px solid #cbd5e1; border-radius:10px; font-size:13.5px; background:#fff;">
+                            <option value="">Semua Rombel</option>
+                        </select>
+                    </div>
+
+                    <div class="data-table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:40px;">No</th>
+                                    <th>NISN</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Kelas / Rombel</th>
+                                    <th>Waktu Presensi</th>
+                                    <th>Status</th>
+                                    <th>Metode & Petugas</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelRekap"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Tentor');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const sesi = SBL.akunSesi() || {};
+        document.getElementById('infoPengguna').textContent = sesi.nama || 'Tentor';
+
+        const tgl = SBL.hariIni();
+        document.getElementById('judulTanggal').textContent = '📊 Rekap Presensi Shobahul Lughoh — ' + SBL.tanggalIndo(tgl);
+
+        const selRombel = document.getElementById('filterRombel');
+        selRombel.innerHTML += SBL.rombelList().map(function (k) {
+            return `<option value="${k}">${k}</option>`;
+        }).join('');
+
+        function keluarSistem() {
+            if (confirm('Yakin ingin keluar dari sistem?')) {
+                sessionStorage.clear();
+                window.location.href = '../index.html';
+            }
+        }
+
+        function muatRekap() {
+            const stat = SBL.statistikHari(tgl);
+            document.getElementById('totSiswa').textContent = stat.total;
+            document.getElementById('totTepat').textContent = stat.tepat;
+            document.getElementById('totTelat').textContent = stat.terlambat;
+            document.getElementById('totSangatTelat').textContent = stat.sangat_terlambat || 0;
+            document.getElementById('totBelum').textContent = stat.belum;
+
+            const cari = document.getElementById('cariTeks').value.toLowerCase().trim();
+            const filStatus = document.getElementById('filterStatus').value;
+            const filRombel = document.getElementById('filterRombel').value;
+            const abs = SBL.absensi();
+
+            const daftar = SBL.daftarSiswa().filter(function (s) {
+                if (filRombel && s.program !== filRombel) return false;
+
+                const e = (abs[s.id] || {})[tgl] || {};
+                const st = e.s || 'belum';
+
+                if (filStatus === 'tepat' && (st !== 'H' || e.status !== 'tepat')) return false;
+                if (filStatus === 'terlambat' && (st !== 'H' || e.status !== 'terlambat')) return false;
+                if (filStatus === 'sangat_terlambat' && (st !== 'H' || e.status !== 'sangat_terlambat')) return false;
+                if (filStatus && !['tepat', 'terlambat', 'sangat_terlambat'].includes(filStatus) && st !== filStatus) return false;
+
+                if (cari) {
+                    const match = s.nama.toLowerCase().includes(cari) ||
+                        String(s.nisn).includes(cari) ||
+                        s.program.toLowerCase().includes(cari);
+                    if (!match) return false;
+                }
+                return true;
+            });
+
+            const tbody = document.getElementById('tabelRekap');
+            if (daftar.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:26px;color:#64748b;font-style:italic;">Tidak ada data yang sesuai filter.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = daftar.map(function (s, idx) {
+                const e = (abs[s.id] || {})[tgl] || {};
+                const st = e.s || '-';
+                let tag = '<span style="color:#94a3b8;font-weight:600;">Belum Hadir</span>';
+
+                if (st === 'H') {
+                    if (e.status === 'sangat_terlambat') {
+                        tag = '<span class="badge-sangat-terlambat">Sangat Terlambat</span>';
+                    } else if (e.status === 'terlambat') {
+                        tag = '<span class="badge-terlambat">Terlambat</span>';
+                    } else {
+                        tag = '<span class="badge-tepat">Tepat Waktu</span>';
+                    }
+                } else if (st === 'I') tag = '<span class="badge-status" style="background:#eff6ff;color:#1d4ed8;">Izin</span>';
+                else if (st === 'S') tag = '<span class="badge-status" style="background:#fff7ed;color:#c2410c;">Sakit</span>';
+                else if (st === 'A') tag = '<span class="badge-status" style="background:#fef2f2;color:#b91c1c;">Alpa</span>';
+
+                const metode = (e.metode === 'scan_kamera') ? '📷 Scan' :
+                    (e.metode === 'verifikasi_manual') ? '✍️ Manual' : (e.metode ? '⌨️ Cepat' : '-');
+
+                return `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td style="font-family:monospace;font-size:13px;font-weight:600;">${SBL.esc(s.nisn)}</td>
+                        <td><strong>${SBL.esc(s.nama)}</strong></td>
+                        <td><span class="badge-siswa">${SBL.esc(s.program)}</span></td>
+                        <td>${e.waktu ? e.waktu + ' WIB' : '-'}</td>
+                        <td>${tag}</td>
+                        <td><small style="color:#64748b;">${metode} ${e.oleh ? '· <strong>' + SBL.esc(e.oleh) + '</strong>' : ''}</small></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('cariTeks').addEventListener('input', muatRekap);
+        document.getElementById('filterStatus').addEventListener('change', muatRekap);
+        document.getElementById('filterRombel').addEventListener('change', muatRekap);
+        muatRekap();
+    </script>
+</body>
+</html>

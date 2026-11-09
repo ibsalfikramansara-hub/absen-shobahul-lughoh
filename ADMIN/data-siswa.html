@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Siswa — MAN 1 Jepara</title>
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        .ringkasan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .ringkasan-grid .kotak {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #ddfbee 55%, #88e8c5 100%);
+            border-top: 2px solid #ffffff;
+            border-left: 1px solid rgba(255,255,255,0.9);
+            border-right: 1px solid rgba(16,185,129,0.25);
+            border-bottom: 5px solid #10b981;
+            border-radius: 18px;
+            padding: 18px 20px;
+            text-align: center;
+            box-shadow: 0 12px 24px -6px rgba(16, 185, 129, 0.22), inset 0 2px 2px #fff;
+        }
+        .ringkasan-grid .kotak:nth-child(2) {
+            background: linear-gradient(135deg, #ffffff 0%, #dbeafe 55%, #93c5fd 100%);
+            border-bottom-color: #2563eb;
+            box-shadow: 0 12px 24px -6px rgba(37, 99, 235, 0.22), inset 0 2px 2px #fff;
+        }
+        .ringkasan-grid .kotak:nth-child(3) {
+            background: linear-gradient(135deg, #ffffff 0%, #dcf8c8 55%, #9be378 100%);
+            border-bottom-color: #16a34a;
+            box-shadow: 0 12px 24px -6px rgba(22, 163, 74, 0.22), inset 0 2px 2px #fff;
+        }
+        .ringkasan-grid .kotak:nth-child(4) {
+            background: linear-gradient(135deg, #ffffff 0%, #fef3c7 55%, #fcd34d 100%);
+            border-bottom-color: #d97706;
+            box-shadow: 0 12px 24px -6px rgba(217, 119, 6, 0.22), inset 0 2px 2px #fff;
+        }
+        .ringkasan-grid .kotak b {
+            display: block;
+            font-size: 28px;
+            color: #0b4a33;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 4px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.85);
+        }
+        .ringkasan-grid .kotak span {
+            font-size: 13px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        /* Panel Input Siswa */
+        .input-siswa-panel {
+            background: linear-gradient(145deg, #f0fdf4 0%, #ffffff 55%, #fefce8 100%);
+            border: 1.5px solid #86efac;
+            border-bottom: 5px solid #16a34a;
+            border-radius: 20px;
+            padding: 22px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 26px -6px rgba(22, 163, 74, 0.14);
+        }
+        .input-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .input-panel-header h3 {
+            margin: 0;
+            font-size: 17px;
+            color: #064e3b;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mode-tabs {
+            display: flex;
+            gap: 8px;
+        }
+        .mode-tab-btn {
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: 1.5px solid #a7f3d0;
+            background: #ffffff;
+            color: #065f46;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mode-tab-btn.active {
+            background: linear-gradient(135deg, #0d9b5c 0%, #07472f 100%);
+            color: #ffffff;
+            border-color: #07472f;
+            box-shadow: 0 4px 10px rgba(7, 71, 47, 0.2);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        .filter-controls input, .filter-controls select {
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 13.5px;
+            background: #ffffff;
+            color: #1e293b;
+        }
+        .filter-controls input { flex: 1; min-width: 220px; }
+        .filter-controls button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 10px;
+            background: #0b4a33;
+            color: #fff;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .filter-controls button:hover { background: #073524; }
+        .filter-controls button.kedua {
+            background: #eaf5e6;
+            color: #0b4a33;
+            border: 1px solid #c7e5cb;
+        }
+        .filter-controls button.kedua:hover { background: #d5ecd2; }
+
+        .kelas-blok {
+            margin-bottom: 28px;
+            border: 1px solid #cce8da;
+            border-bottom: 5px solid #0d824a;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 12px 26px -6px rgba(10, 58, 39, 0.1);
+            background: #ffffff;
+        }
+        .kelas-blok > h3 {
+            background: linear-gradient(90deg, #063d28 0%, #0d824a 55%, #119958 100%);
+            color: #fff;
+            margin: 0;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .kelas-blok table { margin: 0; width: 100%; }
+        .kelas-blok th {
+            background: #f1f9f5;
+            color: #064e3b;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        .kelas-blok td { font-size: 13.5px; vertical-align: middle; }
+        .kelas-blok tr:hover td { background: #f4fbf7; }
+        .sel-edit {
+            outline: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            transition: all 0.2s;
+            border: 1px dashed transparent;
+        }
+        .sel-edit:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+        }
+        .sel-edit:focus {
+            background: #fffbe6;
+            border: 1px solid #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+        }
+        .lencana { display: inline-block; font-size: 11.5px; padding: 4px 10px; border-radius: 12px; font-weight: 700; }
+        .lencana.ok { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .lencana.cek { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .lencana.baru { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; margin-left: 6px; }
+        .aksi-grup { display: flex; gap: 6px; flex-wrap: wrap; }
+        .tombol-kecil {
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #0b4a33;
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tombol-kecil:hover { background: #e2e8f0; }
+        .tombol-kecil.hapus { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
+        .tombol-kecil.hapus:hover { background: #fee2e2; }
+        .notif-toast {
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            font-size: 13.5px;
+            font-weight: 700;
+            display: none;
+            background: #dcfce7;
+            color: #166534;
+            border-left: 5px solid #16a34a;
+        }
+        mark { background: #fef08a; padding: 0 4px; border-radius: 4px; }
+        @media (max-width: 768px) {
+            .ringkasan-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .ringkasan-grid .kotak {
+                padding: 14px 10px;
+            }
+            .ringkasan-grid .kotak b {
+                font-size: 22px;
+            }
+            .ringkasan-grid .kotak span {
+                font-size: 11.5px;
+            }
+            .input-siswa-panel {
+                padding: 16px 14px;
+            }
+            .input-panel-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .mode-tabs {
+                flex-direction: column;
+                width: 100%;
+            }
+            .mode-tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .kelas-blok > h3 {
+                padding: 12px 14px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .kelas-blok > h3 > span {
+                width: 100%;
+            }
+        }
+        @media print {
+            .app-sidebar, .app-topbar, .filter-controls, .ringkasan-grid, .input-siswa-panel, .aksi-kolom { display: none !important; }
+            .app-content-wrapper { margin-left: 0 !important; }
+            body { background: #fff; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="../logomansara.png" alt="Logo MAN 1 Jepara" class="brand-logo">
+                <div class="brand-text">
+                    <h2>MAN 1 Jepara</h2>
+                    <p>IBS Al Fikra</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dasbor.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="data-siswa.html" class="nav-item active">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-label">Data Siswa</span>
+                </a>
+                <a href="barcode.html" class="nav-item">
+                    <span class="nav-icon">📲</span>
+                    <span class="nav-label">Buat Barcode</span>
+                </a>
+                <a href="cetak-barcode.html" class="nav-item">
+                    <span class="nav-icon">🖨️</span>
+                    <span class="nav-label">Cetak Semua Barcode</span>
+                </a>
+                <a href="manajemen-akun.html" class="nav-item">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Manajemen Akun</span>
+                </a>
+                <a href="pengaturan-sistem.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Pengaturan Sistem</span>
+                </a>
+                <a href="profil.html" class="nav-item">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Profil</span>
+                </a>
+
+                <a href="../index.html" class="nav-item nav-logout" onclick="if(confirm('Yakin ingin keluar dari sistem?')) SBL.keluar(); return false;">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Keluar</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- APP CONTENT WRAPPER -->
+        <div class="app-content-wrapper">
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+                <button class="topbar-menu-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-notif" title="Notifikasi Sistem">
+                        <span class="notif-bell">🔔</span>
+                        <span class="notif-dot"></span>
+                    </div>
+                    <div class="topbar-user" onclick="window.location.href='profil.html'">
+                        <div class="user-avatar">
+                            <span class="avatar-peci">👳</span>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarUserName">Administrator Sistem</span>
+                            <span class="user-role" id="topbarUserRole">Admin/TU</span>
+                        </div>
+                        <span class="user-chevron">▾</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN BODY -->
+            <main class="app-main">
+                <div class="inner-card">
+                    <h2>📋 Kelola & Input Data Siswa — MAN 1 Jepara</h2>
+                    <p class="lead-desc">
+                        Pusat pengelolaan data siswa terintegrasi untuk Admin, Tentor, Koordinator, dan Wali Kelas.
+                        Anda dapat <strong>menambah siswa baru (satuan maupun tempel dari Excel)</strong>, atau <strong>klik langsung pada Nama / NISN di tabel</strong> untuk mengedit.
+                    </p>
+
+                    <div id="notifSiswa" class="notif-toast"></div>
+
+                    <!-- RINGKASAN 4 KARTU -->
+                    <div class="ringkasan-grid" id="ringkasan"></div>
+
+                    <!-- PANEL INPUT / TAMBAH SISWA & KELAS BARU -->
+                    <div class="input-siswa-panel" id="panelInputUtama">
+                        <div class="input-panel-header">
+                            <h3 id="judulPanelInput">➕ Input / Tambah Siswa & Kelas (Rombel)</h3>
+                            <div class="mode-tabs">
+                                <button type="button" class="mode-tab-btn active" id="tabSatuan" onclick="gantiModeInput('satuan')">👤 Input Siswa Satuan</button>
+                                <button type="button" class="mode-tab-btn" id="tabMassal" onclick="gantiModeInput('massal')">📑 Input Siswa Massal (Excel)</button>
+                                <button type="button" class="mode-tab-btn" id="tabKelas" onclick="gantiModeInput('kelas')">🏫 Buat / Kelola Kelas Baru</button>
+                            </div>
+                        </div>
+
+                        <!-- FORM INPUT SATUAN -->
+                        <form id="formTambahSatuan" onsubmit="simpanSiswaBaru(event)">
+                            <div class="form-row">
+                                <div class="form-group" style="flex: 2;">
+                                    <label for="inputNamaBaru">Nama Lengkap Siswa</label>
+                                    <input type="text" id="inputNamaBaru" placeholder="Contoh: AHMAD FAUZAN AL FARISI" required>
+                                </div>
+                                <div class="form-group" style="flex: 1.2;">
+                                    <label for="inputNisnBaru">NISN (10 Digit Angka)</label>
+                                    <input type="text" id="inputNisnBaru" inputmode="numeric" maxlength="10" placeholder="Contoh: 0104829102" required>
+                                </div>
+                                <div class="form-group" style="flex: 1.2;">
+                                    <label for="inputKelasBaru">Pilih Kelas / Rombel</label>
+                                    <select id="inputKelasBaru" required></select>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                                <button type="submit" class="btn btn-primary">💾 Tambahkan Siswa ke Daftar</button>
+                                <span style="font-size:12.5px; color:#475569;">💡 Siswa yang ditambahkan otomatis muncul di Scanner Tentor, Kartu Barcode, dan Rekap Wali Kelas.</span>
+                            </div>
+                        </form>
+
+                        <!-- FORM INPUT MASSAL -->
+                        <form id="formTambahMassal" onsubmit="simpanSiswaMassal(event)" style="display:none;">
+                            <div class="form-row">
+                                <div class="form-group" style="max-width: 340px;">
+                                    <label for="inputKelasMassal">Pilih Kelas / Rombel Tujuan</label>
+                                    <select id="inputKelasMassal" required></select>
+                                </div>
+                                <div class="form-group" style="flex: 2;">
+                                    <label for="inputTeksMassal">Tempel Daftar Siswa (Format per baris: <code>NAMA LENGKAP [Tab / Koma / Titik Koma] NISN</code>)</label>
+                                    <textarea id="inputTeksMassal" rows="4" placeholder="Contoh:&#10;MUHAMMAD RIZKY PRATAMA, 0105928371&#10;SITI AISYAH NUR JANNAH, 0108372619" required></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">📥 Proses & Simpan Semua Baris</button>
+                        </form>
+
+                        <!-- FORM BUAT / EDIT KELAS BARU -->
+                        <form id="formKelolaKelas" onsubmit="simpanKelasForm(event)" style="display:none;">
+                            <input type="hidden" id="editKodeKelasLama" value="">
+                            <div class="form-row">
+                                <div class="form-group" style="max-width: 165px;">
+                                    <label for="inputTingkatKelas">Tingkat Kelas</label>
+                                    <select id="inputTingkatKelas" required>
+                                        <option value="10">Kelas X (10)</option>
+                                        <option value="11">Kelas XI (11)</option>
+                                        <option value="12">Kelas XII (12)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label for="inputLabelKelas">Nama Kelas Singkat</label>
+                                    <input type="text" id="inputLabelKelas" placeholder="Contoh: X E5 / XI F5 / XII G1" required>
+                                </div>
+                                <div class="form-group" style="flex: 1.2;">
+                                    <label for="inputKodeProgramKelas">Kode / Program Rombel</label>
+                                    <input type="text" id="inputKodeProgramKelas" placeholder="Contoh: E5-SAINS / F5-BILINGUAL" required>
+                                </div>
+                                <div class="form-group" style="flex: 1.2;">
+                                    <label for="inputJabatanKelas">Keterangan Jurusan / IBS</label>
+                                    <input type="text" id="inputJabatanKelas" placeholder="Contoh: IBS SAINS 3" value="IBS AL FIKRA">
+                                </div>
+                                <div class="form-group" style="flex: 1.5;">
+                                    <label for="inputWaliKelas">Nama Wali Kelas</label>
+                                    <input type="text" id="inputWaliKelas" placeholder="Contoh: Ust. Ahmad Fauzi, S.Pd." required>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                                <button type="submit" class="btn btn-primary" id="btnSubmitKelas">🏫 Buat & Simpan Kelas</button>
+                                <button type="button" class="btn btn-secondary" id="btnBatalEditKelas" style="display:none;" onclick="batalEditKelas()">Batal Edit</button>
+                                <button type="button" class="btn btn-warning" style="margin-left:auto;" onclick="resetKelasDefault()">♻️ Kembalikan 6 Kelas Bawaan</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- FILTER & PENCARIAN -->
+                    <div class="filter-controls">
+                        <input type="search" id="cari" placeholder="🔍 Cari nama atau NISN siswa..." autocomplete="off">
+                        <select id="filterKelas">
+                            <option value="">Semua rombel</option>
+                        </select>
+                        <select id="filterNisn">
+                            <option value="">Semua Status NISN</option>
+                            <option value="valid">NISN Valid (10 digit)</option>
+                            <option value="cek">Perlu Verifikasi</option>
+                        </select>
+                        <button type="button" class="kedua" id="tombolReset">🔄 Kembalikan Data Bawaan</button>
+                        <button type="button" class="kedua" onclick="window.print()">🖨️ Cetak Daftar</button>
+                    </div>
+
+                    <div id="pesan-kosong" style="display:none;text-align:center;color:#64748b;padding:36px;font-style:italic;">
+                        Tidak ada data siswa yang cocok dengan kriteria pencarian.
+                    </div>
+
+                    <!-- TABEL DAFTAR SISWA PER KELAS -->
+                    <div id="daftar-kelas"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../data-siswa.js"></script>
+    <script>
+        SBL.wajibPeran('Admin');
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            if (sb) sb.classList.toggle('sidebar-open');
+        }
+
+        const pengguna = SBL.akunSesi();
+        if (pengguna) {
+            const elNama = document.getElementById('topbarUserName');
+            const elRole = document.getElementById('topbarUserRole');
+            if (elNama) elNama.textContent = pengguna.nama || 'Administrator Sistem';
+            if (elRole) elRole.textContent = pengguna.peran || 'Admin/TU';
+        }
+
+        const elCari = document.getElementById('cari');
+        const elKelas = document.getElementById('filterKelas');
+        const elNisn = document.getElementById('filterNisn');
+        const elDaftar = document.getElementById('daftar-kelas');
+        const elKosong = document.getElementById('pesan-kosong');
+        const elRingkasan = document.getElementById('ringkasan');
+        const elInputKelasBaru = document.getElementById('inputKelasBaru');
+        const elInputKelasMassal = document.getElementById('inputKelasMassal');
+
+        function tampilkanNotif(pesan) {
+            const box = document.getElementById('notifSiswa');
+            if (!box) return;
+            box.textContent = '✅ ' + pesan;
+            box.style.display = 'block';
+            clearTimeout(window._timerNotifSiswa);
+            window._timerNotifSiswa = setTimeout(function () {
+                box.style.display = 'none';
+            }, 4000);
+        }
+
+        function gantiModeInput(mode) {
+            const fSatuan = document.getElementById('formTambahSatuan');
+            const fMassal = document.getElementById('formTambahMassal');
+            const fKelas = document.getElementById('formKelolaKelas');
+            const tSatuan = document.getElementById('tabSatuan');
+            const tMassal = document.getElementById('tabMassal');
+            const tKelas = document.getElementById('tabKelas');
+
+            fSatuan.style.display = mode === 'satuan' ? 'block' : 'none';
+            fMassal.style.display = mode === 'massal' ? 'block' : 'none';
+            fKelas.style.display = mode === 'kelas' ? 'block' : 'none';
+
+            tSatuan.classList.toggle('active', mode === 'satuan');
+            tMassal.classList.toggle('active', mode === 'massal');
+            tKelas.classList.toggle('active', mode === 'kelas');
+        }
+
+        function simpanKelasForm(e) {
+            e.preventDefault();
+            const kodeLama = document.getElementById('editKodeKelasLama').value.trim();
+            const tingkat = parseInt(document.getElementById('inputTingkatKelas').value, 10) || 10;
+            const label = document.getElementById('inputLabelKelas').value.trim().toUpperCase();
+            const program = document.getElementById('inputKodeProgramKelas').value.trim().toUpperCase();
+            const jabatan = document.getElementById('inputJabatanKelas').value.trim() || 'IBS AL FIKRA';
+            const wali = document.getElementById('inputWaliKelas').value.trim();
+
+            if (!label || !program || !wali) {
+                alert('Nama kelas, kode program, dan nama wali kelas wajib diisi!');
+                return;
+            }
+            if (!kodeLama && SBL.infoKelas(program)) {
+                alert('Kode program "' + program + '" sudah terdaftar! Gunakan tombol Edit Kelas pada tabel jika ingin mengubahnya.');
+                return;
+            }
+
+            SBL.simpanKelas(program, {
+                tingkat: tingkat,
+                label: label,
+                nama: label + ' - ' + program,
+                jabatan: jabatan,
+                wali: wali
+            }, kodeLama || null);
+
+            batalEditKelas();
+            muatPilihanRombel();
+            if (elInputKelasBaru) elInputKelasBaru.value = program;
+            if (elInputKelasMassal) elInputKelasMassal.value = program;
+            gambar();
+            tampilkanNotif('Kelas "' + label + ' (' + program + ')" berhasil disimpan!');
+        }
+
+        function editKelasBlok(kode) {
+            const inf = SBL.infoKelas(kode);
+            if (!inf) return;
+            gantiModeInput('kelas');
+            document.getElementById('editKodeKelasLama').value = kode;
+            document.getElementById('inputTingkatKelas').value = String(inf.tingkat || 10);
+            document.getElementById('inputLabelKelas').value = inf.label || kode;
+            document.getElementById('inputKodeProgramKelas').value = kode;
+            document.getElementById('inputJabatanKelas').value = inf.jabatan || 'IBS AL FIKRA';
+            document.getElementById('inputWaliKelas').value = inf.wali || '';
+            document.getElementById('btnSubmitKelas').textContent = '💾 Simpan Perubahan Kelas';
+            document.getElementById('btnBatalEditKelas').style.display = 'inline-block';
+            document.getElementById('panelInputUtama').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function batalEditKelas() {
+            document.getElementById('formKelolaKelas').reset();
+            document.getElementById('editKodeKelasLama').value = '';
+            document.getElementById('btnSubmitKelas').textContent = '🏫 Buat & Simpan Kelas';
+            document.getElementById('btnBatalEditKelas').style.display = 'none';
+        }
+
+        function hapusKelasBlok(kode) {
+            const inf = SBL.infoKelas(kode) || {};
+            const jml = SBL.siswaKelas(kode).length;
+            const konfirmasi = jml > 0
+                ? 'Hapus kelas "' + (inf.label || kode) + '" (' + kode + ')? Terdapat ' + jml + ' siswa di dalam kelas ini.'
+                : 'Yakin ingin menghapus kelas "' + (inf.label || kode) + '" (' + kode + ')?';
+            if (!confirm(konfirmasi)) return;
+            SBL.hapusKelas(kode);
+            if (elKelas.value === kode) elKelas.value = '';
+            muatPilihanRombel();
+            gambar();
+            tampilkanNotif('Kelas "' + (inf.label || kode) + '" telah dihapus.');
+        }
+
+        function resetKelasDefault() {
+            if (!confirm('Kembalikan daftar kelas ke 6 kelas bawaan sistem?')) return;
+            SBL.resetSemuaKelas();
+            batalEditKelas();
+            muatPilihanRombel();
+            gambar();
+            tampilkanNotif('Daftar kelas berhasil dikembalikan ke 6 kelas bawaan.');
+        }
+
+        function pilihKelasUntukInput(kode) {
+            gantiModeInput('satuan');
+            if (elInputKelasBaru) elInputKelasBaru.value = kode;
+            if (elInputKelasMassal) elInputKelasMassal.value = kode;
+            document.getElementById('inputNamaBaru').focus();
+            document.getElementById('panelInputUtama').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function muatPilihanRombel() {
+            const valSekarang = elKelas.value;
+            const daftarKls = SBL.rombelList();
+            const opsiKelas = daftarKls.map(function (p) {
+                const k = SBL.KELAS[p];
+                return `<option value="${p}">${k.label} — ${p} (${SBL.siswaKelas(p).length} siswa)</option>`;
+            }).join('');
+
+            elKelas.innerHTML = '<option value="">Semua rombel</option>' + opsiKelas;
+            elKelas.value = valSekarang;
+
+            const opsiForm = daftarKls.map(function (p) {
+                const k = SBL.KELAS[p];
+                return `<option value="${p}">${k.label} — ${p}</option>`;
+            }).join('');
+            const prevBaru = elInputKelasBaru ? elInputKelasBaru.value : '';
+            const prevMassal = elInputKelasMassal ? elInputKelasMassal.value : '';
+            if (elInputKelasBaru) {
+                elInputKelasBaru.innerHTML = opsiForm;
+                if (prevBaru && SBL.KELAS[prevBaru]) elInputKelasBaru.value = prevBaru;
+            }
+            if (elInputKelasMassal) {
+                elInputKelasMassal.innerHTML = opsiForm;
+                if (prevMassal && SBL.KELAS[prevMassal]) elInputKelasMassal.value = prevMassal;
+            }
+        }
+
+        // Cek parameter URL ?kelas=...
+        const urlParams = new URLSearchParams(window.location.search);
+        const kelasUrl = urlParams.get('kelas');
+
+        muatPilihanRombel();
+        if (kelasUrl && SBL.KELAS[kelasUrl]) {
+            elKelas.value = kelasUrl;
+            if (elInputKelasBaru) elInputKelasBaru.value = kelasUrl;
+            if (elInputKelasMassal) elInputKelasMassal.value = kelasUrl;
+        }
+
+        function simpanSiswaBaru(e) {
+            e.preventDefault();
+            const nama = document.getElementById('inputNamaBaru').value.trim();
+            const nisn = document.getElementById('inputNisnBaru').value.trim();
+            const program = document.getElementById('inputKelasBaru').value;
+
+            if (!nama || !nisn) {
+                alert('Nama lengkap dan NISN wajib diisi!');
+                return;
+            }
+            if (!/^\d{10}$/.test(nisn)) {
+                if (!confirm('NISN "' + nisn + '" belum 10 digit angka. Tetap tambahkan siswa ini?')) return;
+            }
+
+            const duplikat = SBL.daftarSiswa().find(function (s) {
+                return /^\d{10}$/.test(nisn) && String(s.nisn) === nisn;
+            });
+            if (duplikat) {
+                alert('NISN ' + nisn + ' sudah terdaftar atas nama ' + duplikat.nama + ' (' + duplikat.program + ')!');
+                return;
+            }
+
+            const item = SBL.tambahSiswa({ nama: nama, nisn: nisn, program: program });
+            document.getElementById('inputNamaBaru').value = '';
+            document.getElementById('inputNisnBaru').value = '';
+            muatPilihanRombel();
+            gambar();
+            tampilkanNotif('Siswa "' + item.nama + '" berhasil ditambahkan ke kelas ' + program + '!');
+        }
+
+        function simpanSiswaMassal(e) {
+            e.preventDefault();
+            const program = document.getElementById('inputKelasMassal').value;
+            const teks = document.getElementById('inputTeksMassal').value.trim();
+            if (!teks) return;
+
+            const barisList = teks.split(/\r?\n/).map(function (b) { return b.trim(); }).filter(Boolean);
+            let berhasil = 0;
+
+            let dilewatiDuplikat = 0;
+            barisList.forEach(function (baris) {
+                // Pisahkan dengan tab, titik koma, atau koma terakhir
+                let nama = '';
+                let nisn = '';
+                if (baris.indexOf('\t') > -1) {
+                    const p = baris.split('\t');
+                    nama = p[0].trim();
+                    nisn = (p[1] || '').trim();
+                } else if (baris.indexOf(';') > -1) {
+                    const p = baris.split(';');
+                    nama = p[0].trim();
+                    nisn = (p[1] || '').trim();
+                } else if (baris.indexOf(',') > -1) {
+                    const idx = baris.lastIndexOf(',');
+                    nama = baris.slice(0, idx).trim();
+                    nisn = baris.slice(idx + 1).trim();
+                } else {
+                    nama = baris.trim();
+                    nisn = '-';
+                }
+
+                if (nama) {
+                    if (nisn && nisn !== '-' && SBL.nisnSudahDipakai(nisn)) {
+                        dilewatiDuplikat++;
+                        return;
+                    }
+                    SBL.tambahSiswa({ nama: nama, nisn: nisn || '-', program: program });
+                    berhasil++;
+                }
+            });
+
+            if (berhasil > 0 || dilewatiDuplikat > 0) {
+                document.getElementById('inputTeksMassal').value = '';
+                muatPilihanRombel();
+                gambar();
+                const infoDup = dilewatiDuplikat > 0 ? (' (' + dilewatiDuplikat + ' baris dilewati karena NISN duplikat)') : '';
+                tampilkanNotif(berhasil + ' siswa baru berhasil ditambahkan ke kelas ' + program + infoDup + '!');
+            }
+        }
+
+        function tandai(teks, kata) {
+            if (!kata) return SBL.esc(teks);
+            const pos = String(teks).toLowerCase().indexOf(kata.toLowerCase());
+            if (pos < 0) return SBL.esc(teks);
+            const asli = String(teks);
+            return SBL.esc(asli.slice(0, pos)) + '<mark>' + SBL.esc(asli.slice(pos, pos + kata.length)) + '</mark>' + SBL.esc(asli.slice(pos + kata.length));
+        }
+
+        function gambar() {
+            const kata = elCari.value.trim();
+            const kelas = elKelas.value;
+            const filterNisn = elNisn.value;
+            const semua = SBL.daftarSiswa();
+
+            const valid = semua.filter(function (s) { return s.nisnValid; }).length;
+            elRingkasan.innerHTML = `
+                <div class="kotak"><b>${semua.length}</b><span>Total Siswa Terdaftar</span></div>
+                <div class="kotak"><b>${Object.keys(SBL.KELAS).length}</b><span>Rombongan Belajar</span></div>
+                <div class="kotak"><b>${valid}</b><span>NISN Valid (10 Digit)</span></div>
+                <div class="kotak"><b>${semua.length - valid}</b><span>NISN Perlu Verifikasi</span></div>
+            `;
+
+            let tampil = semua.filter(function (s) {
+                if (kelas && s.program !== kelas) return false;
+                if (filterNisn === 'valid' && !s.nisnValid) return false;
+                if (filterNisn === 'cek' && s.nisnValid) return false;
+                if (kata && (s.nama + ' ' + s.nisn).toLowerCase().indexOf(kata.toLowerCase()) < 0) return false;
+                return true;
+            });
+
+            const grup = {};
+            tampil.forEach(function (s) { (grup[s.program] = grup[s.program] || []).push(s); });
+
+            // Tampilkan kelas baru meskipun masih 0 siswa jika tidak sedang memfilter kata/status NISN
+            const daftarProgramTampil = SBL.rombelList().filter(function (p) {
+                if (kelas && p !== kelas) return false;
+                if (kata || filterNisn) return !!grup[p];
+                return true;
+            });
+
+            elKosong.style.display = daftarProgramTampil.length ? 'none' : 'block';
+
+            elDaftar.innerHTML = daftarProgramTampil.map(function (p) {
+                const info = SBL.KELAS[p] || {};
+                const siswaProgram = grup[p] || [];
+                const pEsc = SBL.esc(p).replace(/'/g, "\\'");
+                return `
+                    <section class="kelas-blok">
+                        <h3>
+                            <span>🏫 ${SBL.esc(info.nama || p)} <small style="font-weight:400;opacity:.9;">· ${SBL.esc(p)} · ${SBL.esc(info.jabatan || '')}</small></span>
+                            <span style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-weight:600; font-size:13px;">
+                                <span>👥 ${siswaProgram.length} Siswa · Wali Kelas: ${SBL.esc(info.wali || '-')}</span>
+                                <button type="button" class="tombol-kecil" style="background:#dcfce7; color:#065f46; border-color:#86efac;" onclick="pilihKelasUntukInput('${pEsc}')">➕ Input Siswa</button>
+                                <button type="button" class="tombol-kecil" onclick="editKelasBlok('${pEsc}')">✏️ Edit Kelas</button>
+                                <button type="button" class="tombol-kecil hapus" onclick="hapusKelasBlok('${pEsc}')">🗑️ Hapus Kelas</button>
+                            </span>
+                        </h3>
+                        <div class="data-table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width:50px;">No</th>
+                                        <th>Nama Lengkap Siswa (Klik untuk Edit)</th>
+                                        <th style="width:170px;">NISN (Klik untuk Edit)</th>
+                                        <th style="width:150px;">Status NISN</th>
+                                        <th class="aksi-kolom" style="width:190px;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${siswaProgram.length === 0 ? `
+                                        <tr>
+                                            <td colspan="5" style="text-align:center; padding:24px; color:#64748b; font-style:italic;">
+                                                Belum ada siswa di kelas <strong>${SBL.esc(info.label || p)}</strong>. Klik tombol <strong>➕ Input Siswa</strong> di sudut kanan atas tabel ini untuk menambahkan siswa.
+                                            </td>
+                                        </tr>
+                                    ` : siswaProgram.map(function (s, i) {
+                                        return `<tr data-id="${s.id}">
+                                            <td><strong>${i + 1}</strong></td>
+                                            <td>
+                                                <span class="sel-edit" contenteditable="true" data-field="nama" title="Klik untuk mengedit nama siswa">${tandai(s.nama, kata)}</span>
+                                                ${s.tambahan ? '<span class="lencana baru">Baru</span>' : ''}
+                                            </td>
+                                            <td>
+                                                <span class="sel-edit" contenteditable="true" inputmode="numeric" data-field="nisn" title="Klik untuk mengedit NISN 10 digit">${tandai(s.nisn, kata)}</span>
+                                            </td>
+                                            <td><span class="lencana ${s.nisnValid ? 'ok' : 'cek'}">${s.nisnValid ? '✓ Valid 10 Digit' : '⚠ Perlu Dicek'}</span></td>
+                                            <td class="aksi-kolom">
+                                                <div class="aksi-grup">
+                                                    <button type="button" class="tombol-kecil" data-edit="${s.id}" title="Edit Nama / NISN">✏️ Edit</button>
+                                                    ${s.diubah && !s.tambahan ? `<button type="button" class="tombol-kecil" data-reset="${s.id}" title="Kembalikan ke data awal">🔄 Reset</button>` : ''}
+                                                    <button type="button" class="tombol-kecil hapus" data-hapus="${s.id}" data-nama="${SBL.esc(s.nama)}" title="Hapus siswa ini">🗑️ Hapus</button>
+                                                </div>
+                                            </td>
+                                        </tr>`;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                `;
+            }).join('');
+        }
+
+        // Simpan otomatis saat sel selesai diedit
+        elDaftar.addEventListener('blur', function (e) {
+            const sel = e.target.closest('[data-field]');
+            if (!sel) return;
+            const baris = sel.closest('tr');
+            const id = baris.dataset.id;
+            const field = sel.dataset.field;
+            const nilai = sel.innerText.replace(/\s+/g, ' ').trim();
+
+            if (field === 'nama' && !nilai) {
+                alert('Nama siswa tidak boleh kosong.');
+                gambar();
+                return;
+            }
+            if (field === 'nisn' && nilai && nilai !== '-') {
+                const dup = SBL.nisnSudahDipakai(nilai, id);
+                if (dup) {
+                    alert('Gagal menyimpan: NISN "' + nilai + '" sudah terdaftar atas nama ' + dup.nama + ' (' + dup.program + ')!');
+                    gambar();
+                    return;
+                }
+                if (!/^\d{10}$/.test(nilai) && !confirm('NISN "' + nilai + '" bukan 10 digit angka. Tetap simpan?')) {
+                    gambar();
+                    return;
+                }
+            }
+
+            const data = {};
+            data[field] = field === 'nama' ? nilai.toUpperCase() : nilai;
+            SBL.simpanSiswa(id, data);
+            gambar();
+            tampilkanNotif('Perubahan data siswa berhasil disimpan.');
+        }, true);
+
+        // Enter = selesai edit (tanpa menambah baris)
+        elDaftar.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && e.target.closest('[data-field]')) {
+                e.preventDefault();
+                e.target.blur();
+            }
+        });
+
+        elDaftar.addEventListener('click', function (e) {
+            const btnEdit = e.target.closest('[data-edit]');
+            if (btnEdit) {
+                const baris = btnEdit.closest('tr');
+                const selNama = baris ? baris.querySelector('[data-field="nama"]') : null;
+                if (selNama) {
+                    selNama.focus();
+                    // Pilih teks di dalam elemen
+                    const range = document.createRange();
+                    range.selectNodeContents(selNama);
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+                return;
+            }
+
+            const btnReset = e.target.closest('[data-reset]');
+            if (btnReset) {
+                if (!confirm('Kembalikan data siswa ini ke data bawaan pusat?')) return;
+                SBL.resetSiswa(btnReset.dataset.reset);
+                muatPilihanRombel();
+                gambar();
+                tampilkanNotif('Data siswa dikembalikan ke data awal.');
+                return;
+            }
+
+            const btnHapus = e.target.closest('[data-hapus]');
+            if (btnHapus) {
+                const namaSiswa = btnHapus.dataset.nama || 'siswa ini';
+                if (!confirm('Yakin ingin menghapus "' + namaSiswa + '" dari daftar kelas?')) return;
+                SBL.hapusSiswa(btnHapus.dataset.hapus);
+                muatPilihanRombel();
+                gambar();
+                tampilkanNotif('Siswa "' + namaSiswa + '" telah dihapus dari daftar.');
+            }
+        });
+
+        elCari.addEventListener('input', gambar);
+        elKelas.addEventListener('change', function () {
+            if (elKelas.value && elInputKelasBaru) elInputKelasBaru.value = elKelas.value;
+            if (elKelas.value && elInputKelasMassal) elInputKelasMassal.value = elKelas.value;
+            gambar();
+        });
+        elNisn.addEventListener('change', gambar);
+
+        document.getElementById('tombolReset').addEventListener('click', function () {
+            if (!confirm('Kembalikan seluruh daftar siswa ke data awal pusat (206 siswa)? Semua penambahan atau perubahan manual akan direset.')) return;
+            localStorage.removeItem(SBL.KUNCI.SISWA);
+            muatPilihanRombel();
+            gambar();
+            tampilkanNotif('Seluruh data siswa berhasil dikembalikan ke data awal pusat (206 siswa).');
+        });
+
+        gambar();
+    </script>
+</body>
+</html>
