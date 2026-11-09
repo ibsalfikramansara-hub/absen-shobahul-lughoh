@@ -1,28 +1,28 @@
 @echo off
-chcp 65001 >nul
-title Pusat Kendali Deployment · Presensi Shobahul Lughoh MAN 1 Jepara
-color 0A
+setlocal EnableDelayedExpansion
+title Pusat Kendali Deployment - Presensi Shobahul Lughoh MAN 1 Jepara
+color 0a
 
 cd /d "%~dp0"
 
 :MENU
 cls
 echo ============================================================================
-echo   🏫 SISTEM PRESENSI SHOBAHUL LUGHOH ^& ENGLISH MORNING
-echo   MAN 1 JEPARA / ALFIKRA — CONTROL PANEL ^& DEPLOYMENT
+echo   SISTEM PRESENSI SHOBAHUL LUGHOH DAN ENGLISH MORNING
+echo   MAN 1 JEPARA / ALFIKRA - CONTROL PANEL DEPLOYMENT
 echo ============================================================================
 echo.
 echo   PILIH TINDAKAN YANG INGIN DIJALANKAN:
 echo.
-echo   [1] 🌐 Jalankan Server Lokal (http://localhost:3000)
-echo   [2] 🧪 Jalankan Automated Unit Test Suite (100%% Test Coverage)
-echo   [3] 🚀 Unggah ^& Sinkronisasi ke GitHub + Auto-Deploy Vercel
-echo   [4] 💾 Backup / Ekspor Data Master ke JSON (initial_data.json)
-echo   [5] ⚡ Online-kan Server ke Internet via Cloudflare Tunnel (Darurat)
-echo   [0] ❌ Keluar
+echo   [1] Jalankan Server Lokal (http://localhost:3000)
+echo   [2] Jalankan Automated Unit Test Suite (100%% Test Coverage)
+echo   [3] Unggah dan Sinkronisasi ke GitHub + Auto-Deploy Vercel
+echo   [4] Backup / Ekspor Data Master ke JSON (initial_data.json)
+echo   [5] Online-kan Server ke Internet via Cloudflare Tunnel (Darurat)
+echo   [0] Keluar
 echo.
 echo ============================================================================
-set /p PILIHAN="👉 Masukkan nomor pilihan Anda [0-5]: "
+set /p PILIHAN="Masukkan nomor pilihan Anda [0-5]: "
 
 if "%PILIHAN%"=="1" goto RUN_LOCAL
 if "%PILIHAN%"=="2" goto RUN_TEST
@@ -64,7 +64,7 @@ echo ===========================================================================
 echo   [2] MENJALANKAN AUTOMATED UNIT TEST SUITE
 echo ============================================================================
 echo.
-npm test
+call npm test
 echo.
 pause
 goto MENU
@@ -72,7 +72,7 @@ goto MENU
 :RUN_PUSH
 cls
 echo ============================================================================
-echo   [3] UNGGAH ^& SINKRONISASI KE GITHUB + AUTO-DEPLOY VERCEL
+echo   [3] UNGGAH DAN SINKRONISASI KE GITHUB + AUTO-DEPLOY VERCEL
 echo ============================================================================
 echo.
 call upload_ke_github.bat
@@ -84,7 +84,7 @@ echo ===========================================================================
 echo   [4] BACKUP / EKSPOR DATA MASTER KE initial_data.json
 echo ============================================================================
 echo.
-node export_seed.js
+call node export_seed.js
 echo.
 echo [OK] Data master berhasil diekspor ke file initial_data.json!
 echo Berkas ini siap digunakan sebagai data seed bawaan di server Vercel.
