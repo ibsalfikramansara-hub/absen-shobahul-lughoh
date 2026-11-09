@@ -2,9 +2,8 @@
   "name": "absen-shobahul-lughoh",
   "version": "1.0.0",
   "description": "Aplikasi Presensi Shobahul Lughoh & English Morning - MAN 1 Jepara",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node local-server.js",
     "test": "node test/test_suite.js",
     "export-seed": "node export_seed.js"
   },

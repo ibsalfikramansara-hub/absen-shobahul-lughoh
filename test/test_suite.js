@@ -314,7 +314,7 @@ console.log('\n--- 5. STRUKTUR FILE & DEPLOYMENT READY ---');
 it('File konfigurasi deployment wajib harus ada', () => {
     assert(fs.existsSync(path.join(__dirname, '..', 'vercel.json')), 'vercel.json wajib ada');
     assert(fs.existsSync(path.join(__dirname, '..', 'initial_data.json')), 'initial_data.json wajib ada');
-    assert(fs.existsSync(path.join(__dirname, '..', 'server.js')), 'server.js wajib ada');
+    assert(fs.existsSync(path.join(__dirname, '..', 'local-server.js')), 'local-server.js wajib ada');
     assert(fs.existsSync(path.join(__dirname, '..', 'api', 'index.js')), 'api/index.js wajib ada');
     assert(fs.existsSync(path.join(__dirname, '..', 'wsgi.py')), 'wsgi.py wajib ada');
 });

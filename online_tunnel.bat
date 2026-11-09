@@ -28,7 +28,7 @@ netstat -ano | findstr :3000 >nul 2>nul
 if %errorlevel% equ 0 goto SERVER_RUNNING
 
 echo [INFO] Menjalankan server lokal di background pada port 3000...
-start "Server Presensi Shobahul Lughoh" /min cmd /c "node server.js"
+start "Server Presensi Shobahul Lughoh" /min cmd /c "node local-server.js"
 timeout /t 2 /nobreak >nul
 goto CHECK_CLOUDFLARED
 

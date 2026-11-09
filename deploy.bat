@@ -53,7 +53,7 @@ if %errorlevel% neq 0 (
 echo [OK] Node.js terdeteksi. Membuka browser otomatis dalam 1 detik...
 start "" cmd /c "timeout /t 1 /nobreak >nul && start http://localhost:3000"
 echo.
-node server.js
+node local-server.js
 echo.
 pause
 goto MENU
