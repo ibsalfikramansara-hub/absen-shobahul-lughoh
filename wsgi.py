@@ -140,3 +140,4 @@ def application(environ, start_response):
         return [f.read()]
 
 app = application
+
